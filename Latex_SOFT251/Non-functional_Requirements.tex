@@ -1,50 +1,34 @@
 \section{Yêu cầu phi chức năng (Non-Functional Requirements)}
 
-\begin{itemize}
-    \item \textbf{Hiệu năng (Performance)}
-    \begin{itemize}
-        \item Hệ thống phải xử lý yêu cầu đăng ký, đặt lịch và truy xuất thông tin trong vòng dưới 2 giây.
-        \item Hệ thống có khả năng phục vụ đồng thời tối thiểu 500 người dùng mà không bị gián đoạn.
-        \item Thời gian phản hồi trung bình cho các thao tác thường xuyên không vượt quá 1 giây.
-    \end{itemize}
+\subsection{Hiệu năng (Performance)}
+Hệ thống phải xử lý yêu cầu đăng ký, đặt lịch và truy xuất thông tin trong vòng dưới 2 giây.  
+Hệ thống có khả năng phục vụ đồng thời tối thiểu 500 người dùng mà không bị gián đoạn.  
+Thời gian phản hồi trung bình cho các thao tác thường xuyên không vượt quá 1 giây.
 
-    \item \textbf{Bảo mật (Security)}
-    \begin{itemize}
-        \item Tích hợp xác thực tập trung HCMUT\_SSO để đảm bảo đăng nhập an toàn và thống nhất.
-        \item Dữ liệu cá nhân phải được mã hóa khi lưu trữ và truyền tải.
-        \item Phân quyền truy cập theo vai trò được đồng bộ từ hệ thống tập trung.
-        \item Ghi nhận nhật ký truy cập và thao tác để phục vụ kiểm tra bảo mật.
-    \end{itemize}
+\subsection{Bảo mật (Security)}
+Tích hợp xác thực tập trung HCMUT\_SSO để đảm bảo đăng nhập an toàn và thống nhất.  
+Dữ liệu cá nhân phải được mã hóa khi lưu trữ và truyền tải.  
+Phân quyền truy cập theo vai trò được đồng bộ từ hệ thống tập trung.  
+Ghi nhận nhật ký truy cập và thao tác để phục vụ kiểm tra bảo mật.
 
-    \item \textbf{Khả năng mở rộng (Scalability)}
-    \begin{itemize}
-        \item Hệ thống phải có khả năng mở rộng để phục vụ số lượng người dùng tăng theo từng học kỳ.
-        \item Kiến trúc hệ thống phải hỗ trợ bổ sung các chức năng nâng cao như AI ghép cặp hoặc cộng đồng trực tuyến.
-    \end{itemize}
+\subsection{Khả năng mở rộng (Scalability)}
+Hệ thống phải có khả năng mở rộng để phục vụ số lượng người dùng tăng theo từng học kỳ.  
+Kiến trúc hệ thống phải hỗ trợ bổ sung các chức năng nâng cao như AI ghép cặp hoặc cộng đồng trực tuyến.
 
-    \item \textbf{Khả năng tích hợp (Interoperability)}
-    \begin{itemize}
-        \item Tích hợp với HCMUT\_DATACORE để đồng bộ dữ liệu cá nhân và trạng thái học tập.
-        \item Kết nối với HCMUT\_LIBRARY để chia sẻ tài liệu học tập.
-        \item Hỗ trợ API để tích hợp với các hệ thống nội bộ khác.
-    \end{itemize}
+\subsection{Khả năng tích hợp (Interoperability)}
+Tích hợp với HCMUT\_DATACORE để đồng bộ dữ liệu cá nhân và trạng thái học tập.  
+Kết nối với HCMUT\_LIBRARY để chia sẻ tài liệu học tập.  
+Hỗ trợ API để tích hợp với các hệ thống nội bộ khác.
 
-    \item \textbf{Tính khả dụng (Availability)}
-    \begin{itemize}
-        \item Hệ thống phải hoạt động liên tục 24/7 với thời gian uptime tối thiểu 99.5\% mỗi tháng.
-        \item Có cơ chế sao lưu và phục hồi dữ liệu định kỳ.
-    \end{itemize}
+\subsection{Tính khả dụng (Availability)}
+Hệ thống phải hoạt động liên tục 24/7 với thời gian uptime tối thiểu 99.5\% mỗi tháng.  
+Có cơ chế sao lưu và phục hồi dữ liệu định kỳ.
 
-    \item \textbf{Tính dễ sử dụng (Usability)}
-    \begin{itemize}
-        \item Giao diện thân thiện, hỗ trợ đa thiết bị (máy tính, điện thoại).
-        \item Có hướng dẫn sử dụng rõ ràng cho từng nhóm người dùng.
-        \item Hệ thống hỗ trợ tiếng Việt và tiếng Anh.
-    \end{itemize}
+\subsection{Tính dễ sử dụng (Usability)}
+Giao diện thân thiện, hỗ trợ đa thiết bị (máy tính, điện thoại).  
+Có hướng dẫn sử dụng rõ ràng cho từng nhóm người dùng.  
+Hệ thống hỗ trợ tiếng Việt và tiếng Anh.
 
-    \item \textbf{Khả năng giám sát và bảo trì (Maintainability \& Monitoring)}
-    \begin{itemize}
-        \item Cho phép theo dõi tiến độ học tập, phản hồi chất lượng buổi học, và tổng hợp báo cáo cho các phòng ban.
-        \item Hệ thống dễ bảo trì, cập nhật và nâng cấp.
-    \end{itemize}
-\end{itemize}
+\subsection{Khả năng giám sát và bảo trì (Maintainability \& Monitoring)}
+Cho phép theo dõi tiến độ học tập, phản hồi chất lượng buổi học, và tổng hợp báo cáo cho các phòng ban.  
+Hệ thống dễ bảo trì, cập nhật và nâng cấp.

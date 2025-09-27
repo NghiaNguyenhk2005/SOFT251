@@ -19,3 +19,10 @@
 \contentsline {subsubsection}{\numberline {1.5.1}Chức năng cốt lõi}{8}{subsubsection.1.5.1}%
 \contentsline {subsubsection}{\numberline {1.5.2}Chức năng mở rộng (đề xuất)}{9}{subsubsection.1.5.2}%
 \contentsline {section}{\numberline {2}Yêu cầu phi chức năng (Non-Functional Requirements)}{9}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Hiệu năng (Performance)}{9}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Bảo mật (Security)}{10}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Khả năng mở rộng (Scalability)}{10}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Khả năng tích hợp (Interoperability)}{10}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Tính khả dụng (Availability)}{10}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Tính dễ sử dụng (Usability)}{10}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Khả năng giám sát và bảo trì (Maintainability \& Monitoring)}{10}{subsection.2.7}%

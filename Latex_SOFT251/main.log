@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.21)  27 SEP 2025 22:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.21)  27 SEP 2025 22:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1135,7 +1135,7 @@ Package hyperref Info: Link coloring ON on input line 110.
 \@outlinefile=\write5
 \openout5 = `main.out'.
 
-<image/hcmut.png, id=86, 438.9198pt x 418.6842pt>
+<image/hcmut.png, id=114, 438.9198pt x 418.6842pt>
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
 Package pdftex.def Info: image/hcmut.png  used on input line 122.
@@ -1224,7 +1224,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 23.
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 14.
+Package pdftex.def Info: image/hcmut.png  used on input line 13.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [9])
 
@@ -1240,20 +1240,20 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 39F3ABB249F4C9C6A0147FEB889AED3E;4176.
+(rerunfilecheck)             Checksum: CA4C30AFB6DF294F8E76F2EE61621CB7;5894.
  ) 
 Here is how much of TeX's memory you used:
- 30805 strings out of 468133
- 598958 string characters out of 5430712
+ 30819 strings out of 468133
+ 599168 string characters out of 5430712
  1163696 words of memory out of 5000000
- 58803 multiletter control sequences out of 15000+600000
+ 58810 multiletter control sequences out of 15000+600000
  641184 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,24n,91p,1427b,690s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\nghia\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/urwvn/ucrb8v.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/urwvn/ucrr8v.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx12.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnti10.pfb>
-Output written on main.pdf (11 pages, 200743 bytes).
+Output written on main.pdf (11 pages, 207579 bytes).
 PDF statistics:
- 242 PDF objects out of 1000 (max. 8388607)
- 56 named destinations out of 1000 (max. 500000)
- 178 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 278 PDF objects out of 1000 (max. 8388607)
+ 63 named destinations out of 1000 (max. 500000)
+ 234 words of extra memory for PDF output out of 10000 (max. 10000000)
 

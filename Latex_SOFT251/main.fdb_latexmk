@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1758985738.57208 "d:/Software/BTL/Latex_SOFT251/main.tex" "main.pdf" "main" 1758985740.36169 0
+["pdflatex"] 1758986406.47841 "d:/Software/BTL/Latex_SOFT251/main.tex" "main.pdf" "main" 1758986408.16339 0
   "C:/Users/nghia/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1758463066 89969 e95579120a3aa0ebc21d2737ca2ba701 ""
   "C:/Users/nghia/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1758462507 11548 a7f55270eced54b5a39cf4ed7bfffa04 ""
   "C:/Users/nghia/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1758462323 13257343 1569f1ef436064ae4ee32a8e20279a3d ""
@@ -213,14 +213,14 @@
   "Design_Direction.tex" 1758985737 15046 629e5b13f960970bb16c5f15229e02cb ""
   "Functional_Requirements.tex" 1758437702 3499 7f5eaa1ce699232464aa0f35b7c8dd55 ""
   "Introduction.tex" 1758984862 4217 8a10fc299f7e1d3cd653f9e28797713d ""
-  "Non-functional_Requirements.tex" 1758985479 2915 5f34ff206e2ccc480a7de11f1dc760af ""
+  "Non-functional_Requirements.tex" 1758986404 2319 b37a0be9a05ec53d721986c80b21e19f ""
   "Relevant_Stakeholders.tex" 1758437702 0 d41d8cd98f00b204e9800998ecf8427e ""
   "d:/Software/BTL/Latex_SOFT251/main.tex" 1758985568 7834 b7ae447e00d733dc117821e23aa1a07f ""
   "image/hcmut.png" 1758437702 32484 a7930154cbb42de9f1b1f780a9044dca ""
-  "main.aux" 1758985740 3409 efee604d1c250cabd1b9673804776a0a "pdflatex"
-  "main.out" 1758985740 4176 39f3abb249f4c9c6a0147feb889aed3e "pdflatex"
+  "main.aux" 1758986407 4441 7f480da871c33574c0fc861a7b385b18 "pdflatex"
+  "main.out" 1758986407 5894 ca4c30afb6df294f8e76f2ee61621cb7 "pdflatex"
   "main.tex" 1758985568 7834 b7ae447e00d733dc117821e23aa1a07f ""
-  "main.toc" 1758985740 2156 2314041b1a196307dcb6129fcfd17fb4 "pdflatex"
+  "main.toc" 1758986407 2887 0d3a210e450a87efc4fd520d89be0df7 "pdflatex"
   (generated)
   "main.aux"
   "main.log"
