@@ -1,66 +1,106 @@
-\subsection{Phạm vi dự án}
+\section{Yêu cầu chức năng (Functional Requirements)}
 
-\subsubsection{Chức năng cốt lõi}
+\subsection{Quản lý người dùng \& xác thực}
+\begin{tabular}{|p{4cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Chức năng} & \textbf{Thang đo định lượng} & \textbf{Thang đo định tính} \\
+\hline
+Đăng nhập qua HCMUT\_SSO & Thời gian đăng nhập < 2 giây & Người dùng xác nhận đăng nhập dễ dàng \\
+\hline
+Đồng bộ dữ liệu từ HCMUT\_DATACORE & Tỷ lệ đồng bộ thành công $\geq$ 99\% & Dữ liệu hiển thị chính xác, đầy đủ \\
+\hline
+Phân quyền theo vai trò & Vai trò được gán đúng $\geq$ 99\% & Người dùng phản hồi đúng quyền hạn \\
+\hline
+\end{tabular}
 
-\begin{enumerate}
-    \item \textbf{Quản lý người dùng \& xác thực}
-    \begin{itemize}
-        \item Đăng nhập tập trung thông qua \textbf{HCMUT\_SSO }.
-        \item Đồng bộ dữ liệu cá nhân từ \textbf{HCMUT\_DATACORE}: họ tên, MSSV/Mã cán bộ, email học vụ, khoa/ngành, trạng thái học tập/giảng dạy.
-        \item Quản lý phân quyền theo vai trò (sinh viên, tutor, điều phối viên, bộ môn, quản trị hệ thống).
-    \end{itemize}
+\vspace{1em}
+\subsection{Quản lý tutor \& mentee}
+\begin{tabular}{|p{4cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Chức năng} & \textbf{Thang đo định lượng} & \textbf{Thang đo định tính} \\
+\hline
+Quản lý hồ sơ & Hồ sơ cập nhật thành công $\geq$ 98\% & Tutor phản hồi dễ thao tác \\
+\hline
+Đăng ký và ghép cặp & Tỷ lệ ghép cặp thành công $\geq$ 95\% & Mức độ phù hợp $\geq$ 4/5 điểm \\
+\hline
+Phê duyệt ghép cặp & Thời gian xử lý $\leq$ 5 giây & Điều phối viên đánh giá giao diện dễ dùng \\
+\hline
+\end{tabular}
 
-    \item \textbf{Quản lý tutor \& mentee}
-    \begin{itemize}
-        \item Tutor quản lý hồ sơ chuyên môn, thời gian rảnh, danh sách sinh viên đang hướng dẫn.
-        \item Sinh viên đăng ký tham gia chương trình, chọn hoặc được phân công tutor.
-        \item Điều phối viên xem, phân công hoặc phê duyệt ghép cặp tutor -- sinh viên.
-    \end{itemize}
+\vspace{1em}
+\subsection{Quản lý lịch \& buổi tư vấn}
+\begin{tabular}{|p{4cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Chức năng} & \textbf{Thang đo định lượng} & \textbf{Thang đo định tính} \\
+\hline
+Đặt lịch tư vấn & Tỷ lệ đặt lịch thành công $\geq$ 98\% & Sinh viên hài lòng $\geq$ 4/5 điểm \\
+\hline
+Thông báo và nhắc lịch & Tỷ lệ nhắc đúng giờ $\geq$ 99\% & Tutor xác nhận hệ thống hiệu quả \\
+\hline
+Ghi nhận nội dung buổi gặp & Tỷ lệ lưu biên bản $\geq$ 95\% & Biên bản rõ ràng, dễ truy xuất \\
+\hline
+\end{tabular}
 
-    \item \textbf{Quản lý lịch \& buổi tư vấn}
-    \begin{itemize}
-        \item Tutor tạo lịch rảnh và mở buổi tư vấn (offline hoặc online).
-        \item Sinh viên đặt lịch gặp tutor, với hỗ trợ hủy/đổi/dời lịch.
-        \item Gửi thông báo tự động (email, notification) khi có thay đổi lịch.
-        \item Tự động nhắc lịch (reminder) trước buổi gặp.
-        \item Cho phép ghi nhận nội dung và biên bản buổi gặp (nếu cần).
-    \end{itemize}
+\vspace{1em}
+\subsection{Đánh giá \& phản hồi}
+\begin{tabular}{|p{4cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Chức năng} & \textbf{Thang đo định lượng} & \textbf{Thang đo định tính} \\
+\hline
+Phản hồi sau buổi học & Tỷ lệ phản hồi $\geq$ 80\% & Sinh viên đánh giá $\geq$ 4/5 điểm \\
+\hline
+Theo dõi tiến bộ mentee & Tỷ lệ ghi nhận $\geq$ 95\% & Tutor xác nhận công cụ trực quan \\
+\hline
+Tổng hợp dữ liệu học tập & Báo cáo đầy đủ $\geq$ 90\% & Bộ môn đánh giá báo cáo hữu ích \\
+\hline
+\end{tabular}
 
-    \item \textbf{Đánh giá \& phản hồi}
-    \begin{itemize}
-        \item Sinh viên phản hồi, đánh giá chất lượng buổi học/tutor.
-        \item Tutor theo dõi tiến bộ và ghi nhận kết quả học tập của mentee.
-        \item Bộ môn và Phòng Đào tạo khai thác dữ liệu để tổng hợp tình hình học tập.
-    \end{itemize}
+\vspace{1em}
+\subsection{Quản lý học liệu \& tài nguyên}
+\begin{tabular}{|p{4cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Chức năng} & \textbf{Thang đo định lượng} & \textbf{Thang đo định tính} \\
+\hline
+Truy cập tài liệu từ HCMUT\_LIBRARY & Tỷ lệ truy cập thành công $\geq$ 99\% & Sinh viên đánh giá tài liệu dễ tìm \\
+\hline
+Chia sẻ học liệu & Số lượt chia sẻ $\geq$ 3 lần/người/tháng & Tutor xác nhận tích hợp thuận tiện \\
+\hline
+\end{tabular}
 
-    \item \textbf{Quản lý học liệu \& tài nguyên}
-    \begin{itemize}
-        \item Tích hợp với \textbf{HCMUT\_LIBRARY} để truy cập, chia sẻ tài liệu, giáo trình và sách.
-    \end{itemize}
-\end{enumerate}
+\vspace{1em}
+\subsection{Chức năng mở rộng (đề xuất)}
 
-\subsubsection{Chức năng mở rộng (đề xuất)}
+\subsubsection*{AI ghép cặp \& tương tác trực tuyến}
+\begin{tabular}{|p{4cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Chức năng} & \textbf{Thang đo định lượng} & \textbf{Thang đo định tính} \\
+\hline
+AI ghép cặp tối ưu & Tỷ lệ trùng khớp $\geq$ 85\% & Người dùng đánh giá $\geq$ 4/5 điểm \\
+\hline
+Tương tác qua chat & Số lượt tương tác $\geq$ 5 lần/người/tháng & Mức độ hài lòng $\geq$ 80\% \\
+\hline
+\end{tabular}
 
-\begin{enumerate}
-    \item \textbf{Hệ thống AI ghép cặp và tương tác trực tuyến}
-    \begin{itemize}
-        \item Ứng dụng AI để gợi ý phân công tutor -- mentee tối ưu, dựa trên hồ sơ cá nhân, chuyên môn và nhu cầu hỗ trợ.
-        \item Tạo cộng đồng trực tuyến cho tutor -- mentee nhằm trao đổi, thảo luận và chia sẻ kinh nghiệm.
-        \item Tích hợp chat nhóm/cá nhân, cho phép giao tiếp nhanh và nhận thông báo, nhắc nhở lịch hẹn ngay trong hệ thống.
-    \end{itemize}
+\vspace{1em}
+\subsubsection*{Hỗ trợ học tập cá nhân hóa bằng AI}
+\begin{tabular}{|p{4cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Chức năng} & \textbf{Thang đo định lượng} & \textbf{Thang đo định tính} \\
+\hline
+Gợi ý học tập cá nhân hóa & Tỷ lệ sinh viên nhận gợi ý $\geq$ 90\% & Sinh viên đánh giá hữu ích $\geq$ 4/5 điểm \\
+\hline
+Cải thiện kết quả học tập & Tỷ lệ cải thiện $\geq$ 70\% & Tutor xác nhận AI hỗ trợ đúng trọng tâm \\
+\hline
+\end{tabular}
 
-    \item \textbf{Hỗ trợ học tập cá nhân hóa bằng AI}
-    \begin{itemize}
-        \item AI phân tích tiến trình học tập, dữ liệu phản hồi và kết quả rèn luyện.
-        \item Đưa ra gợi ý học tập, tài liệu hoặc phương pháp phù hợp với từng sinh viên.
-    \end{itemize}
-
-    \item \textbf{Quản lý Seminar/Event}
-    \begin{itemize}
-        \item Cho phép tạo và quản lý sự kiện học thuật hoặc kỹ năng mềm.
-        \item Sinh viên đăng ký tham gia, check-in bằng QR hoặc thẻ sinh viên.
-        \item Hệ thống quản lý số lượng tham dự và phản hồi sau sự kiện.
-    \end{itemize}
-\end{enumerate}
-
-
+\vspace{1em}
+\subsubsection*{Quản lý Seminar/Event}
+\begin{tabular}{|p{4cm}|p{5cm}|p{4cm}|}
+\hline
+\textbf{Chức năng} & \textbf{Thang đo định lượng} & \textbf{Thang đo định tính} \\
+\hline
+Check-in sự kiện & Tỷ lệ check-in thành công $\geq$ 98\% & Sinh viên đánh giá sự kiện hữu ích \\
+\hline
+Phản hồi sau sự kiện & Tỷ lệ phản hồi $\geq$ 75\% & Ban tổ chức xác nhận hệ thống hiệu quả \\
+\hline
+\end{tabular}

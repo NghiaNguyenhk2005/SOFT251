@@ -425,6 +425,10 @@ INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
 INPUT .\Design_Direction.tex
 INPUT .\Design_Direction.tex
 INPUT .\Design_Direction.tex
@@ -434,11 +438,11 @@ INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\fonts\tfm\vntex\vnr\vnti10.tfm
-INPUT .\image\hcmut.png
-INPUT .\image\hcmut.png
-INPUT .\image\hcmut.png
-INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
@@ -461,6 +465,10 @@ INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
 INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
+INPUT .\image\hcmut.png
 INPUT .\Non-functional_Requirements.tex
 INPUT .\Non-functional_Requirements.tex
 INPUT .\Non-functional_Requirements.tex
@@ -479,6 +487,8 @@ INPUT .\main.out
 INPUT .\main.out
 INPUT C:\Users\nghia\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1000.pk
 INPUT C:\Users\nghia\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1000.pk
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
+INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmsy10.pfb
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\fonts\type1\vntex\urwvn\ucrb8v.pfb
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\fonts\type1\vntex\urwvn\ucrb8v.pfb
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\fonts\type1\vntex\urwvn\ucrr8v.pfb
