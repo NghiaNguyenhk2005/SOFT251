@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Ẩn scrollbar header (giữ nguyên không gian) */
+.header-row-scroll::-webkit-scrollbar {
+  background: transparent;
+}
+.header-row-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+}
