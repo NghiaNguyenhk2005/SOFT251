@@ -1,0 +1,1139 @@
+\section{Use-case và kịch bản vận hành (Scenario)}
+\subsection{Use-case toàn hệ thống}
+\includegraphics[width=\textwidth, keepaspectratio]{image/SYS_Final.drawio.png}
+
+\subsection{Sinh viên} 
+\includegraphics[width=\textwidth]{image/Student.drawio.png}
+
+% ========================= UC-STU-LOGIN =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-001 \\
+\hline
+\textbf{Use-case} & Đăng nhập HCMUT\_SSO \\
+\hline
+\textbf{Actor} & Sinh viên, HCMUT\_SSO \\
+\hline
+\textbf{Description} & Cho phép sinh viên đăng nhập vào hệ thống thông qua HCMUT\_SSO. Nếu là lần đầu đăng nhập, hệ thống sẽ tự động đồng bộ hồ sơ cơ bản từ HCMUT\_DATACORE để đảm bảo dữ liệu đầy đủ. \\
+\hline
+\textbf{Precondition} & 
+1. Dịch vụ HCMUT\_SSO đang hoạt động ổn định. \newline
+2. Sinh viên chưa có phiên đăng nhập hợp lệ trên thiết bị. \\
+\hline
+\textbf{Postcondition} & Phiên đăng nhập hợp lệ được tạo; hồ sơ cơ bản của sinh viên được đồng bộ vào hệ thống. \\
+\hline
+\textbf{Trigger} & Sinh viên chọn nút “Đăng nhập bằng HCMUT\_SSO”. \\
+\hline
+\textbf{Normal Flow} & 
+1. Hệ thống chuyển hướng đến trang đăng nhập SSO. \newline
+2. Sinh viên nhập tên tài khoản và mật khẩu. \newline
+3. Hệ thống SSO xác thực thông tin đăng nhập. \newline
+4. Nếu hợp lệ, hệ thống tạo phiên đăng nhập, gán vai trò \textit{student}. \newline
+5. Nếu là lần đầu, hệ thống đồng bộ hồ sơ từ DATACORE. \\
+\hline
+\textbf{Alternative Flow} & Không có. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Sai thông tin đăng nhập hoặc hết thời gian chờ: hệ thống hiển thị thông báo lỗi và cho phép thử lại. \newline
+E2. Mất kết nối với dịch vụ SSO: hệ thống báo lỗi kết nối và yêu cầu thử lại sau. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ========================= UC-STU-REGISTER-PROGRAM =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-002 \\
+\hline
+\textbf{Use-case} & Đăng ký chương trình Tutor/Mentor \\
+\hline
+\textbf{Actor} & Sinh viên \\
+\hline
+\textbf{Description} & Sinh viên đăng ký tham gia chương trình hỗ trợ học tập. Có thể chọn tutor cụ thể từ danh sách hoặc yêu cầu hệ thống tự động ghép cặp dựa trên hồ sơ và lịch rảnh. \\
+\hline
+\textbf{Precondition} & Sinh viên đã đăng nhập hợp lệ vào hệ thống. \\
+\hline
+\textbf{Postcondition} & Liên kết mentee-tutor được tạo hoặc yêu cầu ghép cặp được ghi nhận và chờ duyệt. \\
+\hline
+\textbf{Trigger} & Sinh viên mở mục “Đăng ký chương trình”. \\
+\hline
+\textbf{Normal Flow} & 
+1. Hệ thống hiển thị form đăng ký chương trình. \newline
+2. Sinh viên chọn một trong hai cách: \newline
+\hspace{0.5cm} a. Chọn tutor cụ thể từ danh sách. \newline
+\hspace{0.5cm} b. Yêu cầu hệ thống ghép cặp tự động. \newline
+3. Hệ thống ghi nhận yêu cầu và trả về kết quả ghép cặp hoặc trạng thái chờ duyệt. \\
+\hline
+\textbf{Alternative Flow} & Không có. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Không có tutor phù hợp: hệ thống gợi ý 3 lựa chọn gần nhất để sinh viên chọn thủ công. \newline
+E2. Lỗi kết nối hoặc ghi nhận yêu cầu thất bại: hệ thống hiển thị thông báo “Không thể đăng ký, vui lòng thử lại”. \\
+\hline
+\end{tabular}
+\end{table}
+% ========================= UC-STU-VIEW-TUTOR (include) =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-003 \\
+\hline
+\textbf{Use-case} & Xem thông tin, danh sách tutor \\
+\hline
+\textbf{Actor} & Sinh viên \\
+\hline
+\textbf{Description} & Cho phép sinh viên tra cứu hồ sơ, chuyên môn và lịch rảnh của tutor để hỗ trợ việc đăng ký hoặc ghép cặp. \\
+\hline
+\textbf{Precondition} & Sinh viên đã đăng nhập hợp lệ vào hệ thống. \\
+\hline
+\textbf{Postcondition} & Không thay đổi dữ liệu; tùy chọn lưu bộ lọc tìm kiếm gần nhất để sử dụng lại. \\
+\hline
+\textbf{Trigger} & Sinh viên chọn mục “Danh sách tutor” hoặc truy cập từ UC đăng ký chương trình. \\
+\hline
+\textbf{Normal Flow} & 
+1. Hệ thống hiển thị danh sách tutor kèm chức năng tìm kiếm và lọc. \newline
+2. Sinh viên chọn một tutor để xem chi tiết hồ sơ. \newline
+3. Sinh viên xem lịch rảnh của tutor và quay lại màn hình đăng ký. \\
+\hline
+\textbf{Alternative Flow} & Không có. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Lỗi tải danh sách tutor: hệ thống hiển thị thông báo lỗi và nút “Thử lại”. \newline
+E2. Kết nối mạng không ổn định: danh sách hiển thị không đầy đủ, hệ thống cảnh báo và yêu cầu tải lại. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ========================= UC-STU-BOOK-SESSION =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-004 \\
+\hline
+\textbf{Use-case} & Đặt lịch tư vấn \\
+\hline
+\textbf{Actor} & Sinh viên \\
+\hline
+\textbf{Description} & Cho phép sinh viên đặt lịch tư vấn với tutor (offline hoặc online). Hệ thống sẽ gửi thông báo và thiết lập nhắc lịch tự động. \\
+\hline
+\textbf{Precondition} & Sinh viên đã có liên kết mentee-tutor hợp lệ. \\
+\hline
+\textbf{Postcondition} & Lịch hẹn được lưu vào hệ thống; reminder được thiết lập và gửi thông báo cho các bên liên quan. \\
+\hline
+\textbf{Trigger} & Sinh viên chọn chức năng “Đặt lịch”. \\
+\hline
+\textbf{Normal Flow} & 
+1. Hệ thống hiển thị lịch rảnh của tutor. \newline
+2. Sinh viên chọn slot hợp lệ và xác nhận đặt lịch. \newline
+3. Hệ thống lưu lịch hẹn, gửi thông báo cho tutor và thiết lập reminder. \\
+\hline
+\textbf{Alternative Flow} & Không có. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Slot vừa bị chiếm hoặc trùng: hệ thống hiển thị cảnh báo và đề xuất slot khác. \newline
+E2. Lỗi lưu lịch do sự cố hệ thống: hiển thị thông báo “Không thể lưu, vui lòng thử lại”. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ========================= UC-STU-RESCHEDULE-CANCEL (extend) =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-005 \\
+\hline
+\textbf{Use-case} & Hủy/Đổi lịch tư vấn \\
+\hline
+\textbf{Actor} & Sinh viên \\
+\hline
+\textbf{Description} & Cho phép sinh viên hủy hoặc đổi lịch tư vấn sang slot khác. Hệ thống sẽ cập nhật lịch và gửi thông báo cho các bên liên quan. \\
+\hline
+\textbf{Precondition} & Lịch hẹn đang ở trạng thái \textit{Scheduled}. \\
+\hline
+\textbf{Postcondition} & Lịch hẹn phản ánh trạng thái mới; reminder được cập nhật hoặc hủy bỏ. \\
+\hline
+\textbf{Trigger} & Sinh viên mở chi tiết lịch hẹn. \\
+\hline
+\textbf{Normal Flow} & 
+1. Sinh viên chọn “Hủy” hoặc “Đổi lịch”. \newline
+2. Nếu đổi: sinh viên chọn slot mới. \newline
+3. Hệ thống cập nhật lịch, gửi thông báo cho tutor và điều chỉnh reminder. \\
+\hline
+\textbf{Alternative Flow} & Không có. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Slot mới không hợp lệ hoặc đã bị chiếm: hệ thống yêu cầu chọn lại. \newline
+E2. Lỗi cập nhật lịch do sự cố hệ thống: hiển thị thông báo “Không thể cập nhật, vui lòng thử lại”. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ========================= UC-STU-ATTEND-SESSION =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-006 \\
+\hline
+\textbf{Use-case} & Tham gia buổi tư vấn \\
+\hline
+\textbf{Actor} & Sinh viên \\
+\hline
+\textbf{Description} & Cho phép sinh viên tham gia buổi tư vấn theo lịch đã đặt, có thể là trực tiếp hoặc trực tuyến. \\
+\hline
+\textbf{Precondition} & 
+1. Sinh viên có lịch hẹn hợp lệ. \newline
+2. Sinh viên đã nhận thông báo nhắc lịch (reminder). \\
+\hline
+\textbf{Postcondition} & Buổi tư vấn được đánh dấu trạng thái \textit{Completed} hoặc \textit{No-show}. \\
+\hline
+\textbf{Trigger} & Đến giờ hẹn hoặc sinh viên chọn “Tham gia” (đối với buổi trực tuyến). \\
+\hline
+\textbf{Normal Flow} & 
+1. Sinh viên tham gia đúng kênh/địa điểm theo lịch. \newline
+2. (Tuỳ chọn) Sinh viên ghi chú hoặc lưu biên bản buổi tư vấn. \newline
+3. Kết thúc buổi, hệ thống đánh dấu trạng thái \textit{Completed}. \\
+\hline
+\textbf{Alternative Flow} & Không có. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Một bên vắng mặt: hệ thống đánh dấu trạng thái \textit{No-show} và gửi thông báo cho các bên liên quan. \newline
+E2. Lỗi kết nối đối với buổi trực tuyến: hệ thống hiển thị cảnh báo và cho phép thử lại. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ========================= UC-STU-FEEDBACK (extend) =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-008 \\
+\hline
+\textbf{Use-case} & Truy cập \& chia sẻ tài liệu (HCMUT\_LIBRARY) \\
+\hline
+\textbf{Actor} & Sinh viên, HCMUT\_LIBRARY \\
+\hline
+\textbf{Description} & Cho phép sinh viên tra cứu, tải xuống và (nếu được phép) chia sẻ liên kết tài liệu học tập thông qua tích hợp với HCMUT\_LIBRARY. \\
+\hline
+\textbf{Precondition} & Sinh viên đã đăng nhập hợp lệ và có quyền truy cập tài liệu. \\
+\hline
+\textbf{Postcondition} & Nhật ký truy cập và chia sẻ tài liệu được ghi nhận vào hệ thống. \\
+\hline
+\textbf{Trigger} & Sinh viên mở mục “Học liệu”. \\
+\hline
+\textbf{Normal Flow} & 
+1. Sinh viên tìm kiếm hoặc duyệt tài liệu theo bộ lọc. \newline
+2. Xem chi tiết tài liệu. \newline
+3. Tải xuống hoặc sao chép liên kết chia sẻ. \\
+\hline
+\textbf{Alternative Flow} & Không có. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Sinh viên hết quyền hoặc thiếu scope truy cập: hệ thống hiển thị thông báo “Truy cập bị từ chối”. \newline
+E2. Lỗi kết nối với HCMUT\_LIBRARY: hệ thống hiển thị cảnh báo và yêu cầu thử lại. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ========================= UC-STU-LIBRARY (extend từ nhu cầu học liệu) =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-008 \\
+\hline
+\textbf{Use-case} & Truy cập \& chia sẻ tài liệu (HCMUT\_LIBRARY) \\
+\hline
+\textbf{Actor} & Sinh viên, HCMUT\_LIBRARY \\
+\hline
+\textbf{Description} & Cho phép sinh viên tra cứu, tải xuống và (nếu được phép) chia sẻ liên kết tài liệu học tập thông qua tích hợp với HCMUT\_LIBRARY. \\
+\hline
+\textbf{Precondition} & Sinh viên đã đăng nhập hợp lệ và có quyền truy cập tài liệu. \\
+\hline
+\textbf{Postcondition} & Nhật ký truy cập và chia sẻ tài liệu được ghi nhận vào hệ thống. \\
+\hline
+\textbf{Trigger} & Sinh viên mở mục “Học liệu”. \\
+\hline
+\textbf{Normal Flow} & 
+1. Sinh viên tìm kiếm hoặc duyệt tài liệu theo bộ lọc. \newline
+2. Xem chi tiết tài liệu. \newline
+3. Tải xuống hoặc sao chép liên kết chia sẻ. \\
+\hline
+\textbf{Alternative Flow} & Không có. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Sinh viên hết quyền hoặc thiếu scope truy cập: hệ thống hiển thị thông báo “Truy cập bị từ chối”. \newline
+E2. Lỗi kết nối với HCMUT\_LIBRARY: hệ thống hiển thị cảnh báo và yêu cầu thử lại. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ========================= UC-STU-SEMINAR (extend) =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-009 \\
+\hline
+\textbf{Use-case} & Tham gia seminar/event \\
+\hline
+\textbf{Actor} & Sinh viên \\
+\hline
+\textbf{Description} & Cho phép sinh viên đăng ký, nhận nhắc lịch, tham dự và gửi phản hồi sau các sự kiện học thuật hoặc kỹ năng. \\
+\hline
+\textbf{Precondition} & Sinh viên đã đăng nhập hợp lệ. \\
+\hline
+\textbf{Postcondition} & Trạng thái đăng ký, tham dự và phản hồi được cập nhật vào hệ thống. \\
+\hline
+\textbf{Trigger} & Sinh viên mở mục “Seminar/Event”. \\
+\hline
+\textbf{Normal Flow} & 
+1. Sinh viên chọn sự kiện và xem mô tả, thời gian, hình thức. \newline
+2. Đăng ký tham dự sự kiện. \newline
+3. Nhận nhắc lịch trước giờ diễn ra và tham dự. \newline
+4. Gửi phản hồi sau sự kiện. \\
+\hline
+\textbf{Alternative Flow} & 
+A1. Sinh viên hủy đăng ký trước giờ diễn ra: hệ thống giải phóng suất và cập nhật trạng thái. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Sự kiện hết chỗ hoặc đã đóng đăng ký: hệ thống hiển thị thông báo và gợi ý sự kiện khác. \newline
+E2. Lỗi ghi nhận đăng ký: hệ thống hiển thị thông báo “Không thể đăng ký, vui lòng thử lại”. \\
+\hline
+\end{tabular}
+\end{table}
+
+% ========================= UC-STU-COMMUNITY (extend) =========================
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-STU-010 \\
+\hline
+\textbf{Use-case} & Tham gia cộng đồng trực tuyến \\
+\hline
+\textbf{Actor} & Sinh viên \\
+\hline
+\textbf{Description} & Cho phép sinh viên truy cập các kênh/nhóm trao đổi với tutor và mentee khác, đồng thời nhận thông báo trong hệ thống. \\
+\hline
+\textbf{Precondition} & Sinh viên đã đăng nhập hợp lệ vào hệ thống. \\
+\hline
+\textbf{Postcondition} & Tin nhắn và trao đổi được ghi nhận theo từng kênh; thông báo được gửi theo cấu hình cá nhân. \\
+\hline
+\textbf{Trigger} & Sinh viên mở mục “Cộng đồng”. \\
+\hline
+\textbf{Normal Flow} & 
+1. Hệ thống hiển thị danh sách các kênh/nhóm cộng đồng. \newline
+2. Sinh viên chọn một kênh để tham gia. \newline
+3. Sinh viên gửi và nhận tin nhắn trong kênh. \newline
+4. (Tuỳ chọn) Sinh viên bật hoặc tắt thông báo theo từng kênh. \\
+\hline
+\textbf{Alternative Flow} & 
+A1. Sinh viên rời kênh hoặc tắt thông báo khi không còn nhu cầu tham gia. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Sinh viên không đủ quyền truy cập kênh: hệ thống hiển thị thông báo “Permission denied”. \newline
+E2. Lỗi tải dữ liệu kênh: hệ thống hiển thị cảnh báo và cho phép thử lại. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Tutor}
+\includegraphics[width=\textwidth]{image/TutorUCDiagram.drawio.png}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-TUTOR-001 \\
+\hline
+\textbf{Use-case} & Đăng nhập vào hệ thống \\
+\hline
+\textbf{Actor} & Tutor \\
+\hline
+\textbf{Description} & Cho phép Tutor đăng nhập xác thực thông qua HCMUT\_SSO \\
+\hline
+\textbf{Precondition} & 
+1. Tutor đã có hệ thống trên HCMUT\_SSO và được gán quyền Tutor trong hệ thống. \newline
+2. Kết nối mạng của SSO và hệ thống Tutor đều đang trực tuyến và ổn định. \newline
+3. Thông tin của Tutor đã được đồng bộ từ DATACORE. \newline
+4. Hiện tại đang không có phiên đăng nhập nào trên thiết bị của Tutor. \\
+\hline
+\textbf{Trigger} & Tutor bấm vào nút "Đăng nhập" \\
+\hline
+\textbf{Normal Flow} & 
+1. Hệ thống sẽ kiểm tra trạng thái phiên, nếu không có phiên hiện tại sẽ chuyển đến trang đăng nhập xác thực HCMUT\_SSO kèm thông tin client và URL quay lại. \newline
+2. Hệ thống SSO hiện form đăng nhập. \newline
+3. Tutor tiến hành nhập tên tài khoản và mật khẩu. \newline
+4. Tutor ấn vào "Đăng nhập". \newline
+5. Hệ thống SSO bắt đầu quá trình xác thực thông tin đầu vào của Tutor. \newline
+6. Nếu thông tin hợp lệ, hệ thống SSO sẽ xác nhận đăng nhập thành công, trả về dashboard của hệ thống Tutor. \\
+\hline
+\textbf{Alternative Flow} & Không có \\
+\hline
+\textbf{Postcondition} & Tutor được xác thực và hệ thống Tutor hiển thị ra dashboard của người dùng đã được đăng nhập \\
+\hline
+\textbf{Exception Flow} & 
+E1. Mất kết nối với SSO: Hệ thống Tutor sẽ báo lỗi mất kết nối tới SSO. \newline
+E2. Sai thông tin đăng nhập: Ở bước 5, nếu hệ thống xác thực thông tin nhận vào không hợp lệ sẽ hiển thị lỗi theo hệ thống SSO. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-TUTOR-002 \\
+\hline
+\textbf{Use-case} & Thiết lập lịch rảnh \\
+\hline
+\textbf{Actor} & Tutor \\
+\hline
+\textbf{Description} & Cho phép Tutor định nghĩa các khung thời gian có thể tiếp nhận buổi hỗ trợ, đảm bảo hệ thống có dữ liệu slot chính xác để sinh viên đặt lịch. \\
+\hline
+\textbf{Precondition} & 
+1. Tutor đã đăng nhập thành công qua HCMUT\_SSO và phiên vẫn còn hiệu lực. \newline
+2. Hồ sơ Tutor đã được đồng bộ từ HCMUT\_DATACORE, trạng thái “đang hoạt động”. \newline
+3. Hệ thống đã tải cấu hình lịch hiện tại và các ràng buộc (thời lượng tối thiểu, khung giờ được phép). \\
+\hline
+\textbf{Trigger} & Tutor chọn chức năng “Thiết lập lịch rảnh” từ dashboard hoặc nhận nhắc từ hệ thống yêu cầu cập nhật lịch. \\
+\hline
+\textbf{Normal Flow} & 
+1. Tutor mở màn hình “Lịch rảnh”. \newline
+2. Hệ thống hiển thị lịch tuần hiện tại cùng các slot đã thiết lập (nếu có). \newline
+3. Tutor chọn ngày và khung giờ muốn mở slot. \newline
+4. Hệ thống kiểm tra xung đột với các buổi đã xác nhận hoặc slot rảnh đã tồn tại. \newline
+5. Tutor xác nhận tạo slot; hệ thống ghi nhận vào cơ sở dữ liệu. \newline
+6. Hệ thống cập nhật trạng thái lịch, đồng bộ tới module đặt lịch và hàng đợi thông báo. \newline
+7. Tutor lặp lại cho các khung giờ khác hoặc chỉnh sửa slot bằng thao tác kéo/thay đổi thời lượng. \newline
+8. Tutor lưu thay đổi tổng thể; hệ thống hiển thị thông báo “Cập nhật lịch thành công”. \\
+\hline
+\textbf{Alternative Flow} & 
+A1. Hủy slot đã đăng ký vì lý do phù hợp. \newline
+a. Tại bước 2, Tutor chọn slot đã công bố nhưng không còn phù hợp. \newline
+b. Tutor chuyển trạng thái slot sang “Unavailable tạm thời” kèm lý do. \newline
+c. Hệ thống ghi nhận thay đổi, gửi thông báo tới sinh viên đã đặt (nếu có) và quay lại bước 7 để lưu tổng thể. \\
+\hline
+\textbf{Postcondition} & 
+1. Các slot rảnh mới/điều chỉnh được lưu vào hệ thống, đánh dấu trạng thái “Available” và gắn với Tutor tương ứng. \newline
+2. Lịch hiển thị cho sinh viên được cập nhật trong vòng 5 phút. \newline
+3. Màn hình thời khóa biểu hiện thị slot thời gian vừa thêm vào. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Slot trùng với buổi đã xác nhận: Bước 4 phát hiện xung đột; hệ thống hiển thị lỗi “Khung giờ đã có buổi tutor khác”, không cho lưu slot đó, quay về bước 3. \newline
+E2. Lưu lịch thất bại do sự cố hệ thống: Tại bước 5/6 gặp lỗi kết nối; hệ thống thông báo “Không thể lưu, vui lòng thử lại”, ghi log lỗi và giữ lại dữ liệu đã nhập để Tutor thao tác lại sau. \\
+\hline
+\end{tabular}
+
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-TUTOR-003 \\
+\hline
+\textbf{Use-case} & Mở buổi tư vấn \\
+\hline
+\textbf{Actor} & Tutor \\
+\hline
+\textbf{Description} & Cho phép Tutor tạo buổi tư vấn (trực tiếp hoặc trực tuyến) với thông tin thời gian, hình thức, địa điểm/link nhằm phục vụ sinh viên đã đăng ký hoặc chờ ghép. \\
+\hline
+\textbf{Precondition} & 
+1. Tutor đã đăng nhập hợp lệ vào hệ thống qua HCMUT\_SSO. \newline
+2. Lịch rảnh của Tutor đã được thiết lập với các slot khả dụng (UC “Thiết lập lịch rảnh”). \newline
+3. Tại slot này đã có đủ số lượng sinh viên đăng ký tối thiểu là 30 sinh viên. \\
+\hline
+\textbf{Trigger} & Tại dashboard, Tutor ấn vào nút "Mở buổi tư vấn" \\
+\hline
+\textbf{Normal Flow} & 
+1. Tutor mở trang “Mở buổi tư vấn”. \newline
+2. Hệ thống hiển thị các slot rảnh đã đủ điều kiện mở buổi tư vấn. \newline
+3. Tutor chọn hình thức buổi: “Trực tiếp” hoặc “Trực tuyến”. \newline
+4a. Nếu “Trực tiếp”: Tutor sẽ không cần nhập mục này, hệ thống sẽ chọn phòng phù hợp với số lượng sinh viên. \newline
+4b. Nếu “Trực tuyến”: Tutor nhập/đính kèm URL phòng họp (Teams/Zoom) và mật khẩu nếu có. \newline
+5. Tutor nhập tiêu đề buổi, chủ đề chính. \newline
+6. Tutor chọn phạm vi mentee (toàn nhóm, từng mentee, hoặc mở công khai cho mentee đủ điều kiện). \newline
+7. Hệ thống kiểm tra xung đột lịch. \newline
+8. Tutor xác nhận; hệ thống tạo bản ghi buổi tư vấn, cập nhật lịch và đưa vào hàng đợi thông báo. \newline
+9. Hệ thống hiển thị thông báo “Mở buổi tư vấn thành công” kèm thông tin tóm tắt và tùy chọn chỉnh sửa. \\
+\hline
+\textbf{Alternative Flow} & Không có \\
+\hline
+\textbf{Postcondition} & 
+1. Buổi tư vấn mới được ghi nhận trạng thái “Open” gắn với slot tương ứng. \newline
+2. Thông báo/nhắc lịch được gửi tới mentee. \newline
+3. Lịch Tutor cập nhật, buổi sẵn sàng cho mentee đặt/confirm. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Thiếu thông tin địa điểm/URL: Bước 4b bỏ trống trường bắt buộc; hệ thống cảnh báo và yêu cầu nhập trước khi tiếp tục. \newline
+E2. URL trực tuyến không hợp lệ: Hệ thống kiểm tra định dạng URL; nếu sai, hiển thị lỗi và cho thêm mới. \newline
+E3. Lỗi mở buổi thất bại do sự cố hệ thống: Hệ thống trả về "Lỗi hệ thống" \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{longtable}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-TUTOR-004 \\
+\hline
+\textbf{Use-case} & Quản lý buổi tư vấn \\
+\hline
+\textbf{Actor} & Tutor \\
+\hline
+\textbf{Description} & Cho phép Tutor theo dõi và điều chỉnh vòng đời của các buổi tư vấn đã mở (đổi lịch, hủy, cập nhật danh sách tham gia, ghi biên bản) nhằm bảo đảm buổi diễn ra đúng kế hoạch và dữ liệu được cập nhật nhất quán. \\
+\hline
+\textbf{Precondition} & 
+1. Tutor đã đăng nhập hợp lệ (qua HCMUT\_SSO). \newline
+2. Tồn tại ít nhất một buổi tư vấn ở trạng thái “Open” hoặc “Scheduled” do Tutor phụ trách. \newline
+3. Dữ liệu mentee tham gia buổi đã được hệ thống ghi nhận (từ yêu cầu đặt lịch hoặc danh sách được điều phối viên gán). \\
+\hline
+\textbf{Trigger} & Tutor từ dashboard chọn “Quản lý buổi tư vấn”. \\
+\hline
+\textbf{Normal Flow} & 
+1. Tutor mở trang danh sách buổi tư vấn của mình. \newline
+2. Hệ thống hiển thị các buổi ở các trạng thái (Scheduled, Pending feedback, Completed) kèm bộ lọc thời gian. \newline
+3. Tutor chọn một buổi cần quản lý và xem chi tiết (thời gian, hình thức, mentee đăng ký, lịch sử thay đổi). \newline
+4. Tutor cập nhật thông tin buổi: điều chỉnh thời gian/địa điểm/link nếu cần, hoặc xác nhận buổi sẽ diễn ra như kế hoạch. \newline
+5. Hệ thống kiểm tra xung đột và quyền chỉnh sửa; nếu hợp lệ, tạm giữ slot mới và cập nhật booking liên quan. \newline
+6. Tutor (nếu buổi đã hoàn thành) nhập biên bản, ghi lại nội dung hỗ trợ, tài liệu đính kèm, kết quả đạt được. \newline
+7. Tutor lưu thay đổi; hệ thống ghi nhận cập nhật, phát thông báo tới mentee/điều phối viên và yêu cầu mentee xác nhận (nếu có). \newline
+8. Trang chi tiết hiển thị trạng thái mới cùng thông điệp thành công; Tutor có thể quay lại danh sách hoặc thao tác buổi khác. \\
+\hline
+\textbf{Alternative Flow} & 
+A1 - Đổi lịch tư vấn: \newline
+a. Ở bước 4, Tutor chọn “Đổi lịch” → nhập ngày/giờ mới. \newline
+b. Hệ thống đề xuất slot trống gần nhất; nếu Tutor chấp nhận, quay lại bước 5 và 7 để cập nhật. \newline
+A2 - Hủy lịch tư vấn: \newline
+a. Bước 4 Tutor chọn “Hủy buổi” và nhập lý do. \newline
+b. Hệ thống cập nhật trạng thái buổi = “Cancelled”, gửi thông báo hủy cho mentee và giải phóng slot khỏi lịch. \newline
+A3 - Nhận danh sách sinh viên tham gia: \newline
+a. Tutor tại bước 3 chọn tùy chọn “Xuất danh sách” → hệ thống tạo danh sách mentee đã confirm. \newline
+b. Tutor dùng danh sách để chuẩn bị tài liệu; luồng trở lại bước 3. \newline
+A4 - Lưu biên bản sau buổi: \newline
+a. Sau bước 6, Tutor lưu biên bản và đánh dấu buổi “Completed”. \newline
+b. Hệ thống gửi yêu cầu mentee phản hồi và cập nhật tiến độ học tập. \\
+\hline
+\textbf{Postcondition} & 
+1. Trạng thái và thông tin buổi tư vấn được cập nhật (đổi lịch/hủy/ghi chú) và đồng bộ đến lịch của mentee liên quan. \newline
+2. Nếu buổi bị hủy hoặc đổi, thông báo được phát tới mentee và điều phối viên; biên bản được lưu sau khi Tutor hoàn tất. \\
+\hline
+\textbf{Exception Flow} & 
+E1 - Cố gắng đổi lịch nhưng slot mới trùng: Bước 5 phát hiện xung đột với buổi khác; hệ thống hiển thị lỗi và yêu cầu Tutor chọn slot khác (không cập nhật). \newline
+E2 - Hủy buổi sau hạn cho phép: Bước 4 phát hiện buổi sắp diễn ra dưới ngưỡng hủy ($\leq$ 2 giờ). \newline
+E3 - Lưu biên bản thất bại: Bước 6 gặp lỗi lưu trữ; hệ thống giữ bản nháp biên bản, báo Tutor thử lại và không thay đổi trạng thái buổi. \newline
+E4 - Tutor thiếu quyền chỉnh sửa: Bước 5 phát hiện buổi do điều phối viên khóa; hệ thống từ chối thao tác, hiển thị thông điệp “Buổi tạm khóa, liên hệ điều phối viên”. \\
+\hline
+\end{longtable}
+
+
+\begin{table}[H]
+\centering
+\begin{longtable}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use-case ID} & UC-TUTOR-005 \\
+\hline
+\textbf{Use-case} & Quản lý yêu cầu đặt lịch từ sinh viên \\
+\hline
+\textbf{Actor} & Tutor \\
+\hline
+\textbf{Description} & Tutor xử lý các yêu cầu đặt lịch mà sinh viên gửi vào slot rảnh: xem chi tiết, chấp thuận, từ chối hoặc đề xuất thời gian khác nhằm đảm bảo buổi tư vấn được sắp xếp hiệu quả. \\
+\hline
+\textbf{Precondition} & 
+1. Tutor đã đăng nhập hợp lệ qua HCMUT\_SSO. \newline
+2. Có slot rảnh do Tutor thiết lập và sinh viên đã gửi yêu cầu đặt lịch tương ứng. \newline
+3. Thông tin sinh viên, trạng thái ghép cặp được đồng bộ từ HCMUT\_DATACORE. \\
+\hline
+\textbf{Trigger} & Tutor mở mục “Yêu cầu đặt lịch” từ dashboard hoặc bấm vào thông báo có yêu cầu mới cần duyệt. \\
+\hline
+\textbf{Normal Flow} & 
+1. Tutor truy cập danh sách yêu cầu đặt lịch đang chờ xử lý. \newline
+2. Hệ thống hiển thị mỗi yêu cầu với thông tin sinh viên, môn học/chủ đề, slot mong muốn, ghi chú của sinh viên. \newline
+3. Tutor chọn một yêu cầu để xem chi tiết mở rộng (lịch sử sinh viên, số lần hủy gần đây, ghi chú điều phối). \newline
+4. Tutor xác minh slot còn trống và kiểm tra xung đột với buổi khác. \newline
+5. Tutor chọn hành động “Chấp nhận”, “Từ chối” hoặc “Đề xuất lại thời gian”. \newline
+6. Nếu chấp nhận, Tutor sẽ thực hiện luồng trong use-case "Mở buổi tư vấn" từ bước 3, hệ thống gắn yêu cầu vào buổi tư vấn, chuyển trạng thái “Confirmed” và khóa slot. \newline
+7. Hệ thống tạo thông báo tới sinh viên, cập nhật dashboard. \\
+\hline
+\textbf{Alternative Flow} & 
+A1 - Đề xuất thời gian khác: \newline
+a. Ở bước 5, Tutor chọn “Đề xuất lại thời gian”. \newline
+b. Hệ thống hiển thị các slot rảnh khác của Tutor; Tutor chọn slot mới và nhập lý do. \newline
+c. Yêu cầu chuyển sang trạng thái “Reschedule Pending”, sinh viên nhận thông báo để xác nhận. \\
+\hline
+\textbf{Postcondition} & 
+Mỗi yêu cầu được gán trạng thái mới (Approved/Declined/Rescheduled/Waitlisted) và cập nhật vào lịch Tutor và sinh viên. \newline
+Thông báo tự động gửi tới sinh viên, điều phối viên (nếu cấu hình). \\
+\hline
+\textbf{Exception Flow} & Không có \\
+\hline
+\end{longtable}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-TUTOR-006 \\
+\hline
+\textbf{Use-case} & Theo dõi sinh viên \\
+\hline
+\textbf{Actor} & Tutor \\
+\hline
+\textbf{Description} & Cung cấp cho Tutor khả năng xem và cập nhật tiến độ học tập của từng mentee, bao gồm lịch sử buổi, phản hồi, và các hành động hỗ trợ cần triển khai, nhằm theo dõi hiệu quả chương trình tutor. \\
+\hline
+\textbf{Precondition} & 
+1. Tutor đã đăng nhập hợp lệ qua HCMUT\_SSO. \newline
+2. Tutor đã được gán nhóm mentee (từ ghép cặp hoặc điều phối viên). \newline
+3. Dữ liệu buổi tutor (đã diễn ra, sắp diễn ra) và phản hồi sinh viên được hệ thống lưu trữ. \\
+\hline
+\textbf{Trigger} & Tutor chọn chức năng “Theo dõi sinh viên” từ dashboard hoặc từ chi tiết buổi sau khi hoàn tất. \\
+\hline
+\textbf{Normal Flow} & 
+1. Tutor mở giao diện “Theo dõi sinh viên”. \newline
+2. Hệ thống hiển thị danh sách mentee thuộc phạm vi Tutor phụ trách với các chỉ số tổng quan (số buổi đã tham gia, trạng thái phản hồi, cảnh báo). \newline
+3. Tutor chọn một mentee để xem chi tiết hồ sơ học tập. \newline
+4. Hệ thống hiển thị lịch sử buổi (đã diễn ra, sắp tới), phản hồi định lượng/định tính, ghi chú của Tutor trước đó, tài liệu liên quan. \newline
+5. Tutor phân tích thông tin, đánh dấu mức độ tiến bộ, thêm ghi chú hành động (ví dụ: “Cần ôn lại chương 3”, “Chuẩn bị bài tập thực hành cho buổi sau”). \newline
+6. Tutor có thể gắn thẻ cảnh báo hoặc gửi yêu cầu hỗ trợ bổ sung tới điều phối viên nếu phát hiện rủi ro (ví dụ: vắng 2 buổi liên tiếp). \newline
+7. Tutor lưu cập nhật, cập nhật dashboard và đồng bộ với module báo cáo. \\
+\hline
+\textbf{Alternative Flow} & Không có \\
+\hline
+\textbf{Postcondition} & 
+1. Tutor có thể xem tổng quan tình trạng học tập của từng mentee (số buổi tham gia, trạng thái, điểm phản hồi). \newline
+2. Các ghi chú theo dõi, hành động follow-up được lưu lại và có thể chia sẻ với điều phối viên/khoa khi cần. \newline
+3. Hệ thống cập nhật báo cáo tiến độ phục vụ các bộ phận liên quan (khoa, phòng CTSV). \\
+\hline
+\textbf{Exception Flow} & 
+E1. Dữ liệu phản hồi chưa có: Bước 4 phát hiện mentee chưa gửi phản hồi; hệ thống hiển thị cảnh báo và cung cấp nút “Gửi yêu cầu phản hồi lại”. \newline
+E2. Ghi chú lưu thất bại: Sau bước 7, lưu ghi chú bị lỗi; hệ thống hiển thị cảnh báo, giữ nội dung thảo để Tutor thử lại sau, log sự cố cho đội vận hành. \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-TUTOR-007 \\
+\hline
+\textbf{Use-case} & Đánh giá sinh viên \\
+\hline
+\textbf{Actor} & Tutor \\
+\hline
+\textbf{Description} & Cho phép Tutor ghi nhận mức độ tiến bộ, chất lượng tham gia buổi học và các khuyến nghị tiếp theo cho từng mentee sau buổi tutor, nhằm cung cấp dữ liệu cho báo cáo học tập và phòng CTSV. \\
+\hline
+\textbf{Precondition} & 
+1. Tutor đã đăng nhập hợp lệ qua HCMUT\_SSO và có quyền truy cập mentee. \newline
+2. Có ít nhất một buổi tutor đã diễn ra với mentee (trạng thái “Completed” hoặc “Awaiting Evaluation”). \newline
+3. Dữ liệu buổi (ngày, chủ đề, mục tiêu) được lưu sẵn để liên kết với phiếu đánh giá. \\
+\hline
+\textbf{Trigger} & Tutor chọn chức năng “Đánh giá sinh viên” từ dashboard sau buổi học hoặc từ danh sách buổi cần đánh giá. \\
+\hline
+\textbf{Normal Flow} & 
+1. Tutor mở màn hình “Đánh giá sinh viên”. \newline
+2. Hệ thống hiển thị danh sách mentee/buổi đang chờ đánh giá cùng các thông tin tóm tắt (ngày, chủ đề, trạng thái phản hồi). \newline
+3. Tutor chọn mentee/buổi cần đánh giá để vào chi tiết. \newline
+4. Hệ thống tải form đánh giá gồm mục định lượng (ví dụ: mức độ đạt mục tiêu 1-5) và phần nhận xét, gợi ý hành động tiếp theo. \newline
+5. Tutor nhập điểm số, đánh dấu mức độ tiến bộ, ghi chú nhận xét, chọn gợi ý tài liệu bổ sung nếu cần. \newline
+6. Tutor có thể đính kèm tài liệu minh chứng hoặc liên kết bài tập giao sau. \newline
+7. Tutor xác nhận lưu; hệ thống kiểm tra dữ liệu bắt buộc (điểm, nhận xét tối thiểu) và thực hiện lưu vào kho đánh giá. \\
+\hline
+\textbf{Alternative Flow} & Không có \\
+\hline
+\textbf{Postcondition} & 
+1. Phiếu đánh giá được lưu với điểm định lượng (nếu dùng thang điểm) và nhận xét định tính, gắn với buổi và mentee tương ứng. \newline
+2. Báo cáo tiến độ của mentee được cập nhật; điều phối viên/khoa có thể tra cứu. \newline
+3. Nếu cấu hình, thông báo phản hồi được gửi cho mentee và ghi nhận vào hồ sơ điểm rèn luyện. \\
+\hline
+\textbf{Exception Flow} & 
+E1. Thiếu thông tin bắt buộc: Bước 7 phát hiện điểm hoặc nhận xét bị bỏ trống → hệ thống hiển thị thông báo lỗi, giữ dữ liệu đã nhập và yêu cầu bổ sung. \newline
+E2. Lưu dữ liệu thất bại (lỗi hệ thống): Sau bước 7, việc ghi DB lỗi → hệ thống hiển thị thông báo “Không thể lưu, dữ liệu được tạm giữ”, ghi log và cho phép thử lại. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Khoa / Bộ môn}
+\includegraphics[width=\textwidth]{image/Khoa.drawio.png}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-DEPT-001 \\
+\hline
+\textbf{Use-case} & Theo dõi và đánh giá sinh viên \\
+\hline
+\textbf{Actor} & Khoa / Bộ môn \\
+\hline
+\textbf{Description} & Cho phép Khoa / Bộ môn truy cập dữ liệu đánh giá từ hệ thống để nắm tình hình học tập của sinh viên, từ đó hỗ trợ phân bổ nguồn lực giảng dạy và cải tiến chương trình đào tạo. \\
+\hline
+\textbf{Precondition} & 
+Dữ liệu đánh giá từ các buổi tutor đã được ghi nhận đầy đủ. \\
+\hline
+\textbf{Trigger} & Cán bộ Khoa / Bộ môn truy cập mục “Báo cáo đánh giá sinh viên” từ dashboard. \\
+\hline
+\textbf{Normal Flow} & 
+1. Người dùng mở giao diện báo cáo. \newline
+2. Hệ thống hiển thị bộ lọc theo lớp, ngành, học kỳ. \newline
+3. Người dùng chọn lớp/ngành cần xem. \newline
+4. Hệ thống hiển thị bảng tổng hợp: số buổi tham gia, điểm phản hồi, đánh giá từ tutor. \newline
+5. Người dùng xuất báo cáo để phục vụ phân tích nội bộ. \\
+\hline
+\textbf{Alternative Flow} & 
+A1 - So sánh giữa các lớp: Người dùng chọn nhiều lớp để so sánh mức độ tham gia và kết quả học tập. \\
+\hline
+\textbf{Postcondition} & 
+1. Báo cáo được trích xuất thành công. \newline
+2. Khoa/Bộ môn có cơ sở để điều chỉnh phân bổ giảng viên hoặc nội dung môn học. \\
+\hline
+\textbf{Exception Flow} & 
+E1 - Không có dữ liệu: Hệ thống hiển thị thông báo “Chưa có dữ liệu cho lớp/ngành này”. \newline
+E2 - Lỗi xuất báo cáo: Hệ thống không tạo được file, hiển thị lỗi và cho phép thử lại. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Phòng Đào tạo}
+\includegraphics[width=0.75\linewidth]{image/PĐT.drawio.png}
+%================= Bảng 1 =================
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCPDT1 \\ \hline
+Use-case & Phân bổ nguồn lực \\ \hline
+Actor & Phòng đào tạo \\ \hline
+Description & PĐT phân bổ tutor phù hợp cho sinh viên dựa trên hồ sơ, nhu cầu hoặc gợi ý từ hệ thống \\ \hline
+Precondition & Sinh viên đã tham gia đăng ký Tutor. Thông tin tutor và sinh viên đã được đồng bộ từ HCMUT\_DATACORE. \\ \hline
+Postcondition & Sinh viên được gán tutor thành công, dữ liệu cập nhật vào hệ thống. \\ \hline
+Trigger & PĐT cần phân công tutor cho sinh viên mới đăng ký. \\ \hline
+Normal Flow &
+1. PĐT đăng nhập hệ thống qua HCMUT\_SSO. \newline
+2. Hệ thống hiển thị danh sách sinh viên chưa có tutor hoặc muốn đổi tutor. \newline
+3. PĐT chọn một sinh viên. \newline
+4. Hệ thống gợi ý danh sách tutor phù hợp (dựa trên chuyên môn, lịch rảnh, số lượng mentee hiện có). \newline
+5. Hệ thống xác nhận, gửi thông báo đến tutor và sinh viên. \\ \hline
+Exception Flow & Không có tutor phù hợp $\rightarrow$ Hệ thống báo lỗi và yêu cầu PĐT xử lý sau. \\ \hline
+Alternative Flow & PĐT có thể bỏ qua gợi ý và chọn tutor thủ công. \\ \hline
+\end{longtable}
+
+%================= Bảng 2 =================
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCPDT2 \\ \hline
+Use-case & Phân tích báo cáo \\ \hline
+Actor & Phòng đào tạo \\ \hline
+Description & PĐT xem báo cáo tổng quan về tình hình hoạt động của chương trình Tutor. \\ \hline
+Precondition & Hệ thống đã lưu trữ dữ liệu buổi gặp, phản hồi, tiến độ học tập. \\ \hline
+Postcondition & Báo cáo được tạo thành công. \\ \hline
+Trigger & PĐT cần báo cáo định kỳ hoặc đột xuất. \\ \hline
+Normal Flow &
+1. PĐT đăng nhập hệ thống. \newline
+2. Chọn chức năng “Phân tích báo cáo”. \newline
+3. Hệ thống hiển thị các tùy chọn: theo khoa, theo môn học, theo tutor, theo kỳ học. \newline
+4. PĐT chọn phạm vi báo cáo. \newline
+5. Hệ thống tạo báo cáo và hiển thị biểu đồ/tài liệu. \newline
+6. PĐT có thể tải xuống hoặc in báo cáo. \\ \hline
+Exception Flow & Dữ liệu chưa đủ hoặc lỗi đồng bộ $\rightarrow$ Hệ thống thông báo và đề nghị thử lại. \\ \hline
+Alternative Flow & PĐT lọc báo cáo theo nhiều tiêu chí kết hợp (ví dụ: khoa + học kỳ). \\ \hline
+\end{longtable}
+
+%================= Bảng 3 =================
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCPDT3 \\ \hline
+Use-case & Đánh giá phản hồi \\ \hline
+Actor & Phòng đào tạo \\ \hline
+Description & PĐT khai thác phản hồi từ sinh viên và tutor để đánh giá chất lượng chương trình. \\ \hline
+Precondition & Sinh viên và tutor đã gửi phản hồi sau buổi học. \\ \hline
+Postcondition & PĐT có dữ liệu đánh giá để cải tiến chất lượng chương trình. \\ \hline
+Trigger & PĐT cần phân tích chất lượng chương trình Tutor. \\ \hline
+Normal Flow &
+1. PĐT đăng nhập hệ thống. \newline
+2. Chọn chức năng “Đánh giá phản hồi”. \newline
+3. Hệ thống hiển thị danh sách phản hồi theo buổi học, theo tutor, hoặc theo sinh viên. \newline
+4. PĐT xem chi tiết phản hồi. \newline
+5. PĐT ghi nhận kết quả để cải tiến chương trình. \\ \hline
+Exception Flow & Không có phản hồi nào được ghi nhận $\rightarrow$ Hệ thống hiển thị thông báo “Chưa có dữ liệu”. \\ \hline
+Alternative Flow & PĐT lọc phản hồi theo thời gian hoặc theo nhóm sinh viên đặc biệt. \\ \hline
+\end{longtable}
+
+\subsection{Phòng Công tác sinh viên}
+\includegraphics[width=0.75\linewidth]{image/pctsv-usecase.png}
+    \label{fig:pdt}
+
+% Bắt đầu Use-case UC-PCT-01: Xem Hồ sơ Sinh viên
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+    %\caption{Xem Hồ sơ Sinh viên (UC-PCT-01)} \label{table:UC-PCT-01} \\
+    \hline
+    \bfseries Use-case ID & UC-PCT-01 \\
+    \hline
+    \bfseries Use-case & Xem Hồ sơ Sinh viên \\
+    \hline
+    \bfseries Actor & Cán bộ quản lý của P.CTSV \\
+    \hline
+    \bfseries Description & Cho cán bộ xem thông tin chi tiết về hồ sơ cá nhân của sinh viên \\
+    \hline
+    \bfseries Trigger & Người dùng chọn chức năng 'Xem Hồ sơ Sinh viên'. \\
+    \hline
+    \bfseries Precondition & - Hệ thống BKArch hoạt động bình thường. \newline - Người dùng đã đăng nhập thành công vào hệ thống Tutor. \\
+    \hline
+    \bfseries Postcondition & - \textbf{Thành công}: Hiển thị thông tin hồ sơ sinh viên chi tiết. \\
+    \hline
+    \bfseries Normal Flow & 1. Người dùng chọn chức năng 'Xem Hồ sơ Sinh viên'. \newline 2. Hệ thống truy xuất dữ liệu hồ sơ sinh viên. \newline 3. Hệ thống hiển thị thông tin toàn bộ hồ sơ sinh viên. \newline  4. Người dùng chọn hồ sơ một sinh viên cụ thể để xem thông tin. \newline 5. Hệ thống hiển thị hồ sơ chi tiết của sinh viên. \\
+    \hline
+    \bfseries Exception Flow & E1. Lỗi kết nối CSDL: Hệ thống ghi lại log, hiển thị lỗi. \\
+    \hline
+    \bfseries Alternative Flow & A1. Lọc danh sách: \newline a. Tại bước 3, người dùng lọc ra hồ sơ sinh viên dựa trên MSSV, Học Kỳ, .... \newline b. Hệ thống hiển thị các hồ sơ đã được lọc. \\
+    \hline
+\end{longtable}
+% Kết thúc Use-case UC-PCT-01
+
+% Bắt đầu Use-case UC-PCT-02: Xem Ghi nhận Tiến bộ từ Tutor
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+    %\caption{Xem Ghi nhận Tiến bộ từ Tutor (UCT002)} \label{table:UCT002} \\
+    \hline
+    \bfseries Use-case ID & UC-PCT-02 \\
+    \hline
+    \bfseries Use-case & Xem Ghi nhận Tiến bộ từ Tutor \\
+    \hline
+    \bfseries Actor & Cán bộ quản lý của P.CTSV \\
+    \hline
+    \bfseries Description & Giảng viên hoặc Cán bộ quản lý đã ghi nhận tiến bộ cho sinh viên. \\
+    \hline
+    \bfseries Trigger & Người dùng truy cập chi tiết một 'Hồ sơ Sinh viên'. \\
+    \hline
+    \bfseries Precondition & - Hệ thống BKArch đang hoạt động. \newline - Người dùng đã đăng nhập thành công. \newline - Người dùng đang xem hồ sơ của một sinh viên cụ thể. \\
+    \hline
+    \bfseries Postcondition & - \textbf{Thành công}: Hiển thị danh sách các ghi nhận tiến bộ của sinh viên. \\
+    \hline
+    \bfseries Normal Flow & 1. Người dùng truy cập 'Chi tiết' khi đang xem 1 'Hồ sơ Sinh viên' (UC-PCT-01). \newline 2. Hệ thống truy xuất và hiển thị danh sách ghi nhận tiến bộ liên quan đến hồ sơ đó. \\
+    \hline
+    \bfseries Exception Flow & E1. Lỗi kết nối CSDL: Hệ thống ghi lại log và hiển thị lỗi. \\
+    \hline
+    \bfseries Alternative Flow & A1. Lọc, sắp xếp danh sách Hồ sơ Sinh viên: \newline a. Người dùng lọc hoặc sắp xếp dựa trên Môn học, Điểm số, ... \newline b. Hệ thống hiển thị danh sách đã được lọc. \\
+    \hline
+\end{longtable}
+% Kết thúc Use-case UCT002
+
+% Bắt đầu Use-case UCT003: Xem Lịch sử Buổi Tutor
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+    %\caption{Xem Lịch sử Buổi Tutor (UCT003)} \label{table:UCT003} \\
+    \hline
+    \bfseries Use-case ID & UC-PCT-03 \\
+    \hline
+    \bfseries Use-case & Xem Lịch sử Buổi Tutor \\
+    \hline
+    \bfseries Actor & Cán bộ quản lý của P.CTSV \\
+    \hline
+    \bfseries Description & Cho phép người dùng xem lại lịch sử chi tiết các buổi Tutor mà sinh viên đã tham gia hoặc được ghi nhận. \\
+    \hline
+    \bfseries Trigger & Người dùng chọn chức năng 'Lịch sử Buổi Tutor'. \\
+    \hline
+    \bfseries Precondition & - Hệ thống BKArch đang hoạt động. \newline - Người dùng đã đăng nhập thành công. \\
+    \hline
+    \bfseries Postcondition & - \textbf{Thành công}: Hiển thị danh sách và chi tiết các buổi Tutor đã diễn ra. \\
+    \hline
+    \bfseries Normal Flow & 1. Người dùng chọn chức năng 'Xem Lịch sử Buổi Tutor'. \newline 2. Hệ thống truy xuất dữ liệu các buổi Tutor của sinh viên. \newline 3. Hệ thống hiển thị danh sách và chi tiết các buổi Tutor. \\
+    \hline
+    \bfseries Exception Flow & E1. Lỗi kết nối CSDL: Hệ thống ghi log và hiển thị lỗi. \\
+    \hline
+    \bfseries Alternative Flow & A1. Lọc danh sách Buổi Tư vấn: \newline a. Người dùng lọc ra các buổi Tutor dựa trên Học Kỳ, Môn Học, ... \newline b. Hệ thống hiện thị danh sách buổi Tutor đã được lọc. \\
+    \hline
+\end{longtable}
+% Kết thúc Use-case UCT003
+
+% Bắt đầu Use-case UCT004: Tổng hợp Báo cáo Cộng Điểm Rèn luyện (Lưu ý: Actor là Sinh viên, nhưng được đặt trong phân nhóm P.CTSV của hệ thống)
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+    %\caption{Tổng hợp Báo cáo Cộng Điểm Rèn luyện (UCT004)} \label{table:UCT004} \\
+    \hline
+    \bfseries Use-case ID & UC-PCT-04 \\
+    \hline
+    \bfseries Use-case & Tổng hợp Báo cáo Cộng Điểm Rèn luyện \\
+    \hline
+    \bfseries Actor & Sinh viên \\
+    \hline
+    \bfseries Description & Cho phép người dùng tổng hợp và xem báo cáo về việc cộng điểm rèn luyện của sinh viên. \\
+    \hline
+    \bfseries Trigger & Người dùng chọn chức năng 'Tổng hợp Báo cáo Tổng quan'. \\
+    \hline
+    \bfseries Precondition & - Hệ thống BKArch đang hoạt động. \newline - Người dùng đã đăng nhập thành công. \newline - Dữ liệu về danh sách buổi Tư vấn đã được cập nhật đầy đủ. \\
+    \hline
+    \bfseries Postcondition & - \textbf{Thành công}: Hiển thị báo cáo tổng hợp về cộng điểm rèn luyện. \\
+    \hline
+    \bfseries Normal Flow & 1. Người dùng chọn chức năng 'Tổng hợp Báo cáo Cộng Điểm Rèn luyện'. \newline 2. Hệ thống thực hiện tổng hợp dữ liệu. \newline 3. Hệ thống hiển thị báo cáo. \\
+    \hline
+    \bfseries Exception Flow & E1. Lỗi trong quá trình tổng hợp dữ liệu: Hệ thống ghi log và hiển thị lỗi. \newline E2. Lỗi kết nối CSDL: Hệ thống ghi log và hiển thị lỗi. \\
+    \hline
+    \bfseries Alternative Flow & A1. Không có dữ liệu điểm rèn luyện để tổng hợp: Hệ thống hiển thị danh sách trống. \\
+    \hline
+\end{longtable}
+% Kết thúc Use-case UCT004
+
+% preamble
+
+\subsection{Quản trị viên hệ thống (System Administrator)}
+\includegraphics[width=0.75\linewidth]{image/Admin.drawio.png}
+% --------------------------------
+% ========== NHÓM 1. LOGIN MANAGEMENT ==========
+
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCSA1 \\ \hline
+Use-case & Cấu hình \& bật HCMUT\_SSO \\ \hline
+Actor & SysAdmin \\ \hline
+Description & Cấu hình và bật tính năng đăng nhập hợp nhất qua HCMUT\_SSO. \\ \hline
+Precondition & Có client\_id, client\_secret, redirect URI đã whitelist. \\ \hline
+Postcondition & Người dùng có thể đăng nhập bằng tài khoản HCMUT\_SSO. \\ \hline
+Trigger & SysAdmin cần bật đăng nhập hợp nhất để triển khai hệ thống. \\ \hline
+Normal Flow &
+1. SysAdmin đăng nhập vào hệ thống quản trị. \newline
+2. Chọn menu System Settings → Authentication → SSO Integration. \newline
+3. Nhập client\_id, client\_secret, redirect URI, discovery URL. \newline
+4. Nhấn Test Connection. \newline
+5. Hệ thống gửi request đến HCMUT\_SSO và nhận về JWKS. \newline
+6. Hệ thống hiển thị kết quả “Connection Successful”. \newline
+7. SysAdmin nhấn Save \& Enable để bật SSO. \\ \hline
+Exception Flow &
+E1: Sai client\_id hoặc client\_secret $\rightarrow$ Hệ thống báo \textit{Invalid credentials}. \newline
+E2: Timeout kết nối $\rightarrow$ Hiển thị banner \textit{SSO Service not reachable}. \newline
+E3: Lỗi lưu cấu hình $\rightarrow$ Rollback và báo \textit{Cannot save configuration}. \\ \hline
+% Alternative Flow & SysAdmin có thể mở Advanced Options (issuer, clock skew) rồi test lại trước khi lưu. \\ \hline
+Alternative Flow & Không có. \\ \hline
+\end{longtable}
+
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCSA2 \\ \hline
+Use-case & Giám sát \& buộc đăng xuất \\ \hline
+Actor & SysAdmin \\ \hline
+Description & Theo dõi tình trạng phiên đăng nhập và buộc logout khi cần. \\ \hline
+Precondition & SSO đã được bật. \\ \hline
+Postcondition & Phiên người dùng bị ngắt, trạng thái được cập nhật trên dashboard. \\ \hline
+Trigger & SysAdmin cần chấm dứt phiên rủi ro. \\ \hline
+Normal Flow &
+1. SysAdmin mở Monitoring → Active Sessions. \newline
+2. Dashboard hiển thị danh sách user đang đăng nhập. \newline
+3. SysAdmin lọc user theo tên/email/khoa. \newline
+4. Chọn một hoặc nhiều user. \newline
+5. Nhấn Force Logout. \newline
+6. Hệ thống hiển thị hộp thoại xác nhận → SysAdmin đồng ý. \newline
+7. Hệ thống gửi lệnh huỷ session tới SSO. \newline
+8. Log lưu lại hành động. \\ \hline
+Exception Flow &
+E1: Mất kết nối với SSO $\rightarrow$ Banner \textit{SSO temporarily unavailable}. \newline
+E2: SysAdmin không đủ quyền $\rightarrow$ Báo lỗi \textit{Permission Denied}. \\ \hline
+Alternative Flow & Không có. \\ \hline
+\end{longtable}
+
+% ========== NHÓM 2. USER MANAGEMENT ==========
+
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCSA3 \\ \hline
+Use-case & Duyệt \& phê duyệt hồ sơ tutor \\ \hline
+Actor & SysAdmin \\ \hline
+Description & Quản lý quá trình duyệt hồ sơ tutor trước khi hiển thị công khai. \\ \hline
+Precondition & Tutor đã submit hồ sơ (profile, chứng chỉ, minh chứng). \\ \hline
+Postcondition & Tutor được approve thì xuất hiện trong kết quả tìm kiếm, reject thì lưu lý do. \\ \hline
+Trigger & Có tutor gửi hồ sơ chờ duyệt. \\ \hline
+Normal Flow &
+1. SysAdmin vào User Management → Tutors → Pending Applications. \newline
+2. Hệ thống hiển thị danh sách tutor chờ duyệt. \newline
+3. SysAdmin chọn một hồ sơ → xem chi tiết. \newline
+4. Nếu hợp lệ → nhấn Approve. \newline
+5. Nếu chưa đủ → nhấn Reject, nhập lý do. \newline
+6. Hệ thống gửi email thông báo cho tutor. \newline
+7. Nếu approved → hệ thống gán role tutor và hiển thị. \\ \hline
+Exception Flow &
+E1: Hồ sơ thiếu minh chứng $\rightarrow$ Cảnh báo \textit{Missing documents}. \newline
+E2: Lỗi cập nhật DB $\rightarrow$ Rollback, báo \textit{Failed to update status}. \\ \hline
+Alternative Flow & SysAdmin có thể gửi Request More Info thay vì Reject. \\ \hline
+\end{longtable}
+
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCSA4 \\ \hline
+Use-case & Quản lý role \& phân quyền \\ \hline
+Actor & SysAdmin \\ \hline
+Description & Thiết lập quy tắc ánh xạ claim → role hệ thống. \\ \hline
+Precondition & Hệ thống nhận claim từ SSO/DATACORE. \\ \hline
+Postcondition & Role được cập nhật tự động mỗi lần login hoặc refresh. \\ \hline
+Trigger & Admin cần thiết lập quy tắc RBAC. \\ \hline
+Normal Flow &
+1. SysAdmin mở Access Control → Role Mapping Rules. \newline
+2. Nhấn Add New Rule. \newline
+3. Chọn nguồn claim. \newline
+4. Nhập điều kiện. \newline
+5. Chọn role ánh xạ. \newline
+6. Nhấn Test Rule với user mẫu. \newline
+7. Nhấn Publish để áp dụng. \\ \hline
+Exception Flow &
+E1: Claim không tồn tại $\rightarrow$ Cảnh báo \textit{Claim missing}, gán mặc định student. \newline
+E2: Xung đột rule $\rightarrow$ Hiển thị mâu thuẫn, yêu cầu sắp xếp ưu tiên. \\ \hline
+Alternative Flow & Import/Export rule dưới dạng JSON/YAML. \\ \hline
+\end{longtable}
+
+% ========== NHÓM 3. CONTENT MANAGEMENT ==========
+
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCSA5 \\ \hline
+Use-case & Quản lý danh mục môn học \& timeslot \\ \hline
+Actor & SysAdmin \\ \hline
+Description & Quản trị danh mục môn học, học kỳ và khung giờ học. \\ \hline
+Precondition & Hệ thống có module catalog. \\ \hline
+Postcondition & Danh mục môn học \& timeslot luôn đồng bộ. \\ \hline
+Trigger & Có nhu cầu cập nhật danh mục. \\ \hline
+Normal Flow &
+1. SysAdmin mở Catalog → Subjects/Timeslots. \newline
+2. Nhấn Add New. \newline
+3. Nhập thông tin môn học/timeslot. \newline
+4. Nhấn Save. \newline
+5. Danh mục cập nhật ngay cho sinh viên/tutor. \newline
+6. Với dữ liệu đã tham chiếu → chỉ cho phép Archive. \\ \hline
+Exception Flow &
+E1: Trùng mã môn học $\rightarrow$ Báo \textit{Duplicate Subject Code}. \newline
+E2: Xoá môn đang dùng $\rightarrow$ Chặn xoá, yêu cầu Archive. \\ \hline
+Alternative Flow & Không có. \\ \hline
+\end{longtable}
+
+
+% ========== NHÓM 4. SYSTEM MANAGEMENT ==========
+
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCSA6 \\ \hline
+Use-case & Giám sát tích hợp \& báo cáo \\ \hline
+Actor & SysAdmin \\ \hline
+Description & Theo dõi sức khỏe hệ thống và xuất báo cáo tích hợp. \\ \hline
+Precondition & Các tích hợp đã bật (SSO, DATACORE, LIBRARY). \\ \hline
+Postcondition & Báo cáo đầy đủ giúp giám sát, audit minh bạch. \\ \hline
+Trigger & Admin cần giám sát hệ thống. \\ \hline
+Normal Flow &
+1. SysAdmin mở Reports → Integration Dashboard. \newline
+2. Hệ thống hiển thị KPI: login SSO, sync/day, mapping errors, library access. \newline
+3. SysAdmin lọc theo thời gian, nguồn. \newline
+4. Nhấn KPI bất thường để xem log chi tiết. \newline
+5. Xuất CSV/PDF. \newline
+6. Audit log việc export. \\ \hline
+Exception Flow &
+E1: Job sync fail $\rightarrow$ Banner đỏ + link “View Logs”. \newline
+E2: Thiếu quyền Export $\rightarrow$ Báo \textit{Restricted Access}. \\ \hline
+Alternative Flow & Đặt lịch gửi báo cáo định kỳ. \\ \hline
+\end{longtable}
+
+\begin{longtable}{|>{\bfseries}p{3cm}|p{10cm}|}
+\hline
+Use-case ID & UCSA7 \\ \hline
+Use-case & Cấu hình tích hợp HCMUT\_LIBRARY \\ \hline
+Actor & SysAdmin \\ \hline
+Description & Kết nối hệ thống với HCMUT\_LIBRARY để quản lý tài liệu tutor. \\ \hline
+Precondition & Có OAuth/API key hợp lệ từ LIBRARY. \\ \hline
+Postcondition & Người dùng truy cập tài liệu đúng quyền. \\ \hline
+Trigger & Admin cần tích hợp LIBRARY. \\ \hline
+Normal Flow &
+1. SysAdmin vào Integrations → Library. \newline
+2. Nhập OAuth/API key. \newline
+3. Chọn scope cho từng role. \newline
+4. Nhấn Save. \newline
+5. Chạy Test Access với user mẫu → hiển thị OK. \\ \hline
+Exception Flow &
+E1: Token hết hạn $\rightarrow$ Tự refresh; nếu fail → cảnh báo. \newline
+E2: Scope không hợp lệ $\rightarrow$ Báo \textit{Invalid Scope}. \\ \hline
+Alternative Flow & Không có. \\ \hline
+\end{longtable}
+
+\subsection{Điều phối viên}
+\includegraphics[width=\textwidth]{image/ĐPV1.drawio.png}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-COORD-001 \\
+\hline
+\textbf{Use-case} & Quản lý buổi tư vấn \\
+\hline
+\textbf{Actor} & Điều phối viên \\
+\hline
+\textbf{Description} & Cho phép điều phối viên theo dõi tiến độ chương trình tutor, phân bổ tutor cho nhóm sinh viên, xử lý các vấn đề phát sinh trong quá trình triển khai buổi tư vấn. \\
+\hline
+\textbf{Precondition} & 
+Dữ liệu nhóm sinh viên, lịch tutor, trạng thái buổi đã được cập nhật. \\
+\hline
+\textbf{Trigger} & Điều phối viên truy cập dashboard quản lý chương trình tutor. \\
+\hline
+\textbf{Normal Flow} & 
+1. Điều phối viên mở giao diện quản lý chương trình. \newline
+2. Hệ thống hiển thị danh sách nhóm sinh viên, trạng thái tutor, số buổi đã diễn ra. \newline
+3. Điều phối viên phân bổ tutor cho nhóm chưa có người phụ trách. \newline
+4. Điều phối viên theo dõi tiến độ từng nhóm, xem cảnh báo học tập. \newline
+5. Nếu phát sinh sự cố (tutor nghỉ, sinh viên phản hồi tiêu cực), điều phối viên xử lý hoặc thay thế. \\
+\hline
+\textbf{Alternative Flow} & 
+A1 - Ghép lại nhóm: Nếu nhóm có quá ít sinh viên, điều phối viên có thể gộp nhóm và phân bổ lại tutor. \newline
+A2 - Tạm khóa buổi: Nếu buổi có vấn đề, điều phối viên có thể khóa trạng thái để chờ xử lý. \\
+\hline
+\textbf{Postcondition} & 
+1. Các nhóm sinh viên được phân bổ tutor đầy đủ. \newline
+2. Các sự cố phát sinh được ghi nhận và xử lý. \\
+\hline
+\textbf{Exception Flow} & 
+E1 - Thiếu tutor: Hệ thống cảnh báo “Không đủ tutor để phân bổ”, điều phối viên cần gửi yêu cầu tuyển bổ sung. \newline
+E2 - Lỗi cập nhật trạng thái: Hệ thống không ghi nhận thay đổi, hiển thị lỗi và cho phép thử lại. \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3.5cm}|p{9.5cm}|}
+\hline
+\textbf{Use-case ID} & UC-COORD-002 \\
+\hline
+\textbf{Use-case} & Tổng hợp báo cáo chương trình tutor \\
+\hline
+\textbf{Actor} & Điều phối viên \\
+\hline
+\textbf{Description} & Cho phép điều phối viên tổng hợp báo cáo định kỳ về tiến độ chương trình tutor, mức độ tham gia, chất lượng phản hồi để gửi tới các đơn vị liên quan như PĐT, Khoa, CTSV. \\
+\hline
+\textbf{Precondition} & 
+Dữ liệu buổi tutor, phản hồi sinh viên, đánh giá từ tutor đã được ghi nhận đầy đủ. \\
+\hline
+\textbf{Trigger} & Điều phối viên truy cập mục “Tổng hợp báo cáo” từ dashboard. \\
+\hline
+\textbf{Normal Flow} & 
+1. Điều phối viên mở giao diện báo cáo. \newline
+2. Hệ thống hiển thị bộ lọc theo học kỳ, ngành, nhóm tutor. \newline
+3. Điều phối viên chọn phạm vi cần báo cáo. \newline
+4. Hệ thống tổng hợp số liệu: số buổi đã diễn ra, tỷ lệ tham gia, cảnh báo học tập, mức độ hài lòng. \newline
+5. Điều phối viên xuất báo cáo PDF hoặc Excel. \newline
+6. Báo cáo được gửi tới các đơn vị liên quan. \\
+\hline
+\textbf{Alternative Flow} & 
+A1 - Báo cáo theo lớp: Điều phối viên chọn lớp cụ thể để tạo báo cáo chi tiết. \newline
+A2 - Báo cáo theo nhóm tutor: Điều phối viên lọc theo từng tutor để đánh giá hiệu quả. \\
+\hline
+\textbf{Postcondition} & 
+1. Báo cáo được trích xuất thành công. \newline
+2. Các đơn vị liên quan nhận được dữ liệu để phục vụ quản lý và cải tiến chương trình. \\
+\hline
+\textbf{Exception Flow} & 
+E1 - Lỗi xuất báo cáo: Hệ thống không tạo được file, hiển thị lỗi và cho phép thử lại. \newline
+E2 - Thiếu dữ liệu: Hệ thống cảnh báo “Dữ liệu chưa đầy đủ để tạo báo cáo”. \\
+\hline
+\end{tabular}
+\end{table}

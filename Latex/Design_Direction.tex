@@ -1,0 +1,152 @@
+\subsection{Định hướng kỹ thuật}
+\subsubsection{Mô hình Server-Client}
+Mô hình Server-Client (Máy chủ - Máy khách) là một mô hình kiến trúc trong đó các chức năng được phân chia rõ ràng:
+
+\begin{itemize}
+    \item \textbf{Server (Máy chủ)}: Đóng vai trò là một nhà cung cấp dịch vụ (service provider). Nó là một máy tính (hoặc hệ thống phần mềm) mạnh mẽ, luôn trong trạng thái chờ đợi và lắng nghe các yêu cầu từ client. Khi nhận được yêu cầu, server sẽ xử lý và cung cấp tài nguyên, dữ liệu hoặc dịch vụ phù hợp trả về cho client.
+    \item \textbf{Client (Máy khách)}: Đóng vai trò là người yêu cầu dịch vụ (service requester). Nó là một thiết bị (máy tính, điện thoại, trình duyệt web, ứng dụng) gửi yêu cầu đến server để sử dụng tài nguyên hoặc dịch vụ mà server cung cấp.
+\end{itemize}
+
+\noindent Việc lựa chọn kiến trúc máy khách-máy chủ thay vì mạng ngang hàng (P2P) thường mang lại lợi thế khi các yêu cầu cụ thể về kiểm soát tập trung, bảo mật, khả năng mở rộng và tính tin cậy là yếu tố tối quan trọng.
+
+\textbf{Lý do nên chọn mô hình Máy khách-Máy chủ:}
+
+\begin{enumerate}
+    \item \textbf{Quản lý và kiểm soát tập trung}:  
+    Mô hình máy khách-máy chủ cho phép một cơ quan có thẩm quyền tập trung (máy chủ) quản lý tài nguyên, dữ liệu và quyền truy cập của người dùng. Điều này giúp đơn giản hóa công tác quản trị, cập nhật và bảo trì hệ thống tổng thể.
+    
+    \item \textbf{Bảo mật nâng cao}:  
+    Với một máy chủ tập trung, các biện pháp bảo mật có thể được triển khai và thực thi một cách nhất quán trên tất cả các máy khách. Dữ liệu có thể được lưu trữ và bảo vệ trong một môi trường được kiểm soát chặt chẽ, đồng thời các quyền truy cập có thể được quản lý một cách chính xác. Ngược lại, các mạng P2P có thể dễ bị tổn thương hơn trước các vi phạm bảo mật vì mỗi peer (nút ngang hàng) đều là một điểm tấn công tiềm năng.
+    
+    \item \textbf{Khả năng mở rộng}:  
+    Kiến trúc máy khách-máy chủ nhìn chung có khả năng mở rộng tốt hơn, cho phép bổ sung thêm nhiều máy khách và tài nguyên mà không ảnh hưởng đáng kể đến hiệu suất. Các máy chủ chuyên dụng có thể được nâng cấp và tối ưu hóa để xử lý khối lượng công việc ngày càng tăng.
+    
+    \item \textbf{Độ tin cậy và khả năng sẵn sàng cao}:  
+    Một máy chủ được bảo trì tốt có thể mang lại thời gian hoạt động liên tục (uptime) và độ tin cậy cao hơn so với mạng P2P, nơi khả năng sẵn có của tài nguyên phụ thuộc vào việc từng peer riêng lẻ có đang trực tuyến và hoạt động hay không.
+    
+    \item \textbf{Tính nhất quán và toàn vẹn dữ liệu}:  
+    Việc lưu trữ dữ liệu tập trung trên máy chủ đảm bảo tính nhất quán và toàn vẹn của thông tin trên tất cả các máy khách, ngăn ngừa các xung đột hoặc sai lệch tiềm ẩn có thể phát sinh trong môi trường P2P phi tập trung.
+    
+    \item \textbf{Hiệu suất tốt hơn cho các ứng dụng cụ thể}:  
+    Đối với các ứng dụng đòi hỏi xử lý hiệu năng cao, lưu trữ dữ liệu lớn hoặc các thao tác phức tạp, một máy chủ chuyên dụng có thể cung cấp các tài nguyên và sức mạnh xử lý cần thiết một cách hiệu quả hơn so với các peer riêng lẻ.
+    
+    \item \textbf{Khắc phục sự cố dễ dàng hơn}:  
+    Với một điểm kiểm soát tập trung, việc xác định và giải quyết các sự cố trong mạng máy khách-máy chủ thường đơn giản và trực quan hơn so với việc chẩn đoán vấn đề trên vô số các peer riêng lẻ trong một hệ thống P2P.
+\end{enumerate}
+
+\subsubsection{ReactJS}
+
+ReactJS là một thư viện JavaScript phổ biến dùng để xây dựng giao diện người dùng (UI) theo hướng component.  
+
+Trong project này, nhóm sử dụng ReactJS cho phần \textbf{Frontend}:  
+\begin{itemize}
+    \item \textbf{Quản lý UI}: Chia nhỏ giao diện thành các component tái sử dụng.  
+    \item \textbf{Tương tác động}: Kết hợp với CSS/JavaScript để tạo trải nghiệm người dùng mượt mà.  
+    \item \textbf{Render phía client}: Áp dụng mô hình \textit{Client-Side Rendering (CSR)}.  
+\end{itemize}
+
+\textbf{Ưu điểm khi sử dụng ReactJS:}
+\begin{enumerate}
+    \item \textbf{Component-based}: Cho phép tái sử dụng và quản lý UI dễ dàng.
+    \item \textbf{Hiệu năng cao}: Virtual DOM giúp render nhanh và tối ưu.
+    \item \textbf{Hệ sinh thái phong phú}: Tích hợp dễ dàng với Redux, React Router, Next.js.
+    \item \textbf{Phù hợp cho SPA}: Đặc biệt thích hợp cho ứng dụng Single Page Application hiện đại.
+\end{enumerate}
+
+\subsubsection{ExpressJS}
+
+ExpressJS là một framework web tối giản cho Node.js, được sử dụng để xây dựng backend và API.
+
+Trong project này, nhóm sử dụng ExpressJS cho phần \textbf{Backend}:  
+\begin{itemize}
+    \item \textbf{Xử lý HTTP request}: Tiếp nhận và phản hồi dữ liệu từ client.  
+    \item \textbf{Routing}: Định nghĩa các đường dẫn và API endpoint.  
+    \item \textbf{Middleware}: Quản lý xác thực, logging, xử lý lỗi.  
+    \item \textbf{Kết nối cơ sở dữ liệu}: Truy xuất và lưu trữ dữ liệu.  
+\end{itemize}
+
+\textbf{Ưu điểm khi sử dụng ExpressJS:}
+\begin{enumerate}
+    \item \textbf{Nhẹ và tối giản}: Cung cấp các chức năng cốt lõi, dễ học và dễ triển khai.
+    \item \textbf{Linh hoạt}: Cho phép tích hợp nhiều middleware và thư viện tuỳ chỉnh.
+    \item \textbf{Khả năng mở rộng}: Phù hợp cho cả ứng dụng nhỏ lẫn hệ thống lớn.
+    \item \textbf{Hiệu suất cao}: Tối ưu cho việc xây dựng RESTful API và microservices.
+\end{enumerate}
+
+\subsubsection{Git và GitHub}
+Git là hệ thống quản lý phiên bản phân tán, giúp ghi lại mọi thay đổi trong mã nguồn. GitHub là dịch vụ lưu trữ trên web dành cho các dự án sử dụng Git, cung cấp các công cụ để cộng tác.
+
+\textbf{Điểm cộng khi dùng Git/GitHub cho một dự án app/web:}
+\begin{itemize}
+    \item \textbf{Quản lý phiên bản an toàn:}  
+    Theo dõi mọi thay đổi code, dễ dàng khôi phục lại trạng thái ổn định trước đó nếu xảy ra lỗi.
+
+    \item \textbf{Hợp tác nhóm hiệu quả:}  
+    Nhiều người có thể làm việc song song trên các tính năng khác nhau và hợp nhất lại một cách dễ dàng, tránh xung đột.
+
+    \item \textbf{Theo dõi công việc minh bạch:}  
+    Sử dụng Issues và Pull Requests để phân công task, thảo luận và kiểm tra code trước khi đưa vào dự án chính.
+
+    \item \textbf{Triển khai tự động (CI/CD):}  
+    Tích hợp với các công cụ để tự động kiểm thử, build và triển khai ứng dụng lên môi trường production.
+\end{itemize}
+
+\subsection{Định hướng mở rộng và nâng cấp} 
+Hệ thống có thể được mở rộng và tích hợp thêm các tính năng sau: tích hợp trí thông minh nhân tạo (AI), xây dựng các tính năng cộng đồng, trang diễn đàn cho sinh viên, hỗ trợ thực hiện các chương trình học thuật và phi học thuật.
+
+\subsubsection{Tích hợp AI}
+AI được tích hợp vào để đánh giá, phân tích tình hình học tập của sinh viên cũng như hỗ trợ sinh viên trong học tập.
+\begin{itemize}
+    \item \textbf{Phân tích, đánh giá tình hình học tập của sinh viên:}
+    Tổng hợp lại điểm số của sinh viên qua từng kỳ, đánh giá tình hình hiện tại của sinh viên, đưa ra các cảnh báo hoặc lưu ý khi thấy điểm số có biến động .
+    
+    \item  \textbf{Hỗ trợ sinh viên trong học tập:}
+    Dựa vào số liệu tổng hợp được và nhu cầu của từng sinh viên, đưa ra các lộ trình học tập phù hợp với từng cá nhân. Sử dụng các kỹ thuật AI để tối ưu hóa việc ghép đôi giữa giảng viên và sinh viên dựa trên các tiêu chí cụ thể như lĩnh vực chuyên môn của giảng viên và nhu cầu hỗ trợ của sinh viên.
+\end{itemize}
+
+\subsubsection{Xây dựng các tính năng cộng đồng và các diễn đàn:}
+Cung cấp các tính năng cộng đồng và các diễn đàn trực tuyến, nơi sinh viên và giảng viên có thể kết nối, thảo luận và chia sẻ kiến thức, tạo ra một môi trường học tập và trao đổi mở rộng bên ngoài các buổi học trên lớp. 
+
+\textbf{Diễn đàn thảo luận:}
+\begin{itemize}
+    \item \textbf{Tạo bài viết và chủ đề:}
+    Giảng viên và sinh viên có thể đăng các câu hỏi, chia sẻ tài liệu hữu ích, và bắt đầu các cuộc thảo luận về các môn học hoặc lĩnh vực chuyên môn.
+    
+    \item \textbf{Phân loại chủ đề:}
+    Chủ đề có thể được phân loại theo môn học, ngành học hoặc các thẻ (tag) liên quan để dễ dàng tìm kiếm và theo dõi.
+
+    \item \textbf{Bình luận và tương tác:}
+    Người dùng có thể bình luận, trả lời, và tương tác với bài viết của người dùng khác, trao đổi kiến thức và kinh nghiệm.
+\end{itemize}
+
+\textbf{Tính năng cộng đồng:}
+\begin{itemize}
+    \item \textbf{Nhóm học tập:}
+    Cho phép người dùng tạo các nhóm học tập nhỏ để cùng nhau làm bài tập hoặc ôn thi.
+
+    \item \textbf{Tin nhắn riêng tư:}
+    Các sinh viên, giảng viên có thể gửi tin nhắn cho nhau, có thể đánh dấu tin nhắn quan trọng.
+
+    \item \textbf{Thông báo và cập nhật:}
+    Thông báo cho người dùng về các tin nhắn riêng tư, các tin nhắn cộng đồng cũng như các bình luận trong bài viết mà người dùng đang theo dõi trong diễn đàn. Những tin nhắn quan trọng sẽ được làm nổi bật lên.
+\end{itemize}
+
+\subsubsection{Chương trình học thuật và phi học thuật:}
+Hệ thống hỗ trợ các chương trình học thuật và phi học thuật do nhà trường hoặc bên thứ ba thông qua nhà trường tổ chức.
+\begin{itemize}
+    \item \textbf{Tổ chức chương trình:}
+    Những chương trình tổ chức sẽ được tổng hợp lại trong một trang riêng. Phân loại ra các hoạt động đã tổ chức và đang tổ chức. Mỗi hoạt động sẽ có thông tin chi tiết và cách tham dự.
+
+    \item \textbf{Hỗ trợ sinh viên:}
+    Hệ thống sẽ lưu trữ lại và hiển thị ra những chương trình mà sinh viên đã tham dự.
+\end{itemize}
+
+\subsubsection{Cá nhân hoá học tập:}
+Hệ thống áp dụng AI để đưa ra phương pháp học tập, tài liệu học tập phù hợp với nhu cầu và mục tiêu của mỗi sinh viên.
+\begin{itemize}
+    \item \textbf{Phân tích tình hình học tập:}
+    Theo dõi tiến độ học tập và xác định các môn sinh viên đang gặp khó khăn.
+
+    \item \textbf{Đề xuất phương pháp học tập phù hợp:}
+    Đề xuất các tài liệu, bài giảng, bài tập hoặc các buổi tư vấn chuyên sâu phù hợp với điểm yếu của từng sinh viên. Sinh viên có thể lựa chọn phương pháp học tập phù hợp như tự học, học nhóm hoặc tư vấn 1-1 với giảng viên.
+\end{itemize}

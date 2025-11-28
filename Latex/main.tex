@@ -1,0 +1,279 @@
+\documentclass[a4paper, 16pt]{article}
+\usepackage{a4wide,amssymb,epsfig,latexsym,multicol,array,hhline,fancyhdr}
+\usepackage{vntex}
+\usepackage{amsmath}
+\usepackage{lastpage}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}							% Standard graphics package
+\usepackage{float}
+\usepackage{fancybox}
+\usepackage{array}
+\usepackage{tabularx, caption}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{epsfig}
+\usepackage{courier}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows,snakes,backgrounds}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{relsize}
+\usepackage{longtable}
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true} 
+%\usepackage{pstcol} 								% PSTricks with the standard color package
+\newtheorem{definition}{{\bf Định nghĩa}}
+\newtheorem{theorem}{{\bf Theorem}}
+\newtheorem{property}{{\bf Property}}
+\newtheorem{proposition}{{\bf Proposition}}
+\newtheorem{corollary}[proposition]{{\bf Corollary}}
+\newtheorem{lemma}[proposition]{{\bf Lemma}}
+%\everymath{\color{blue}}%make in-line maths symbols blue to read/check easily
+
+\AtBeginDocument{\renewcommand*\contentsname{Nội dung}}
+%\usepackage{fancyhdr}
+\setlength{\headheight}{40pt}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+ \begin{tabular}{rl}
+    \begin{picture}(25,15)(0,0)
+    \put(0,-8){\includegraphics[width=8mm, height=8mm]{image/hcmut.png}}
+    %\put(0,-8){\epsfig{width=10mm,figure=hcmut.eps}}
+   \end{picture}
+	%\includegraphics[width=8mm, height=8mm]{Images/hcmut.png} & %
+	\begin{tabular}{l}
+		\textbf{\bf \ttfamily University of Technology, Ho Chi Minh City}\\
+		\textbf{\bf \ttfamily Faculty of Computer Science and Engineering}
+	\end{tabular} 	
+ \end{tabular}
+}
+\fancyhead[R]{
+	\begin{tabular}{l}
+		\tiny \bf \\
+		\tiny \bf 
+	\end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\fancyfoot[R]{\scriptsize \ttfamily Page {\thepage}/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+
+%%%
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus-1ex \@minus-.2ex}%
+                                     {1.5ex \@plus.2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{black}{rgb}{0.0,0.0,0.0}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ \lstset{frame=tb,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\normalsize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    identifierstyle=\color{black},
+    language=C,
+ }
+\begin{document}
+\begin{titlepage}
+\begin{center}
+ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH \\
+TRƯỜNG ĐẠI HỌC BÁCH KHOA \\
+KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH
+\end{center}
+
+\vspace{1cm}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=3cm]{image/hcmut.png}
+\end{center}
+\end{figure}
+
+\vspace{1cm}
+
+
+\begin{center}
+\begin{tabular}{c}
+
+\multicolumn{1}{l}{\textbf{{\Large CÔNG NGHỆ PHẦN MỀM (CO3001)}}}\\
+~~\\
+\hline
+\\
+\multicolumn{1}{l}{\textbf{{\Large Báo cáo bài tập lớn}}}\\
+\\
+
+\textbf{{\Large BKArch: Hệ thống hỗ trợ chương trình Tutor/Mentor}}\\
+\\
+
+\\
+\hline
+\end{tabular}
+\end{center}
+\vspace{0.2cm}
+\begin{center}
+Giảng viên hướng dẫn:  Mai Đức Trung\\
+\vspace{0.7cm}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{STT} & \textbf{Họ tên SV} & \textbf{MSSV} & \textbf{Lớp} \\
+\hline 
+%%%%%Student 1%%%%%%%%%%
+{1} & {Nguyễn Đức Nghĩa}& {2312266} & {L03}\\
+\hline 
+%%%%%Student 2%%%%%%%%%%%
+{2} & {Phan Huy Quang Minh} & {2312105} & {L03}\\
+
+\hline
+%%%%%Student 3%%%%%%%%%%%
+{3} & {Ngô Thanh Hùng} & {2311289 } & {L03} \\
+
+\hline
+%%%%%Student %%%%%%%%%%%
+{4} & {Nguyễn Đắc Nghĩa} & {2312265 } & {L03} \\
+
+\hline
+{5} & {Hà Cao Đức Minh} & {2312059} & {L03} \\
+
+\hline
+{6} & {Nguyễn Trí Hải} & {2314047} & {L02} \\
+
+\hline
+{7} & {Trần Tiến Khải} & {2311566 
+} & {L03} \\
+
+\hline
+
+
+\end{tabular}
+
+\vfill
+Thành phố Hồ Chí Minh, tháng 10 năm 2025
+
+\end{center}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% Member list
+\begin{center}
+\section*{Danh sách thành viên và khối lượng công việc}
+\end{center}
+\addcontentsline{toc}{section}{Danh sách thành viên và khối lượng công việc}
+
+% \begin{center}
+% \begin{table}[H]
+% \centering
+% \begin{tabularx}{\textwidth}{|c|c|c|X|c|}
+% \hline
+% \textbf{STT} & \textbf{Họ và tên} & \textbf{MSSV} & \textbf{Vấn đề} & \textbf{\% hoàn thành}\\
+% \hline 
+% %%%%%Student 1%%%%%%%%%%
+% \multirow{1}{*}{1} & \multirow{1}{*}{} & \multirow{1}{*}{} & A 
+%  & \multirow{1}{*}{100\%}\\
+% \hline 
+% %%%%%Student 2%%%%%%%%%%%
+% \multirow{1}{*}{2} & \multirow{1}{*}{} & \multirow{1}{*}{} & 
+% B & \multirow{1}{*}{100\%}\\
+
+% \hline
+% %%%%%Student 3%%%%%%%%%%%
+% \multirow{1}{*}{3} & \multirow{1}{*}{} & \multirow{1}{*}{} & 
+% C & \multirow{1}{*}{100\%}\\
+
+% \hline
+% %%%%%Student 4%%%%%%%%%%%
+% \multirow{1}{*}{4} & \multirow{1}{*}{} & \multirow{1}{*}{} & 
+% D & \multirow{1}{*}{100\%}\\
+% \hline
+% %%%%%Student 5%%%%%%%%%%%
+% \multirow{1}{*}{5} & \multirow{1}{*}{} & \multirow{1}{*}{} & 
+% E & \multirow{1}{*}{100\%}\\
+
+% \hline
+% \end{tabularx}
+% \end{table}
+% \end{center}
+
+\begin{center}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{STT} & \textbf{Họ và tên} & \textbf{MSSV} & \textbf{\% hoàn thành}\\
+\hline 
+%%%%%Student 1%%%%%%%%%%
+\multirow{1}{*}{1} & \multirow{1}{*}{Nguyễn Đức Nghĩa} & \multirow{1}{*}{2312266} & \multirow{1}{*}{100\%}\\
+\hline 
+%%%%%Student 2%%%%%%%%%%%
+\multirow{1}{*}{2} & \multirow{1}{*}{Phan Huy Quang Minh} & \multirow{1}{*}{2312105} & \multirow{1}{*}{100\%}\\
+
+\hline
+%%%%%Student 3%%%%%%%%%%%
+\multirow{1}{*}{3} & \multirow{1}{*}{Ngô Thanh Hùng} & \multirow{1}{*}{2311289} & \multirow{1}{*}{100\%}\\
+
+\hline
+%%%%%Student 4%%%%%%%%%%%
+\multirow{1}{*}{4} & \multirow{1}{*}{Nguyễn Đắc Nghĩa} & \multirow{1}{*}{2312265} & \multirow{1}{*}{100\%}\\
+\hline
+%%%%%Student 5%%%%%%%%%%%
+\multirow{1}{*}{5} & \multirow{1}{*}{Hà Cao Đức Minh} & \multirow{1}{*}{2312059} & \multirow{1}{*}{100\%}\\
+\hline
+%%%%%Student 6%%%%%%%%%%%
+\multirow{1}{*}{6} & \multirow{1}{*}{Nguyễn Trí Hải} & \multirow{1}{*}{2314047} & \multirow{1}{*}{100\%}\\
+\hline
+%%%%%Student 7%%%%%%%%%%%
+\multirow{1}{*}{7} & \multirow{1}{*}{Trần Tiến Khải} & \multirow{1}{*}{2311566} & \multirow{1}{*}{100\%}\\
+\hline
+\end{tabular}
+\end{table}
+\end{center}
+
+\newpage
+
+\input{Introduction}
+\input{Design_Direction}
+\input{Relevant_Stakeholders}
+\input{Functional_Requirements}
+\input{Non-functional_Requirements}
+\input{UCD_Scenario}
+\input{Diagram_UI}
+\input{Diagram_Sub_3.tex}
+\end{document}

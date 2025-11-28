@@ -1,0 +1,258 @@
+\section{Lược đồ triển khai, hiện thực và các lớp hiện thực (Deployment, Implementation and Class Diagram)}
+
+\subsection{Lược đồ triển khai}
+
+\includegraphics[width = \textwidth]{image/SUB3/deploy.drawio.png}
+
+\subsection{Lược đồ hiện thực}
+\subsubsection{Lược đồ hiện thực các component}
+\includegraphics[width = \textwidth]{image/SUB3/Implementation_Component.png}
+Mô tả các component: \\
+Component diagram cung cấp cái nhìn tổng quan về kiến trúc module hóa của hệ thống, được xây dựng dựa trên thành phần trung tâm là BKArch Core. Thành phần này là trung tâm của hệ thống, chịu trách nhiệm chính về các dịch vụ cốt lõi như Session Scheduling (lên lịch buổi tư vấn), User Management (quản lý người dùng), Authentication \& Authorization (xác thực và ủy quyền), cùng với Matching Engine (cơ chế ghép cặp Tutor \- Mentee) quan trọng. \\
+Các thành phần giao diện người dùng bao gồm Student Portal và Tutor Portal, phục vụ vai trò cụ thể: Student Portal cho phép sinh viên Đăng ký và Quản lý/Đặt Lịch, trong khi Tutor Portal tập trung vào việc Quản lý Buổi Tư Vấn, Đánh giá Sinh viên và Xem Phản hồi. Cả hai Portal đều sử dụng dịch vụ Evaluation do BKArch Core cung cấp và trao đổi dữ liệu Phiên với lõi hệ thống. \\
+Về mặt dữ liệu, Components Database là kho lưu trữ tập trung, cung cấp các giao diện truy cập dữ liệu (DB) chuyên biệt cho Tutor Data, Session Data, Sessions History và Sessions Schedule. BKArch Core là thành phần tiêu thụ chính các dịch vụ từ Database. \\
+Cuối cùng, hệ thống tích hợp các thành phần quản trị và ngoại vi. Admin quản lý người dùng và hệ thống thông qua BKArch Core. PĐT (Phòng Đào Tạo) có trách nhiệm Assign Tutor (phân công) và View Session Data/Feedback. Hệ thống cũng thể hiện sự phụ thuộc vào External Systems như HCMUT-SSO và HCMUT-Datacore để lấy dữ liệu đầu vào cần thiết cho hoạt động. Mối quan hệ giữa các thành phần được định nghĩa rõ ràng qua các giao diện cung cấp (Provided Interface, như các dịch vụ <<Service>>) và các giao diện yêu cầu (Required Interface), đảm bảo luồng thông tin và nghiệp vụ diễn ra mạch lạc và có tổ chức.
+\subsubsection{Lược đồ hiện thực các Package}
+\includegraphics[width = \textwidth]{image/SUB3/Implementation_Package.png}
+Mô tả các package: \\
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item Presentation Layer gồm User Interface, chịu trách nhiệm nhận thao tác của người dùng và gửi các yêu cầu xuống Application Layer. UI chỉ sử dụng các dịch vụ qua quan hệ import và không xử lý nghiệp vụ nội bộ.
+  \item Application Layer bao gồm năm module chính: Authentication Service, Tutoring Service, Session Management, Feedback Service và Reporting Service. Các module này thực thi nghiệp vụ của hệ thống và sử dụng Domain Model thông qua các quan hệ import. Đồng thời, các module truy cập Infrastructure qua access để đọc và ghi dữ liệu vào cơ sở dữ liệu. Một số module như Authentication Service và Session Management còn sử dụng External Integrations qua quan hệ import để liên kết với các hệ thống bên ngoài.
+  \item Authentication Service sử dụng SSO Adapter và Datacore Adapter để xác thực người dùng và đồng bộ thông tin tài khoản từ hệ thống trường. Module này truy cập Infrastructure để lưu trữ và cập nhật dữ liệu người dùng.
+  \item Tutoring Service quản lý các chức năng liên quan đến chương trình tutor--mentee như đăng ký hoặc ghép cặp. Module này sử dụng các mô hình nghiệp vụ từ Domain Model và truy cập Infrastructure để xử lý lưu trữ.
+  \item Session Management chịu trách nhiệm quản lý lịch rảnh, tạo hoặc hủy buổi tư vấn và gửi thông báo. Module này sử dụng Email Adapter để gửi email và truy cập Infrastructure để lưu thông tin phiên làm việc.
+  \item Feedback Service cho phép sinh viên gửi đánh giá và tutor ghi nhận tiến bộ. Module sử dụng Domain Model để xử lý thông tin đánh giá và truy cập Infrastructure để lưu trữ phản hồi.
+  \item Reporting Service tổng hợp dữ liệu từ các module khác để tạo báo cáo cho Bộ môn, Phòng Đào tạo và P.CTSV. Module này sử dụng các mô hình domain liên quan và truy cập Infrastructure để thực hiện các truy vấn.
+  \item Domain Layer chứa các mô hình nghiệp vụ cốt lõi của hệ thống như User Model, Tutoring Model, Session Model và Feedback Model. Domain Model được Application Layer sử dụng qua quan hệ import. Infrastructure và External Integrations sử dụng Domain Model để ánh xạ và lưu trữ dữ liệu.
+  \item Infrastructure Layer cung cấp hạ tầng như repository, kết nối cơ sở dữ liệu, logging và configuration. Module Infrastructure truy cập Domain Model khi thao tác với dữ liệu nghiệp vụ.
+  \item External Integrations bao gồm SSO Adapter, Datacore Adapter, Library Adapter và Email Adapter. Các adapter này sử dụng Domain Model để chuyển đổi dữ liệu giữa hệ thống BKArch và các hệ thống bên ngoài.
+\end{itemize}
+
+\subsection{Lược đồ các lớp hiện thực}
+\includegraphics[width = \textwidth]{image/SUB3/Class Diagram.png}
+Mô tả các lớp hiện thực:
+\subsubsection*{\textbf{Lớp: User (Abstract)}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{login(AuthCredentials credentials) : Session} \\
+    Xác thực người dùng thông qua HCMUT\_SSO và tạo phiên đăng nhập mới. Phương thức này kiểm tra thông tin đăng nhập và trả về session token nếu thành công.
+  \item \textbf{logout() : void} \\
+    Kết thúc phiên làm việc hiện tại của người dùng. Hủy session token và ghi lại thời điểm đăng xuất vào hệ thống.
+  \item \textbf{updateProfile(Map<String,Any> data) : void} \\
+    Cập nhật thông tin cá nhân của người dùng như email, số điện thoại, tên đầy đủ. Phương thức này validate dữ liệu trước khi lưu vào database.
+  \item \textbf{syncDataFromDataCore() : void} \\
+    Đồng bộ dữ liệu người dùng từ HCMUT\_DATACORE. Cập nhật các thông tin như khoa, ngành, năm học từ hệ thống quản lý trung tâm.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: Student}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{searchTutor(Map<String,Any> criteria) : List<Tutor>} \\
+    Tìm kiếm Tutor dựa trên tiêu chí như môn học, khoa, loại Tutor, hình thức dạy học. Trả về danh sách các Tutor phù hợp đang chấp nhận sinh viên mới.
+  \item \textbf{registerCourse(String tutorId, String subject) : CourseRegistration} \\
+    Đăng ký môn học với Tutor cụ thể (Instant Registration). Tạo CourseRegistration mới  và gửi thông báo đến Tutor về sinh viên mới.
+  \item \textbf{viewMyCourses() : List<CourseRegistration>} \\
+    Xem danh sách các khóa học (Tutor + Môn học) mà sinh viên đã đăng ký. Hiển thị thông tin về Tutor, môn học và trạng thái.
+  \item \textbf{requestSession(String tutorId, Map<String,Any> slot) : TutorSession} \\
+    Gửi yêu cầu đặt lịch học với Tutor cho một thời gian cụ thể. Tutor sẽ nhận được thông báo và có thể xác nhận hoặc từ chối yêu cầu này.
+  \item \textbf{cancelSession(String sessionId) : void} \\
+    Hủy buổi học đã đặt trước. Hệ thống sẽ gửi thông báo đến Tutor và cập nhật trạng thái session thành CANCELLED.
+  \item \textbf{viewSessions() : List<TutorSession>} \\
+    Xem danh sách tất cả các buổi tư vấn/lịch hẹn của sinh viên. Bao gồm các buổi đã đăng ký tham gia, đã đặt lịch 1-1 với trạng thái khác nhau (PENDING, CONFIRMED, COMPLETED...).
+  \item \textbf{submitFeedback(String sessionId, Map<String,Any> feedback) : Feedback} \\
+    Gửi phản hồi về buổi học bao gồm comment, điểm mạnh và điểm cần cải thiện của Tutor. Sinh viên có thể chọn gửi phản hồi ẩn danh hoặc công khai.
+  \item \textbf{rateSession(String sessionId, Map<String,Any> rating) : Rating} \\
+    Đánh giá chi tiết buổi học theo các tiêu chí: chất lượng giảng dạy, kỹ năng giao tiếp, sự chuẩn bị và mức độ hữu ích. Điểm đánh giá sẽ ảnh hưởng đến averageRating của Tutor.
+  \item \textbf{viewLearningHistory() : List<SessionReport>} \\
+    Theo dõi lịch sử học tập bao gồm các buổi học đã tham gia, nội dung đã học và đánh giá của Tutor. Giúp sinh viên xem lại quá trình học tập và tiến bộ của mình.
+  \item \textbf{accessLibraryResources() : List<LibraryResource>} \\
+    Truy cập danh sách tài liệu từ thư viện HCMUT liên quan đến môn học đang theo học. Hệ thống tích hợp với HCMUT\_LIBRARY để cung cấp tài liệu phù hợp.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: Tutor}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{setAvailability(List<Availability> slots) : void} \\
+    Thiết lập lịch rảnh cho việc dạy học bao gồm ngày, giờ, địa điểm.
+  \item \textbf{openTutorSession(Map<String,Any> sessionData) : TutorSession} \\
+    Mở buổi tư vấn nhóm công khai cho sinh viên tham gia. Tutor cung cấp thông tin về chủ đề, thời gian, địa điểm.
+  \item \textbf{confirmSession(String sessionId) : void} \\
+    Xác nhận yêu cầu đặt lịch hẹn từ sinh viên. Hệ thống sẽ gửi thông báo xác nhận đến sinh viên và cập nhật trạng thái session thành CONFIRMED.
+  \item \textbf{rejectSession(String sessionId, String reason) : void} \\
+    Từ chối yêu cầu đặt lịch hẹn từ sinh viên với lý do cụ thể. Sinh viên sẽ nhận được thông báo.
+  \item \textbf{viewSessions() : List<TutorSession>} \\
+    Xem danh sách tất cả các buổi tư vấn và lịch hẹn mà Tutor quản lý. Bao gồm các buổi đã mở, yêu cầu đặt lịch đang chờ xử lý và các buổi sắp diễn ra.
+  \item \textbf{manageSession(String sessionId) : void} \\
+    Quản lý buổi học bao gồm cập nhật thông tin, thêm/xóa sinh viên, thay đổi trạng thái session. Tutor có toàn quyền kiểm soát các buổi học do mình tạo.
+  \item \textbf{evaluateStudentProgress(String studentId, Map<String,Any> progress) : ProgressReport} \\
+    Đánh giá tiến bộ học tập của sinh viên theo từng môn học.
+  \item \textbf{viewFeedback() : List<Feedback>} \\
+    Xem tất cả phản hồi từ sinh viên về các buổi học. Giúp Tutor nắm bắt ý kiến đánh giá và cải thiện chất lượng giảng dạy.
+  \item \textbf{prepareSessionReport(String sessionId) : SessionReport} \\
+    Tổng hợp biên bản buổi học bao gồm nội dung đã dạy, mục tiêu đạt được, đánh giá sinh viên và khuyến nghị. Biên bản này được lưu vào hệ thống để theo dõi lịch sử.
+  \item \textbf{viewStudentHistory(String studentId) : List<SessionReport>} \\
+    Xem lịch sử học tập của một sinh viên cụ thể bao gồm các buổi học đã tham gia và biên bản các buổi học. Giúp Tutor hiểu rõ hơn về quá trình học tập của sinh viên.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: FacultyManager}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{viewLearningReport() : Report} \\
+    Xem báo cáo về kết quả học tập của sinh viên trong khoa thông qua chương trình Tutor. Phân tích mức độ cải thiện học tập và hiệu quả của chương trình hỗ trợ.
+  \item \textbf{+ viewStudentReport(studentId: string): Report} \\
+    Phân tích tiến bộ học tập của sinh viên khoa qua các chỉ số như GPA trước/sau tham gia, số môn đã cải thiện, mức độ tham gia. Cung cấp insights để điều chỉnh chính sách hỗ trợ.
+  \item \textbf{exportReport(Map<String,Any> criteria) : File} \\
+    Xuất báo cáo phân tích kết quả học tập ra file. Hỗ trợ việc báo cáo cho Ban Giám hiệu về hiệu quả chương trình.
+\end{itemize}
+
+\subsubsection*{\text{Lớp: AcademicAffairsManager}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{viewOverallReport() : Report} \\
+    Xem báo cáo tổng thể về chương trình Tutor trên toàn trường. Bao gồm dữ liệu từ tất cả các khoa, phân tích xu hướng và đề xuất cải thiện.
+  \item \textbf{exportReport(Map<String,Any> criteria) : File} \\
+    Xuất báo cáo tổng thể ra file để trình bày cho BGH. Hỗ trợ việc ra quyết định về chính sách và ngân sách cho chương trình.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: StudentAffairsManager}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{viewStudentReport(studentId: string): Report} \\
+    Phân tích tiến bộ học tập của sinh viên khoa qua các chỉ số như GPA trước/sau tham gia, số môn đã cải thiện, mức độ tham gia. Cung cấp insights để điều chỉnh chính sách hỗ trợ.
+  \item \textbf{exportReport(Map<String,Any> criteria) : File} \\
+    Xuất báo cáo về hoạt động và điểm rèn luyện của sinh viên ra file. Hỗ trợ công tác quản lý và đánh giá sinh viên.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: Availability}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{isAvailable(Date date, Time time) : Boolean} \\
+    Kiểm tra xem Tutor có rảnh vào ngày giờ cụ thể hay không.
+  \item \textbf{hasConflict(Availability otherSlot) : Boolean} \\
+    Kiểm tra xung đột thời gian giữa hai khung giờ rảnh. Đảm bảo Tutor không thiết lập lịch rảnh trùng lặp hoặc chồng chéo.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: TutorSession}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{open() : void} \\
+    Mở buổi tư vấn để sinh viên có thể đăng ký tham gia. Cập nhật trạng thái session thành OPEN và gửi thông báo đến sinh viên phù hợp.
+  \item \textbf{close() : void} \\
+    Đóng buổi tư vấn, không cho phép thêm sinh viên mới. Có thể đóng khi đã đủ số lượng hoặc khi sắp đến giờ học.
+  \item \textbf{addParticipant(String studentId) : void} \\
+    Thêm sinh viên vào danh sách tham gia buổi tư vấn. Kiểm tra số lượng tối đa trước khi cho phép tham gia.
+  \item \textbf{removeParticipant(String studentId) : void} \\
+    Xóa sinh viên khỏi danh sách tham gia buổi tư vấn. Sinh viên có thể tự hủy hoặc Tutor có thể xóa khi cần thiết.
+  \item \textbf{confirm() : void} \\
+    Xác nhận buổi học/lịch hẹn. Cập nhật trạng thái thành CONFIRMED và gửi thông báo xác nhận đến tất cả người tham gia.
+  \item \textbf{reject(String reason) : void} \\
+    Từ chối yêu cầu đặt lịch hoặc hủy buổi tư vấn với lý do cụ thể. Gửi thông báo từ chối kèm lý do đến người liên quan.
+  \item \textbf{cancel() : void} \\
+    Hủy buổi học đã xác nhận. Gửi thông báo hủy đến tất cả sinh viên đã đăng ký và cập nhật trạng thái thành CANCELLED.
+  \item \textbf{reschedule(Map<String,Any> newSlot) : void} \\
+    Đổi lịch buổi học sang thời gian mới. Gửi thông báo đổi lịch đến tất cả người tham gia và yêu cầu xác nhận lại.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: CourseRegistration}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{getDetails() : Map<String,Any>} \\
+    Lấy thông tin chi tiết về đăng ký bao gồm thông tin Student, Tutor và Subject được populate đầy đủ. Trả về dữ liệu hoàn chỉnh để hiển thị.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: SessionReport}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{create() : void} \\
+    Tạo biên bản mới cho buổi học. Tutor nhập thông tin về nội dung, mục tiêu, kết quả đạt được và đánh giá sinh viên.
+  \item \textbf{update(Map<String,Any> data) : void} \\
+    Cập nhật thông tin biên bản buổi học. Cho phép Tutor sửa đổi nội dung trước khi publish hoặc sau khi nhận phản hồi.
+  \item \textbf{publish() : void} \\
+    Công bố biên bản buổi học cho sinh viên xem. Sau khi publish, sinh viên có thể truy cập và xem nội dung biên bản.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: ProgressReport}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{record() : void} \\
+    Ghi nhận báo cáo tiến bộ của sinh viên. Tutor nhập thông tin về kỹ năng đã cải thiện, điểm cần khắc phục và điểm số đánh giá.
+  \item \textbf{update(Map<String,Any> data) : void} \\
+    Cập nhật báo cáo tiến bộ đã ghi nhận. Cho phép Tutor điều chỉnh đánh giá khi có thêm thông tin mới.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: LibraryResource}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{search(String query) : List<LibraryResource>} \\
+    Tìm kiếm tài liệu trong thư viện theo từ khóa. Tích hợp với HCMUT\_LIBRARY để truy vấn và trả về danh sách tài liệu phù hợp.
+  \item \textbf{access() : File} \\
+    Truy cập file tài liệu từ thư viện. Phương thức này xử lý việc download hoặc xem online tài liệu từ hệ thống thư viện.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: Feedback}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{submit() : void} \\
+    Gửi phản hồi về Tutor sau buổi học.
+  \item \textbf{update(Map<String,Any> data) : void} \\
+    Cập nhật phản hồi đã gửi. Cho phép sinh viên chỉnh sửa nội dung phản hồi trong thời gian cho phép.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: Rating}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{submit() : void} \\
+    Gửi rating về Tutor sau buổi học.
+  \item \textbf{update(Map<String,Float> scores) : void} \\
+    Cập nhật điểm đánh giá theo từng tiêu chí. Cho phép sinh viên điều chỉnh đánh giá và tự động tính lại điểm overall.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: Notification}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{send() : void} \\
+    Gửi thông báo đến người dùng.
+  \item \textbf{markAsRead() : void} \\
+    Đánh dấu thông báo đã đọc. Cập nhật trạng thái isRead thành true và ghi nhận thời gian đọc.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: Report}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{generate(Map<String,Any> criteria) : void} \\
+    Tạo báo cáo dựa trên tiêu chí lọc. Truy vấn dữ liệu từ database, phân tích và tổng hợp thành báo cáo theo định dạng yêu cầu.
+  \item \textbf{export(String format) : File} \\
+    Xuất báo cáo ra file với định dạng chỉ định (PDF, Excel, CSV). Hỗ trợ việc lưu trữ và chia sẻ báo cáo.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: SSOService (Interface)}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{authenticate(AuthCredentials credentials) : AuthToken} \\
+    Xác thực thông tin đăng nhập của người dùng thông qua HCMUT\_SSO. Trả về auth token nếu thông tin đăng nhập hợp lệ.
+  \item \textbf{validateToken(String token) : Boolean} \\
+    Kiểm tra tính hợp lệ của token. Xác minh token chưa hết hạn và chưa bị thu hồi.
+  \item \textbf{getUserRole(String userId) : String} \\
+    Lấy vai trò của người dùng từ hệ thống SSO. Xác định quyền truy cập và chức năng mà người dùng được phép sử dụng.
+  \item \textbf{terminateSession(String sessionId) : void} \\
+    Kết thúc phiên đăng nhập. Vô hiệu hóa session token và logout người dùng khỏi hệ thống.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: DataCoreService (Interface)}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{syncUserData(String userId) : Map<String,Any>} \\
+    Đồng bộ dữ liệu người dùng từ HCMUT\_DATACORE. Lấy thông tin mới nhất về sinh viên/nhân viên và cập nhật vào hệ thống.
+\end{itemize}
+
+\subsubsection*{\textbf{Lớp: LibraryService (Interface)}}
+\begin{itemize}
+  \renewcommand{\labelitemi}{-}
+  \item \textbf{searchResources(String query) : List<LibraryResource>} \\
+    Tìm kiếm tài liệu trong thư viện HCMUT theo từ khóa. Trả về danh sách tài liệu phù hợp từ hệ thống HCMUT\_LIBRARY.
+  \item \textbf{getResourceDetails(String resourceId) : LibraryResource} \\
+    Lấy thông tin chi tiết của tài liệu từ thư viện. Bao gồm tác giả, năm xuất bản, mã tài liệu và URL truy cập.
+  \item \textbf{checkAvailability(String resourceId) : Boolean} \\
+    Kiểm tra tình trạng sẵn có của tài liệu trong thư viện. Xác định tài liệu có đang được mượn hay có sẵn để truy cập.
+\end{itemize}

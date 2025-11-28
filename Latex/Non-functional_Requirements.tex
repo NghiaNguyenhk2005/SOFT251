@@ -1,0 +1,35 @@
+\section{Yêu cầu phi chức năng (Non-Functional Requirements)}
+
+\subsection{Hiệu năng (Performance)}
+Hệ thống phải xử lý yêu cầu đăng ký, đặt lịch và truy xuất
+thông tin trong vòng dưới 2 giây.  
+Hệ thống có khả năng phục vụ đồng thời tối thiểu 5000 người dùng mà không bị gián đoạn.  
+Thời gian phản hồi trung bình cho các thao tác thường xuyên không vượt quá 1 giây.
+
+\subsection{Bảo mật (Security)}
+Tích hợp xác thực tập trung HCMUT\_SSO để đảm bảo đăng nhập an toàn và thống nhất.  
+Dữ liệu cá nhân phải được mã hóa khi lưu trữ và truyền tải.  
+Phân quyền truy cập theo vai trò được đồng bộ từ hệ thống tập trung.  
+Ghi nhận nhật ký truy cập và thao tác để phục vụ kiểm tra bảo mật.
+
+\subsection{Khả năng mở rộng (Scalability)}
+Hệ thống phải có khả năng mở rộng để phục vụ số lượng người dùng tăng theo từng học kỳ.  
+Kiến trúc hệ thống phải hỗ trợ bổ sung các chức năng nâng cao như AI ghép cặp hoặc cộng đồng trực tuyến.
+
+\subsection{Khả năng tích hợp (Interoperability)}
+Tích hợp với HCMUT\_DATACORE để đồng bộ dữ liệu cá nhân và trạng thái học tập.  
+Kết nối với HCMUT\_LIBRARY để chia sẻ tài liệu học tập.  
+Hỗ trợ API để tích hợp với các hệ thống nội bộ khác.
+
+\subsection{Tính khả dụng (Availability)}
+Hệ thống phải hoạt động liên tục 24/7 với thời gian uptime tối thiểu 99.5\% mỗi tháng.  
+Có cơ chế sao lưu và phục hồi dữ liệu định kỳ.
+
+\subsection{Tính dễ sử dụng (Usability)}
+Giao diện thân thiện, hỗ trợ đa thiết bị (máy tính, điện thoại).  
+Có hướng dẫn sử dụng rõ ràng cho từng nhóm người dùng.  
+Hệ thống hỗ trợ tiếng Việt và tiếng Anh.
+
+\subsection{Khả năng giám sát và bảo trì (Maintainability \& Monitoring)}
+Cho phép theo dõi tiến độ học tập, phản hồi chất lượng buổi học, và tổng hợp báo cáo cho các phòng ban.  
+Hệ thống dễ bảo trì, cập nhật và nâng cấp.

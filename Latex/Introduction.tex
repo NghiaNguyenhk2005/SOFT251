@@ -1,0 +1,121 @@
+\section{Tổng quan về dự án}
+\subsection{Bối cảnh và tính cấp thiết}
+Hiện nay, tại Trường Đại học Bách Khoa – ĐHQG TP.HCM, chương trình Tutor/Mentor đã được triển khai nhằm hỗ trợ sinh viên trong quá trình học tập và phát triển kỹ năng, thông qua việc kết nối họ với các giảng viên, nghiên cứu sinh hoặc sinh viên có học lực tốt. Tuy nhiên, công tác quản lý chương trình vẫn đang thực hiện chủ yếu bằng phương pháp thủ công, rời rạc và thiếu một nền tảng thống nhất, gây khó khăn trong việc theo dõi, sắp xếp lịch gặp gỡ, cũng như đánh giá hiệu quả hỗ trợ. Trong bối cảnh số lượng sinh viên tham gia ngày càng tăng, nhu cầu xây dựng một hệ thống số hiện đại, đồng bộ và dễ mở rộng trở nên cấp thiết hơn bao giờ hết. Từ thực tế đó, chúng tôi đã phát triển ứng dụng BKArch với mục tiêu số hóa toàn bộ quy trình của chương trình Tutor/Mentor. Ứng dụng này sẽ giúp đơn giản hóa việc đăng ký, phân công, đặt lịch và quản lý buổi gặp, đồng thời hỗ trợ các bên liên quan dễ dàng theo dõi, đánh giá và khai thác dữ liệu để nâng cao chất lượng học tập cũng như tối ưu hóa nguồn lực của nhà trường.
+
+\subsection{Mục đích và mục tiêu dự án}
+\subsubsection{Mục đích dự án:}
+Ứng dụng hỗ trợ Tutor được xây dựng nhằm:
+\begin{itemize}
+    \item Cung cấp nền tảng hỗ trợ học tập và phát triển kỹ năng cho sinh viên một cách có hệ thống.
+    \item Quản lý và vận hành chương trình Tutor/Mentor một cách hiện đại, hiệu quả và có khả năng mở rộng trong tương lai.
+    \item Tăng cường kết nối giữa sinh viên và Mentor nhằm nâng cao chất lượng học tập và giảng dạy.
+    \item Tích hợp chặt chẽ với hạ tầng công nghệ hiện có của nhà trường nhằm đảm bảo tính bảo mật, nhất quán dữ liệu nội bộ, đồng thời tạo nền tảng cho việc mở rộng và phát triển hệ sinh thái số hỗ trợ học tập, kết nối và quản lý toàn diện trong môi trường đại học
+\end{itemize}
+
+\newpage
+
+\subsubsection{Mục tiêu dự án:}
+Ứng dụng được xây dựng nhằm đáp ứng các mục tiêu cụ thể sau đây:
+\renewcommand{\arraystretch}{1.4} % giãn dòng
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|p{9.5cm}|}
+\hline
+\textbf{Nhóm mục tiêu} & \textbf{Mô tả chi tiết} \\
+\hline
+Quản lý dữ liệu người dùng &
+\- Lưu trữ thông tin cá nhân của sinh viên và tutor (chuyên môn, nhu cầu hỗ trợ, thời gian sẵn sàng).\\
+& \- Cho phép sinh viên đăng ký chương trình và được phân công tutor (thủ công hoặc tự động). \\
+\hline
+Tổ chức, quản lý buổi tư vấn &
+\- Thiết lập, hủy hoặc thay đổi lịch hẹn.\\
+& \- Hỗ trợ hình thức gặp trực tiếp và trực tuyến.\\
+& \- Tích hợp thông báo tự động, nhắc lịch và ghi nhận buổi gặp (nếu cần). \\
+\hline
+Đánh giá và phản hồi &
+\- Sinh viên đánh giá chất lượng buổi tư vấn.\\
+& \- Tutor theo dõi tiến trình học tập.\\
+& \- Khoa/Bộ môn phân tích dữ liệu để theo dõi kết quả học tập.\\
+& \- Phòng CTSV sử dụng dữ liệu để xét điểm rèn luyện hoặc học bổng. \\
+\hline
+Tích hợp hệ thống của trường &
+\- Kết nối hệ thống đăng nhập tập trung HCMUT\_SSO.\\
+& \- Đồng bộ dữ liệu từ HCMUT\_DATACORE.\\
+& \- Phân quyền truy cập theo vai trò.\\
+& \- Liên kết HCMUT\_LIBRARY để chia sẻ tài liệu học tập. \\
+\hline
+Tính năng nâng cao &
+\- Ghép cặp thông minh bằng AI.\\
+& \- Cộng đồng trực tuyến cho tutor và mentee.\\
+& \- Hỗ trợ các chương trình học thuật và phi học thuật.\\
+& \- Cá nhân hóa hỗ trợ học tập bằng AI. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Phạm vi dự án}
+
+\subsubsection{Chức năng cốt lõi}
+
+\begin{enumerate}
+    \item \textbf{Quản lý người dùng \& xác thực}
+    \begin{itemize}
+        \item Đăng nhập tập trung thông qua \textbf{HCMUT\_SSO }.
+        \item Đồng bộ dữ liệu cá nhân từ \textbf{HCMUT\_DATACORE}: họ tên, MSSV/Mã cán bộ, email học vụ, khoa/ngành, trạng thái học tập/giảng dạy.
+        \item Quản lý phân quyền theo vai trò (sinh viên, tutor, điều phối viên, bộ môn, quản trị hệ thống).
+    \end{itemize}
+
+    \item \textbf{Quản lý tutor \& mentee}
+    \begin{itemize}
+        \item Tutor quản lý hồ sơ chuyên môn, thời gian rảnh, danh sách sinh viên đang hướng dẫn.
+        \item Sinh viên đăng ký tham gia chương trình, chọn hoặc được phân công tutor.
+        \item Điều phối viên xem, phân công hoặc phê duyệt ghép cặp tutor \- sinh viên.
+    \end{itemize}
+
+    \item \textbf{Quản lý lịch \& buổi tư vấn}
+    \begin{itemize}
+        \item Tutor tạo lịch rảnh và mở buổi tư vấn (offline hoặc online).
+        \item Sinh viên đặt lịch gặp tutor, với hỗ trợ hủy/đổi/dời lịch.
+        \item Gửi thông báo tự động (email, notification) khi có thay đổi lịch.
+        \item Tự động nhắc lịch (reminder) trước buổi gặp.
+        \item Cho phép ghi nhận nội dung và biên bản buổi gặp (nếu cần).
+    \end{itemize}
+
+    \item \textbf{Đánh giá \& phản hồi}
+    \begin{itemize}
+        \item Sinh viên phản hồi, đánh giá chất lượng buổi tư vấn.
+        \item Tutor theo dõi tiến bộ và ghi nhận kết quả học tập của mentee.
+        \item Bộ môn và Phòng Đào tạo khai thác dữ liệu để tổng hợp tình hình học tập.
+    \end{itemize}
+
+    \item \textbf{Quản lý học liệu \& tài nguyên}
+    \begin{itemize}
+        \item Tích hợp với \textbf{HCMUT\_LIBRARY} để truy cập, chia sẻ tài liệu, giáo trình và sách.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Chức năng mở rộng (đề xuất)}
+
+\begin{enumerate}
+    \item \textbf{Hệ thống AI ghép cặp và tương tác trực tuyến}
+    \begin{itemize}
+        \item Ứng dụng AI để gợi ý phân công tutor \- mentee tối ưu, dựa trên hồ sơ cá nhân, chuyên môn và nhu cầu hỗ trợ.
+        \item Tạo cộng đồng trực tuyến cho tutor \- mentee nhằm trao đổi, thảo luận và chia sẻ kinh nghiệm.
+        \item Tích hợp chat nhóm/cá nhân, cho phép giao tiếp nhanh và nhận thông báo, nhắc nhở lịch hẹn ngay trong hệ thống.
+    \end{itemize}
+
+    \item \textbf{Hỗ trợ học tập cá nhân hóa bằng AI}
+    \begin{itemize}
+        \item AI phân tích tiến trình học tập, dữ liệu phản hồi và kết quả rèn luyện.
+        \item Đưa ra gợi ý học tập, tài liệu hoặc phương pháp phù hợp với từng sinh viên.
+    \end{itemize}
+
+    \item \textbf{Quản lý Seminar/Event}
+    \begin{itemize}
+        \item Cho phép tạo và quản lý sự kiện học thuật hoặc kỹ năng mềm.
+        \item Sinh viên đăng ký tham gia, check-in bằng QR hoặc thẻ sinh viên.
+        \item Hệ thống quản lý số lượng tham dự và phản hồi sau sự kiện.
+    \end{itemize}
+\end{enumerate}
+
+
