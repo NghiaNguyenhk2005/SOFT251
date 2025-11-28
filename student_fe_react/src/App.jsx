@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
+// Student imports
 import MainLayout from "./modules/student/layouts/MainLayout.jsx";
-
 import DashboardPage from "./modules/student/pages/DashboardPage.jsx";
 import ProgramRegisterPage from "./modules/student/pages/ProgramRegisterPage.jsx";
 import LibraryPage from "./modules/student/pages/LibraryPage.jsx";
@@ -10,6 +10,14 @@ import CommunityPage from "./modules/student/pages/CommunityPage.jsx";
 import HistoryPage from "./modules/student/pages/HistoryPage.jsx";
 import ConsultationRequestPage from "./modules/student/pages/ConsultationRequestPage.jsx";
 import MyConsultationsPage from "./modules/student/pages/MyConsultationsPage.jsx";
+
+// Tutor imports
+import TutorMainLayout from "./modules/tutor/layouts/TutorMainLayout.jsx";
+import TutorDashboardPage from "./modules/tutor/pages/TutorDashboardPage.jsx";
+import TutorCoursesPage from "./modules/tutor/pages/TutorCoursesPage.jsx";
+import TutorCourseDetailPage from "./modules/tutor/pages/TutorCourseDetailPage.jsx";
+import TutorLibraryPage from "./modules/tutor/pages/TutorLibraryPage.jsx";
+import TutorNotificationsPage from "./modules/tutor/pages/TutorNotificationsPage.jsx";
 
 function App() {
   return (
@@ -27,13 +35,21 @@ function App() {
         <Route path="events" element={<EventsPage />} />
         <Route path="community" element={<CommunityPage />} />
         <Route path="history" element={<HistoryPage />} />
-
-        {/* 👇 2 route mới cho phần tư vấn */}
         <Route
           path="consultations/request"
           element={<ConsultationRequestPage />}
         />
         <Route path="consultations" element={<MyConsultationsPage />} />
+      </Route>
+
+      {/* Layout Tutor */}
+      <Route path="/tutor" element={<TutorMainLayout />}>
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<TutorDashboardPage />} />
+        <Route path="courses" element={<TutorCoursesPage />} />
+        <Route path="courses/:courseId" element={<TutorCourseDetailPage />} />
+        <Route path="library" element={<TutorLibraryPage />} />
+        <Route path="notifications" element={<TutorNotificationsPage />} />
       </Route>
 
       {/* 404 */}
