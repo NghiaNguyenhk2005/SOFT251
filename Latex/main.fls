@@ -1,6 +1,6 @@
-PWD d:\CNPM\ICS\SOFT251
+PWD d:\CNPM\S251\SOFT251\Latex
 INPUT C:\Users\nghia\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT d:\CNPM\ICS\SOFT251\main.tex
+INPUT d:\CNPM\S251\SOFT251\Latex\main.tex
 OUTPUT main.log
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
