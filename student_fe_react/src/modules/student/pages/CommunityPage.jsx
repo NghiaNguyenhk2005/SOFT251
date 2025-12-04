@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
 import { Facebook } from "lucide-react";
-import { fetchCommunities } from "../../../services/communityService";
+import { fetchCommunities } from "../../../api/studentApi";
 
 export default function CommunityPage() {
   const [communities, setCommunities] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchCommunities()
-      .then(setCommunities)
+      .then((data) => {
+        setCommunities(Array.isArray(data) ? data : data.data || []);
+      })
       .catch((err) => {
         console.error("Lỗi khi tải danh sách cộng đồng:", err);
+        setError("Không tải được danh sách cộng đồng");
         setCommunities([]);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) return <div className="py-10 text-center text-slate-500">Đang tải cộng đồng...</div>;
+  if (error) return <div className="py-10 text-center text-red-500">{error}</div>;
 
   return (
     <div className="py-10 md:py-12">
@@ -35,11 +45,11 @@ export default function CommunityPage() {
             className="bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-150 flex flex-col overflow-hidden"
           >
             {/* Ảnh cover lớn */}
-            <div className="h-40 md:h-44 w-full overflow-hidden">
+            <div className="h-40 md:h-44 w-full overflow-hidden bg-white flex items-center justify-center p-4 border-b border-slate-100">
               <img
                 src={community.imageUrl}
                 alt={community.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
 

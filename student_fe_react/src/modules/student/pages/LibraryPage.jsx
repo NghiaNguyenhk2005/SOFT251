@@ -1,20 +1,29 @@
 import { useEffect, useState } from "react";
 import { Filter, ChevronLeft, ChevronRight } from "lucide-react";
-import { fetchDocuments } from "../../../services/documentService";
+import { fetchDocuments } from "../../../api/studentApi";
 
 export default function LibraryPage() {
   const [documents, setDocuments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // giả lập gọi backend để lấy danh sách tài liệu
+  // gọi backend để lấy danh sách tài liệu
   useEffect(() => {
-    fetchDocuments().then(setDocuments).catch((err) => {
-      console.error("Lỗi khi tải danh sách tài liệu:", err);
-      setDocuments([]);
-    });
+    setIsLoading(true);
+    fetchDocuments()
+      .then((data) => {
+        setDocuments(Array.isArray(data) ? data : data.data || []);
+      })
+      .catch((err) => {
+        console.error("Lỗi khi tải danh sách tài liệu:", err);
+        setDocuments([]);
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const currentPage = 1;
   const totalPages = 4;
+
+  if (isLoading) return <div className="py-10 text-center text-slate-500">Đang tải tài liệu...</div>;
 
   return (
     <div className="py-10 md:py-12">

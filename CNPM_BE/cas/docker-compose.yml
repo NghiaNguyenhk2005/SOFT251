@@ -1,0 +1,69 @@
+services:
+  # MongoDB Database (Session Storage)
+  mongo:
+    image: mongo:7
+    container_name: cas-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - cas-network
+
+  # CAS Server (Backend)
+  server:
+    build: ./server
+    container_name: cas-server
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - MONGO_URI=mongodb://mongo:27017/cas-sso-db
+      - SESSION_SECRET=super_secret_key_for_development
+      - CLIENT_REDIRECT_URL=http://localhost:3000/dashboard
+    depends_on:
+      - mongo
+    networks:
+      - cas-network
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  # React Client (Frontend - Main)
+  client:
+    build: ./client
+    container_name: cas-client
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    depends_on:
+      - server
+    networks:
+      - cas-network
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+
+  # React Client (Frontend - Admin)
+  client-admin:
+    build: ./client-admin
+    container_name: cas-client-admin
+    ports:
+      - "3001:3001"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    depends_on:
+      - server
+    networks:
+      - cas-network
+    volumes:
+      - ./client-admin:/app
+      - /app/node_modules
+
+volumes:
+  mongo-data:
+
+networks:
+  cas-network:
+    driver: bridge

@@ -1,26 +1,125 @@
 import { useEffect, useState } from "react";
-import { Menu, Search } from "lucide-react";
-import { fetchTutors } from "../../../services/tutorService";
+import { Menu, Search, UserPlus, CheckCircle, AlertCircle } from "lucide-react";
+import { fetchAvailableTutors, registerWithTutor, fetchMyRegistrations } from "../../../api/studentApi";
+import { useToast } from "../components/ToastProvider";
 
 export default function ProgramRegisterPage() {
+  const { addToast } = useToast();
+  // State for Tutors
   const [query, setQuery] = useState("");
   const [tutors, setTutors] = useState([]);
+  const [isLoadingTutors, setIsLoadingTutors] = useState(false);
+  const [tutorError, setTutorError] = useState(null);
 
-  // gọi "backend" (hiện tại là mock) khi vào trang
-  useEffect(() => {
-    fetchTutors().then(setTutors).catch((err) => {
+  // Selection State
+  const [selectedTutor, setSelectedTutor] = useState(null);
+  const [selectedSubject, setSelectedSubject] = useState(null);
+
+  // Registration State
+  const [isRegistering, setIsRegistering] = useState(false);
+  
+  // My Registrations (for duplicate check)
+  const [myRegistrations, setMyRegistrations] = useState([]);
+
+  // Load Tutors
+  const loadTutors = async (subjectCode = "") => {
+    setIsLoadingTutors(true);
+    setTutorError(null);
+    setSelectedTutor(null);
+    setSelectedSubject(null);
+    
+    try {
+      const data = await fetchAvailableTutors({ subjectId: subjectCode });
+      setTutors(Array.isArray(data) ? data : data.data || []);
+    } catch (err) {
       console.error("Lỗi khi tải danh sách tutor:", err);
+      setTutorError("Không tải được danh sách tutor");
       setTutors([]);
-    });
+    } finally {
+      setIsLoadingTutors(false);
+    }
+  };
+
+  // Load Registrations
+  const loadRegistrations = async () => {
+    try {
+      // Fetch ALL to check for duplicates properly (ignoring CANCELLED)
+      const data = await fetchMyRegistrations({});
+      setMyRegistrations(Array.isArray(data) ? data : data.data || []);
+    } catch (err) {
+      console.error("Failed to load registrations", err);
+    }
+  };
+
+  useEffect(() => {
+    loadTutors();
+    loadRegistrations();
   }, []);
 
-  const filteredTutors = tutors.filter((tutor) => {
-    const q = query.toLowerCase();
-    return (
-      tutor.tutorCode.toLowerCase().includes(q) ||
-      tutor.fullName.toLowerCase().includes(q)
-    );
-  });
+  const handleSearch = () => {
+    loadTutors(query);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  // Handle Tutor Selection
+  const handleSelectTutor = (tutor) => {
+    setSelectedTutor(tutor);
+    setSelectedSubject(null);
+  };
+
+  // Handle Subject Selection
+  const handleSelectSubject = (subjectId) => {
+    setSelectedSubject(subjectId);
+  };
+
+  // Handle Registration
+  const handleRegister = async () => {
+    if (!selectedTutor || !selectedSubject) return;
+    
+    // Client-side duplicate check
+    const isDuplicate = myRegistrations.some(reg => {
+      const regTutorId = reg.tutorId?._id || reg.tutorId;
+      const currentTutorId = selectedTutor._id;
+      // Only block if status is ACTIVE or PENDING
+      const isActiveOrPending = reg.status === 'ACTIVE' || reg.status === 'PENDING';
+      return regTutorId === currentTutorId && reg.subjectId === selectedSubject && isActiveOrPending;
+    });
+
+    if (isDuplicate) {
+      addToast("Bạn đã đăng ký môn này với tutor này rồi.", "warning");
+      return;
+    }
+
+    setIsRegistering(true);
+    try {
+      // Call API to register with tutor
+      await registerWithTutor(selectedTutor._id, selectedSubject);
+      
+      // Success
+      addToast("Đăng ký thành công!", "success");
+      
+      // Refresh registrations
+      loadRegistrations();
+
+      // Trigger notification refresh in Header
+      window.dispatchEvent(new Event('refreshNotifications'));
+      
+    } catch (err) {
+      console.error("Lỗi khi đăng ký:", err);
+      if (err.response && err.response.status === 409) {
+        addToast("Bạn đã đăng ký môn này với tutor rồi.", "warning");
+      } else {
+        addToast("Đăng ký thất bại. Vui lòng thử lại.", "error");
+      }
+    } finally {
+      setIsRegistering(false);
+    }
+  };
 
   return (
     <div className="py-10 md:py-12">
@@ -30,7 +129,7 @@ export default function ProgramRegisterPage() {
           Đăng kí tutor
         </h1>
         <p className="mt-2 text-sm md:text-base text-slate-500">
-          Lựa chọn tutor phù hợp với thời gian của bạn
+          Lựa chọn tutor và môn học để bắt đầu quá trình tư vấn
         </p>
       </div>
 
@@ -43,58 +142,119 @@ export default function ProgramRegisterPage() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="C03001,..."
+              onKeyDown={handleKeyDown}
+              placeholder="Nhập mã môn (VD: CO3001)..."
               className="flex-1 bg-transparent outline-none text-sm md:text-base text-slate-700 placeholder:text-slate-400"
             />
-            <Search className="w-4 h-4 text-slate-500" />
+            <button onClick={handleSearch} type="button">
+              <Search className="w-4 h-4 text-slate-500" />
+            </button>
           </div>
+          {tutorError && <p className="text-red-500 text-sm text-center mt-2">{tutorError}</p>}
         </div>
       </div>
 
-      {/* Grid danh sách tutor */}
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {filteredTutors.map((tutor) => (
-          <article
-            key={tutor.id}
-            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-150 flex flex-col overflow-hidden"
-          >
-            {/* Ảnh placeholder */}
-            <div className="bg-slate-200 h-40 md:h-44 flex items-center justify-center">
-              <div className="w-12 h-12 rounded-md border-2 border-dashed border-slate-400 flex items-center justify-center text-xs text-slate-500">
-                IMG
-              </div>
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Cột trái: Danh sách Tutor */}
+        <div className="lg:col-span-2">
+          <h2 className="text-xl font-semibold mb-4 text-slate-800">Danh sách Tutor</h2>
+          
+          {isLoadingTutors && <div className="text-slate-500">Đang tải danh sách tutor...</div>}
+          
+          {!isLoadingTutors && tutors.length === 0 && !tutorError && (
+            <div className="text-slate-500">Không tìm thấy tutor nào.</div>
+          )}
 
-            {/* Nội dung card */}
-            <div className="p-4 md:p-5 flex flex-col flex-1">
-              <div className="mb-3">
-                <span className="inline-block px-2 py-1 text-[10px] font-semibold uppercase tracking-wide bg-slate-100 text-slate-700 rounded">
-                  {tutor.tutorCode}
-                </span>
-              </div>
-              <h3 className="text-base md:text-lg font-semibold text-slate-900">
-                {tutor.fullName}
-              </h3>
-              <p className="mt-1 text-sm text-slate-600 line-clamp-2">
-                {tutor.description}
-              </p>
-
-              <button
-                type="button"
-                className="mt-5 inline-flex items-center text-sm font-medium text-slate-900 hover:underline"
+          <div className="grid gap-6 md:grid-cols-2">
+            {tutors.map((tutor) => (
+              <article
+                key={tutor._id}
+                onClick={() => handleSelectTutor(tutor)}
+                className={`
+                  cursor-pointer rounded-lg shadow-sm border transition-all duration-150 flex flex-col overflow-hidden
+                  ${selectedTutor?._id === tutor._id 
+                    ? "ring-2 ring-violet-500 border-violet-500 bg-violet-50" 
+                    : "bg-white border-slate-200 hover:shadow-md hover:border-violet-300"}
+                `}
               >
-                Read more
-                <span className="ml-1">&gt;</span>
-              </button>
-            </div>
-          </article>
-        ))}
-
-        {filteredTutors.length === 0 && (
-          <div className="col-span-full text-center text-slate-500 text-sm">
-            Không tìm thấy tutor nào phù hợp với từ khóa.
+                <div className="p-4 flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-lg shrink-0">
+                    {tutor.userId?.fullName ? tutor.userId.fullName.charAt(0) : "T"}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-900">
+                      {tutor.userId?.fullName || "Tutor"}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+                      {tutor.bio || "Chưa có mô tả"}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {tutor.subjectIds?.slice(0, 3).map(sub => (
+                        <span key={sub} className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] rounded">
+                          {sub}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
-        )}
+        </div>
+
+        {/* Cột phải: Chọn môn & Đăng ký */}
+        <div className="lg:col-span-1">
+          {selectedTutor && (
+            <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 sticky top-4">
+                <h3 className="font-bold text-lg text-slate-900 mb-1">
+                  {selectedTutor.userId?.fullName}
+                </h3>
+                <p className="text-sm text-slate-500 mb-6">Chọn môn học bạn muốn đăng ký</p>
+
+                {/* Chọn môn học */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Môn học</label>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedTutor.subjectIds?.map(sub => (
+                      <button
+                        key={sub}
+                        onClick={() => handleSelectSubject(sub)}
+                        className={`
+                          px-3 py-1.5 text-sm rounded-full border transition-colors
+                          ${selectedSubject === sub
+                            ? "bg-violet-600 text-white border-violet-600"
+                            : "bg-white text-slate-700 border-slate-300 hover:border-violet-400"}
+                        `}
+                      >
+                        {sub}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Nút Đăng ký */}
+                <button
+                  onClick={handleRegister}
+                  disabled={!selectedSubject || isRegistering}
+                  className={`
+                    w-full py-2.5 rounded-lg font-medium text-white transition-colors flex items-center justify-center gap-2
+                    ${!selectedSubject || isRegistering
+                      ? "bg-slate-300 cursor-not-allowed"
+                      : "bg-violet-600 hover:bg-violet-700 shadow-sm"}
+                  `}
+                >
+                  {isRegistering ? (
+                    "Đang xử lý..."
+                  ) : (
+                    <>
+                      <UserPlus className="w-4 h-4" />
+                      Đăng ký
+                    </>
+                  )}
+                </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

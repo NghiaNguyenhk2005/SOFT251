@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
 import { CalendarDays } from "lucide-react";
-import { fetchEvents } from "../../../services/eventService";
+import { fetchEvents } from "../../../api/studentApi";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchEvents()
-      .then(setEvents)
+      .then((data) => {
+        setEvents(Array.isArray(data) ? data : data.data || []);
+      })
       .catch((err) => {
         console.error("Lỗi khi tải danh sách sự kiện:", err);
+        setError("Không tải được danh sách sự kiện");
         setEvents([]);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) return <div className="py-10 text-center text-slate-500">Đang tải sự kiện...</div>;
+  if (error) return <div className="py-10 text-center text-red-500">{error}</div>;
 
   return (
     <div className="py-10 md:py-12">
