@@ -14,6 +14,13 @@ import HistoryPage from "./modules/student/pages/HistoryPage.jsx";
 import ConsultationRequestPage from "./modules/student/pages/ConsultationRequestPage.jsx";
 import MyConsultationsPage from "./modules/student/pages/MyConsultationsPage.jsx";
 
+// Tutor imports
+import TutorMainLayout from "./modules/tutor/layouts/TutorMainLayout.jsx";
+import TutorDashboardPage from "./modules/tutor/pages/TutorDashboardPage.jsx";
+import TutorCoursesPage from "./modules/tutor/pages/TutorCoursesPage.jsx";
+import TutorCourseDetailPage from "./modules/tutor/pages/TutorCourseDetailPage.jsx";
+import TutorLibraryPage from "./modules/tutor/pages/TutorLibraryPage.jsx";
+import TutorNotificationsPage from "./modules/tutor/pages/TutorNotificationsPage.jsx";
 // PDT imports...
 import PDTLayout from "./modules/pdt/layouts/PDTLayout.jsx";
 import PDTHomepage from "./modules/pdt/pages/PDTHomepage.jsx";
@@ -45,6 +52,28 @@ function App() {
       {/* PDT routes */}
       <Route path="/pdt" element={<PDTLayout />}>
         <Route index element={<Navigate to="homepage" replace />} />
+        <Route
+          path="consultations/request"
+          element={<ConsultationRequestPage />}
+        />
+        <Route path="consultations" element={<MyConsultationsPage />} />
+      </Route>
+
+      {/* Layout Tutor */}
+      <Route path="/tutor" element={<TutorMainLayout />}>
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<TutorDashboardPage />} />
+        <Route path="courses" element={<TutorCoursesPage />} />
+        <Route path="courses/:courseId" element={<TutorCourseDetailPage />} />
+        <Route path="library" element={<TutorLibraryPage />} />
+        <Route path="notifications" element={<TutorNotificationsPage />} />
+        <Route path="consultations/request" element={<ConsultationRequestPage />} />
+        <Route path="consultations" element={<MyConsultationsPage />} />
+      </Route>
+
+      {/* PDT routes */}
+      <Route path="/pdt" element={<PDTLayout />}>
+        <Route index element={<Navigate to="/pdt/homepage" replace />} />
         <Route path="homepage" element={<PDTHomepage />} />
         <Route path="analytics" element={<PDTAnalytics />} />
         <Route path="redistribution" element={<PDTRedistribution />} />
