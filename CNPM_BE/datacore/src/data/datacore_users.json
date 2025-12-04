@@ -1,0 +1,189 @@
+[
+  {
+    "username": "pctsv",
+    "email": "pctsv@hcmut.edu.vn",
+    "full_name": "Phòng Công tác Sinh viên",
+    "user_type": "staff",
+    "student_id": null,
+    "staff_id": "000002",
+    "faculty": null,
+    "department": null,
+    "major": null
+  },
+  {
+    "username": "pdt",
+    "email": "pdt@hcmut.edu.vn",
+    "full_name": "Phòng Đào tạo",
+    "user_type": "staff",
+    "student_id": null,
+    "staff_id": "000001",
+    "faculty": null,
+    "department": null,
+    "major": null
+  },
+  {
+    "username": "cse",
+    "email": "cse@hcmut.edu.vn",
+    "full_name": "Khoa KH & KT Máy tính",
+    "user_type": "staff",
+    "student_id": null,
+    "staff_id": "004000",
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": null
+  },
+  {
+    "username": "hung",
+    "email": "hung@hcmut.edu.vn",
+    "full_name": "Ngô Thanh Hùng",
+    "user_type": "lecturer",
+    "student_id": null,
+    "staff_id": "004001",
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": "KHMT",
+    "major": null
+  },
+  {
+    "username": "dung",
+    "email": "dung@hcmut.edu.vn",
+    "full_name": "Trần Mạnh Dũng",
+    "user_type": "lecturer",
+    "student_id": null,
+    "staff_id": "004002",
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": "KHMT",
+    "major": null
+  },
+  {
+    "username": "thao",
+    "email": "thao@hcmut.edu.vn",
+    "full_name": "Lê Thị Thu Thảo",
+    "user_type": "lecturer",
+    "student_id": null,
+    "staff_id": "004003",
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": "KHMT",
+    "major": null
+  },
+  {
+    "username": "lan",
+    "email": "lan@hcmut.edu.vn",
+    "full_name": "Trương Mỹ Lan",
+    "user_type": "lecturer",
+    "student_id": null,
+    "staff_id": "004004",
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": "KHMT",
+    "major": null
+  },
+  {
+    "username": "an.nguyen",
+    "email": "an.nguyen@hcmut.edu.vn",
+    "full_name": "Nguyễn Hoàng An",
+    "user_type": "student",
+    "student_id": "2301001",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "binh.tran",
+    "email": "binh.tran@hcmut.edu.vn",
+    "full_name": "Trần Thanh Bình",
+    "user_type": "student",
+    "student_id": "2301002",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "chi.le",
+    "email": "chi.le@hcmut.edu.vn",
+    "full_name": "Lê Quỳnh Chi",
+    "user_type": "student",
+    "student_id": "2301003",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "duy.pham",
+    "email": "duy.pham@hcmut.edu.vn",
+    "full_name": "Phạm Tuấn Duy",
+    "user_type": "student",
+    "student_id": "2301004",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "em.hoang",
+    "email": "em.hoang@hcmut.edu.vn",
+    "full_name": "Hoàng Em",
+    "user_type": "student",
+    "student_id": "2301005",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "giang.vo",
+    "email": "giang.vo@hcmut.edu.vn",
+    "full_name": "Võ Ngọc Giang",
+    "user_type": "student",
+    "student_id": "2301006",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "hoa.phan",
+    "email": "hoa.phan@hcmut.edu.vn",
+    "full_name": "Phan Ngọc Hoa",
+    "user_type": "student",
+    "student_id": "2301007",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "kien.bui",
+    "email": "kien.bui@hcmut.edu.vn",
+    "full_name": "Bùi Trung Kiên",
+    "user_type": "student",
+    "student_id": "2301008",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "linh.do",
+    "email": "linh.do@hcmut.edu.vn",
+    "full_name": "Đỗ Ngọc Linh",
+    "user_type": "student",
+    "student_id": "2301009",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  },
+  {
+    "username": "minh.ngo",
+    "email": "minh.ngo@hcmut.edu.vn",
+    "full_name": "Ngô Gia Minh",
+    "user_type": "student",
+    "student_id": "2301010",
+    "staff_id": null,
+    "faculty": "Khoa KH & KT Máy tính",
+    "department": null,
+    "major": "KHMT"
+  }
+]

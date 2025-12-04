@@ -6,17 +6,13 @@ const menuItems = [
     to: "/student/register",
   },
   {
+    label: "Đặt lịch tư vấn",
+    to: "/student/consultation",
+  },
+  {
     label: "Lịch của tôi",
     to: "/student/dashboard",
   },
-   { label: "Đặt lịch tư vấn",
-    to: "/student/consultations/request" 
-  },
-
-   { label: "Lịch tư vấn của tôi",
-    to: "/student/consultations" 
-  },
-
   {
     label: "Đánh giá buổi học",
     to: "/student/history",

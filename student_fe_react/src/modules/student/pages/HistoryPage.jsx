@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Star, X } from "lucide-react";
-import { fetchHistorySessions } from "../../../services/historyService";
+import { fetchHistorySessions, submitSessionRating } from "../../../api/studentApi";
 
 export default function HistoryPage() {
   const [sessions, setSessions] = useState([]);
@@ -9,14 +9,41 @@ export default function HistoryPage() {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchHistorySessions()
-      .then(setSessions)
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.data || [];
+        // Filter for completed sessions (case-insensitive check)
+        const completed = list.filter(s => 
+          s.status && (s.status.toLowerCase() === 'completed' || s.status.toLowerCase() === 'done')
+        );
+        
+        const transformed = completed.map(item => {
+          const start = new Date(item.startTime);
+          const end = new Date(item.endTime);
+          
+          return {
+            id: item._id || item.id,
+            subjectName: item.title || item.subjectId || "No Title",
+            tutorName: item.tutorId?.userId?.fullName || "Unknown Tutor",
+            tutorId: item.tutorId?._id || item.tutorId,
+            date: start.toLocaleDateString(),
+            timeRange: `${start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`,
+            meetLink: item.meetLink,
+            status: item.status
+          };
+        });
+        setSessions(transformed);
+      })
       .catch((err) => {
         console.error("Lỗi khi tải lịch sử buổi học:", err);
         setSessions([]);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const openRatingModal = (session) => {
@@ -32,15 +59,33 @@ export default function HistoryPage() {
     setSelectedSession(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Sau này sẽ gửi rating + comment lên backend.
-    // Hiện tại chỉ giả lập.
-    alert("Đánh giá thành công");
-    closeRatingModal();
+    if (!selectedSession) return;
+
+    try {
+      setIsSubmitting(true);
+      // Payload matches backend expectation: { sessionId, rating, content }
+      const payload = {
+        sessionId: selectedSession.id,
+        rating: rating,
+        content: comment
+      };
+      await submitSessionRating(payload);
+      alert("Đánh giá thành công");
+      closeRatingModal();
+      // Optionally refresh list
+    } catch (error) {
+      console.error("Lỗi khi gửi đánh giá:", error);
+      alert("Gửi đánh giá thất bại");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const effectiveRating = hoverRating || rating;
+
+  if (isLoading) return <div className="py-10 text-center text-slate-500">Đang tải lịch sử...</div>;
 
   return (
     <div className="py-10 md:py-12">
@@ -77,6 +122,9 @@ export default function HistoryPage() {
                 </th>
                 <th className="px-4 md:px-6 py-3 text-left font-semibold">
                   Link Google Meet
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-semibold">
+                  Trạng thái
                 </th>
                 <th className="px-4 md:px-6 py-3 text-right font-semibold">
                   Đánh giá
@@ -119,6 +167,11 @@ export default function HistoryPage() {
                       </span>
                     )}
                   </td>
+                  <td className="px-4 md:px-6 py-3 align-middle">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Đã hoàn thành
+                    </span>
+                  </td>
                   <td className="px-4 md:px-6 py-3 align-middle text-right">
                     <button
                       type="button"
@@ -134,7 +187,7 @@ export default function HistoryPage() {
               {sessions.length === 0 && (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={6}
                     className="px-4 md:px-6 py-4 text-center text-slate-500 text-sm"
                   >
                     Chưa có buổi học nào được hoàn thành.

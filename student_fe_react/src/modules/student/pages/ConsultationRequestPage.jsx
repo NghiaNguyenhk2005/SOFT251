@@ -1,232 +1,207 @@
 import { useEffect, useState } from "react";
-import {
-  fetchConsultationConfig,
-  createConsultationRequest,
-} from "../../../services/consultationService";
+import { Calendar, Clock, MapPin, User, BookOpen, CheckCircle, Trash2 } from "lucide-react";
+import { fetchMyRegistrations, fetchTutorSessions, bookSession, cancelRegistration } from "../../../api/studentApi";
 
 export default function ConsultationRequestPage() {
-  const [topics, setTopics] = useState([]);
-  const [tutors, setTutors] = useState([]);
-  const [slots, setSlots] = useState([]);
+  const [registrations, setRegistrations] = useState([]);
+  const [selectedRegistration, setSelectedRegistration] = useState(null);
+  const [sessions, setSessions] = useState([]);
+  const [isLoadingRegs, setIsLoadingRegs] = useState(false);
+  const [isLoadingSessions, setIsLoadingSessions] = useState(false);
+  const [bookingSessionId, setBookingSessionId] = useState(null);
 
-  const [topic, setTopic] = useState("");
-  const [tutorId, setTutorId] = useState("");
-  const [slotId, setSlotId] = useState("");
-  const [subject, setSubject] = useState("");
-  const [note, setNote] = useState("");
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+  // 1. Load danh sách đăng ký (Tutor + Môn)
   useEffect(() => {
-    fetchConsultationConfig()
+    setIsLoadingRegs(true);
+    fetchMyRegistrations({ status: 'ACTIVE' })
       .then((data) => {
-        setTopics(data.topics || []);
-        setTutors(data.tutors || []);
-        setSlots(data.slots || []);
+        const list = Array.isArray(data) ? data : data.data || [];
+        setRegistrations(list);
       })
       .catch((err) => {
-        console.error("Lỗi khi tải cấu hình tư vấn:", err);
-      });
+        console.error("Lỗi tải danh sách đăng ký:", err);
+      })
+      .finally(() => setIsLoadingRegs(false));
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!topic || !tutorId || !slotId) {
-      alert("Vui lòng chọn chủ đề, tutor và thời gian tư vấn.");
+  // 2. Khi chọn 1 đăng ký -> Load lịch (sessions) của Tutor đó
+  useEffect(() => {
+    if (!selectedRegistration) {
+      setSessions([]);
       return;
     }
 
-    const selectedTutor = tutors.find((t) => t.id === tutorId);
-    const selectedSlot = slots.find((s) => s.id === slotId);
+    setIsLoadingSessions(true);
+    // selectedRegistration có tutorId và subjectId
+    // API fetchTutorSessions cần tutorId
+    const tutorId = selectedRegistration.tutorId?._id || selectedRegistration.tutorId;
+    
+    fetchTutorSessions(tutorId)
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.data || [];
+        // Filter sessions that match the subject? Or show all?
+        // Usually show all, but maybe highlight the subject ones.
+        // For now show all available (SCHEDULED)
+        setSessions(list.filter(s => s.status === 'SCHEDULED'));
+      })
+      .catch((err) => {
+        console.error("Lỗi tải lịch tutor:", err);
+        setSessions([]);
+      })
+      .finally(() => setIsLoadingSessions(false));
+  }, [selectedRegistration]);
 
-    const payload = {
-      topic,
-      tutorName: selectedTutor?.name,
-      subject: subject || selectedTutor?.specialty || "",
-      date: selectedSlot?.date,
-      timeRange: selectedSlot?.timeRange,
-      mode: selectedSlot?.mode,
-      note,
-    };
+  const handleBookSession = async (session) => {
+    if (!window.confirm(`Bạn muốn đặt lịch buổi "${session.title}"?`)) return;
+
+    setBookingSessionId(session._id || session.id);
+    try {
+      await bookSession(session._id || session.id);
+      alert("Đặt lịch thành công!");
+      // Refresh list to remove booked session or update status
+      setSessions(prev => prev.filter(s => (s._id || s.id) !== (session._id || session.id)));
+    } catch (error) {
+      console.error("Lỗi đặt lịch:", error);
+      alert("Đặt lịch thất bại. Có thể lịch đã bị trùng hoặc đầy.");
+    } finally {
+      setBookingSessionId(null);
+    }
+  };
+
+  const handleCancelRegistration = async (e, regId) => {
+    e.stopPropagation(); // Prevent selecting the registration when clicking delete
+    if (!window.confirm("Bạn có chắc chắn muốn hủy đăng ký môn này không?")) return;
 
     try {
-      setIsSubmitting(true);
-      await createConsultationRequest(payload);
-      alert("Yêu cầu tư vấn đã được gửi (mock).");
-      // reset form
-      setTopic("");
-      setTutorId("");
-      setSlotId("");
-      setSubject("");
-      setNote("");
+      await cancelRegistration(regId);
+      alert("Hủy đăng ký thành công!");
+      // Remove from list
+      setRegistrations(prev => prev.filter(r => r._id !== regId));
+      if (selectedRegistration?._id === regId) {
+        setSelectedRegistration(null);
+      }
     } catch (error) {
-      console.error("Lỗi khi gửi yêu cầu tư vấn:", error);
-      alert("Gửi yêu cầu thất bại (mock). Thử lại sau.");
-    } finally {
-      setIsSubmitting(false);
+      console.error("Lỗi hủy đăng ký:", error);
+      alert("Hủy đăng ký thất bại.");
     }
   };
 
   return (
-    <div className="py-10 md:py-12">
-      {/* Tiêu đề */}
+    <div className="py-8 md:py-10">
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-slate-900">
           Đặt lịch tư vấn
         </h1>
-        <p className="mt-2 text-sm text-slate-600 max-w-2xl">
-          Chọn chủ đề, tutor và thời gian phù hợp để gửi yêu cầu tư vấn. Yêu
-          cầu của bạn sẽ được tutor hoặc điều phối viên xem xét và phản hồi.
+        <p className="mt-2 text-slate-600">
+          Chọn tutor và môn học bạn đã đăng ký, sau đó chọn lịch phù hợp.
         </p>
       </div>
 
-      {/* Form + danh sách slot gợi ý */}
-      <div className="grid gap-8 lg:grid-cols-[2fr,3fr]">
-        {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white border border-slate-200 p-4 md:p-6 shadow-sm"
-        >
-          <h2 className="text-base md:text-lg font-semibold text-slate-900 mb-4">
-            Thông tin yêu cầu tư vấn
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Cột trái: Danh sách Tutor đã đăng ký */}
+        <div className="lg:col-span-1 space-y-4">
+          <h2 className="font-semibold text-lg text-slate-800 flex items-center gap-2">
+            <BookOpen className="w-5 h-5" />
+            Môn đã đăng ký
           </h2>
-
-          {/* Chủ đề tư vấn */}
-          <div className="mb-4">
-            <label className="block text-xs font-medium text-slate-700 mb-1.5">
-              Chủ đề tư vấn <span className="text-red-500">*</span>
-            </label>
-            <select
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              className="w-full border border-slate-300 rounded-sm px-2 py-1.5 text-sm outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 bg-white"
-            >
-              <option value="">-- Chọn chủ đề --</option>
-              {topics.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Tutor */}
-          <div className="mb-4">
-            <label className="block text-xs font-medium text-slate-700 mb-1.5">
-              Tutor / Giảng viên mong muốn <span className="text-red-500">*</span>
-            </label>
-            <select
-              value={tutorId}
-              onChange={(e) => setTutorId(e.target.value)}
-              className="w-full border border-slate-300 rounded-sm px-2 py-1.5 text-sm outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 bg-white"
-            >
-              <option value="">-- Chọn tutor --</option>
-              {tutors.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.name} ({t.specialty})
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Môn học (tùy chọn) */}
-          <div className="mb-4">
-            <label className="block text-xs font-medium text-slate-700 mb-1.5">
-              Môn học / chủ đề cụ thể (tùy chọn)
-            </label>
-            <input
-              type="text"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="VD: Công nghệ phần mềm, Cấu trúc dữ liệu..."
-              className="w-full border border-slate-300 rounded-sm px-2 py-1.5 text-sm outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400"
-            />
-          </div>
-
-          {/* Ghi chú */}
-          <div className="mb-4">
-            <label className="block text-xs font-medium text-slate-700 mb-1.5">
-              Ghi chú cho tutor (tùy chọn)
-            </label>
-            <textarea
-              rows={4}
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="Mô tả ngắn về khó khăn, câu hỏi của bạn..."
-              className="w-full border border-slate-300 rounded-sm px-2 py-1.5 text-sm outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 resize-y"
-            />
-          </div>
-
-          {/* Slot được chọn (nếu có) */}
-          {slotId && (
-            <div className="mb-4 text-xs text-slate-600 bg-slate-50 border border-dashed border-slate-300 px-3 py-2">
-              <div className="font-semibold text-slate-800 mb-1">
-                Thời gian đã chọn
-              </div>
-              {(() => {
-                const s = slots.find((x) => x.id === slotId);
-                if (!s) return null;
+          
+          {isLoadingRegs ? (
+            <div className="text-slate-500 text-sm">Đang tải...</div>
+          ) : registrations.length === 0 ? (
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded text-sm text-slate-500">
+              Bạn chưa đăng ký tutor nào. Vui lòng qua trang "Đăng kí tutor" để đăng ký trước.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {registrations.map((reg) => {
+                const isSelected = selectedRegistration?._id === reg._id;
                 return (
-                  <>
-                    <div>{s.date}</div>
-                    <div>{s.timeRange}</div>
-                    <div>Hình thức: {s.mode}</div>
-                  </>
+                  <div
+                    key={reg._id}
+                    onClick={() => setSelectedRegistration(reg)}
+                    className={`cursor-pointer p-4 rounded border transition-all ${
+                      isSelected
+                        ? "bg-blue-50 border-blue-500 shadow-sm"
+                        : "bg-white border-slate-200 hover:border-blue-300"
+                    }`}
+                  >
+                    <div className="font-medium text-slate-900">
+                      {reg.subjectId}
+                    </div>
+                    <div className="text-sm text-slate-600 mt-1 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <User className="w-3 h-3" />
+                        {reg.tutor?.userId?.fullName || "Unknown Tutor"}
+                      </div>
+                      <button
+                        onClick={(e) => handleCancelRegistration(e, reg._id)}
+                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                        title="Hủy đăng ký"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
                 );
-              })()}
+              })}
             </div>
           )}
+        </div>
 
-          {/* Submit */}
-          <div className="mt-2 flex justify-end">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-4 py-1.5 border border-slate-900 text-sm font-medium text-slate-900 hover:bg-slate-900 hover:text-white disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
-            >
-              {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu tư vấn"}
-            </button>
-          </div>
-        </form>
-
-        {/* Slot gợi ý (UC-STUDENT-003 – chọn thời gian) */}
-        <div className="bg-white border border-slate-200 p-4 md:p-6 shadow-sm">
-          <h2 className="text-base md:text-lg font-semibold text-slate-900 mb-4">
-            Thời gian gợi ý
+        {/* Cột phải: Danh sách lịch (Sessions) */}
+        <div className="lg:col-span-2">
+          <h2 className="font-semibold text-lg text-slate-800 mb-4 flex items-center gap-2">
+            <Calendar className="w-5 h-5" />
+            Lịch tư vấn
           </h2>
-          <p className="text-xs md:text-sm text-slate-600 mb-3">
-            Chọn một trong các khung giờ rảnh dưới đây. Thời gian chính xác
-            vẫn sẽ được tutor hoặc điều phối viên xác nhận.
-          </p>
-          <div className="grid gap-3 md:grid-cols-2">
-            {slots.map((slot) => {
-              const isSelected = slotId === slot.id;
-              return (
-                <button
-                  key={slot.id}
-                  type="button"
-                  onClick={() => setSlotId(slot.id)}
-                  className={`text-left border text-sm px-3 py-2 ${
-                    isSelected
-                      ? "border-slate-900 bg-slate-900 text-white"
-                      : "border-slate-300 hover:border-slate-900 hover:bg-slate-50"
-                  } transition-colors`}
+
+          {!selectedRegistration ? (
+            <div className="h-40 flex items-center justify-center bg-slate-50 border border-dashed border-slate-300 rounded text-slate-500">
+              Chọn một môn học bên trái để xem lịch.
+            </div>
+          ) : isLoadingSessions ? (
+            <div className="text-center py-8 text-slate-500">Đang tải lịch...</div>
+          ) : sessions.length === 0 ? (
+            <div className="p-6 bg-slate-50 border border-slate-200 rounded text-center text-slate-500">
+              Hiện tại tutor chưa có lịch trống nào cho môn này.
+            </div>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2">
+              {sessions.map((session) => (
+                <div
+                  key={session._id || session.id}
+                  className="bg-white border border-slate-200 rounded p-4 hover:shadow-md transition-shadow"
                 >
-                  <div className="font-semibold">{slot.date}</div>
-                  <div className="text-xs mt-0.5">{slot.timeRange}</div>
-                  <div className="text-xs mt-0.5">
-                    Hình thức:{" "}
-                    <span className="font-medium">{slot.mode}</span>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold text-slate-900 line-clamp-1">
+                      {session.title}
+                    </h3>
                   </div>
-                </button>
-              );
-            })}
-            {slots.length === 0 && (
-              <div className="text-sm text-slate-500">
-                Hiện chưa có slot gợi ý (mock).
-              </div>
-            )}
-          </div>
+                  
+                  <div className="space-y-2 text-sm text-slate-600 mb-4">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-slate-400" />
+                      <span>
+                        {new Date(session.startTime).toLocaleDateString()} • {new Date(session.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-slate-400" />
+                      <span>{session.location || "Online"}</span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => handleBookSession(session)}
+                    disabled={bookingSessionId === (session._id || session.id)}
+                    className="w-full py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                  >
+                    {bookingSessionId === (session._id || session.id) ? "Đang xử lý..." : "Đặt lịch ngay"}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

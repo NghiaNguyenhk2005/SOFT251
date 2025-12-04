@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from "react";
-import { Calendar, Clock, MapPin, Link2, X } from "lucide-react";
-import { fetchStudentSessions } from "../../../services/sessionService";
+import { Calendar, Clock, MapPin, Link2, X, Trash2, AlertTriangle } from "lucide-react";
+import { fetchMySessions, cancelSessionBooking } from "../../../api/studentApi";
 
 // Cấu hình lưới giờ: 0h -> 23h (cả ngày)
 const START_HOUR = 0;
@@ -20,16 +20,37 @@ const DEFAULT_SCROLL_HOUR = 5;
 // Thứ trong tuần, BẮT ĐẦU từ MON
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-// Ngày mặc định cho tuần (Jan 11-17, 2050) - đảm bảo tất cả các ngày đều có số
-const DEFAULT_DAY_NUMBERS = {
-  Mon: 11,
-  Tue: 12,
-  Wed: 13,
-  Thu: 14,
-  Fri: 15,
-  Sat: 16,
-  Sun: 17,
-};
+// Helper: Get current week range (Mon-Sun)
+function getCurrentWeekRange() {
+  const now = new Date();
+  const currentDay = now.getDay(); // 0=Sun, 1=Mon, ...
+  
+  // Calculate Monday of current week
+  // If Sunday (0), subtract 6 days. If Mon (1), subtract 0. If Tue (2), subtract 1...
+  const diffToMon = currentDay === 0 ? 6 : currentDay - 1;
+  
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - diffToMon);
+  
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  
+  return { monday, sunday };
+}
+
+// Helper: Generate day numbers for the current week
+function getCurrentWeekDayNumbers() {
+  const { monday } = getCurrentWeekRange();
+  const map = {};
+  
+  DAYS.forEach((day, index) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + index);
+    map[day] = d.getDate();
+  });
+  
+  return map;
+}
 
 function formatHourLabel(h) {
   if (h === 0) return "12 AM";
@@ -74,15 +95,59 @@ function getDayNumberFromDateString(dateStr) {
 export default function DashboardPage() {
   const [sessions, setSessions] = useState([]);
   const [selectedSession, setSelectedSession] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const scrollContainerRef = useRef(null);
+  
+  // Cancel Confirmation State
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+
+  const loadSessions = async () => {
+    setIsLoading(true);
+    try {
+      const data = await fetchMySessions();
+      // Transform API data to UI format
+      const rawList = Array.isArray(data) ? data : data.data || [];
+      
+      const transformed = rawList.map(item => {
+        const start = new Date(item.startTime);
+        const end = new Date(item.endTime);
+        
+        // Format date: "Thu, Dec 04, 2025"
+        const dateOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+        const dateStr = start.toLocaleDateString('en-US', dateOptions);
+
+        // Format time: "10:00 - 12:00"
+        const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+        const startStr = start.toLocaleTimeString('en-US', timeOptions);
+        const endStr = end.toLocaleTimeString('en-US', timeOptions);
+        
+        return {
+          id: item._id || item.id,
+          sessionId: item.sessionId?._id || item.sessionId, // Handle populated or flat
+          subjectName: item.title || item.subjectId || "No Title",
+          tutorName: item.tutorId?.userId?.fullName || "Unknown Tutor",
+          date: dateStr,
+          timeRange: `${startStr} - ${endStr}`,
+          location: item.location || "N/A",
+          meetLink: item.meetLink,
+          status: item.status
+        };
+      });
+      
+      setSessions(transformed);
+    } catch (err) {
+      console.error("Lỗi khi tải lịch học:", err);
+      setError("Không tải được lịch học");
+      setSessions([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    fetchStudentSessions()
-      .then(setSessions)
-      .catch((err) => {
-        console.error("Lỗi khi tải lịch học:", err);
-        setSessions([]);
-      });
+    loadSessions();
   }, []);
 
   // Scroll tới giờ mặc định (5h) khi component mount
@@ -111,16 +176,35 @@ export default function DashboardPage() {
 
   // Lấy số ngày (11, 12, 13...) cho từng cột - dùng default nếu không có data
   const dayNumberMap = useMemo(() => {
-    const map = { ...DEFAULT_DAY_NUMBERS }; // Bắt đầu với default
-    sessions.forEach((session) => {
-      const key = getDayKeyFromDateString(session.date);
-      const num = getDayNumberFromDateString(session.date);
-      if (num) {
-        map[key] = num;
-      }
-    });
-    return map;
-  }, [sessions]);
+    return getCurrentWeekDayNumbers();
+  }, []);
+
+  // Calculate header date range string
+  const weekRangeString = useMemo(() => {
+    const { monday, sunday } = getCurrentWeekRange();
+    const options = { month: 'short', day: 'numeric', year: 'numeric' };
+    return `${monday.toLocaleDateString('en-US', options)} - ${sunday.toLocaleDateString('en-US', options)}`;
+  }, []);
+
+  const handleCancelSession = async () => {
+    if (!selectedSession) return;
+    setIsCancelling(true);
+    try {
+      await cancelSessionBooking(selectedSession.id); // Use booking ID
+      // Remove from state
+      setSessions(prev => prev.filter(s => s.id !== selectedSession.id));
+      setSelectedSession(null);
+      setShowCancelConfirm(false);
+    } catch (err) {
+      console.error("Lỗi khi hủy lịch:", err);
+      alert("Không thể hủy lịch. Vui lòng thử lại.");
+    } finally {
+      setIsCancelling(false);
+    }
+  };
+
+  if (isLoading) return <div className="p-8 text-center text-slate-500">Đang tải lịch...</div>;
+  if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
 
   return (
     <div className="py-6 md:py-8 h-[calc(100vh-100px)] flex flex-col">
@@ -146,7 +230,7 @@ export default function DashboardPage() {
             </span>
           </div>
           <span className="text-xs md:text-sm text-slate-500">
-            Jan 11, 2050 - Jan 17, 2050
+            {weekRangeString}
           </span>
         </div>
 
@@ -282,7 +366,10 @@ export default function DashboardPage() {
               </h3>
               <button
                 type="button"
-                onClick={() => setSelectedSession(null)}
+                onClick={() => {
+                  setSelectedSession(null);
+                  setShowCancelConfirm(false);
+                }}
                 className="p-1 rounded hover:bg-slate-100"
               >
                 <X className="w-4 h-4 text-slate-500" />
@@ -333,6 +420,42 @@ export default function DashboardPage() {
                   </a>
                 </div>
               )}
+
+              {/* Nút Hủy lịch */}
+              <div className="pt-4 border-t border-slate-100 mt-4">
+                {!showCancelConfirm ? (
+                  <button
+                    onClick={() => setShowCancelConfirm(true)}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors font-medium"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    Hủy lịch
+                  </button>
+                ) : (
+                  <div className="bg-red-50 p-3 rounded">
+                    <div className="flex items-start gap-2 text-red-700 mb-3">
+                      <AlertTriangle className="w-5 h-5 shrink-0" />
+                      <p className="text-sm">Bạn có chắc chắn muốn hủy lịch này không?</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleCancelSession}
+                        disabled={isCancelling}
+                        className="flex-1 px-3 py-1.5 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700 disabled:opacity-50"
+                      >
+                        {isCancelling ? "Đang hủy..." : "Xác nhận hủy"}
+                      </button>
+                      <button
+                        onClick={() => setShowCancelConfirm(false)}
+                        disabled={isCancelling}
+                        className="flex-1 px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded text-sm font-medium hover:bg-slate-50"
+                      >
+                        Quay lại
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
