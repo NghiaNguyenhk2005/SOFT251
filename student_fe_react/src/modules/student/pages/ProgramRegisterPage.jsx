@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Menu, Search, UserPlus, CheckCircle, AlertCircle } from "lucide-react";
-import { fetchAvailableTutors, registerWithTutor } from "../../../api/studentApi";
+import { fetchAvailableTutors, registerWithTutor, fetchMyRegistrations } from "../../../api/studentApi";
+import { useToast } from "../components/ToastProvider";
 
 export default function ProgramRegisterPage() {
+  const { addToast } = useToast();
   // State for Tutors
   const [query, setQuery] = useState("");
   const [tutors, setTutors] = useState([]);
@@ -15,7 +17,9 @@ export default function ProgramRegisterPage() {
 
   // Registration State
   const [isRegistering, setIsRegistering] = useState(false);
-  const [registerMessage, setRegisterMessage] = useState(null);
+  
+  // My Registrations (for duplicate check)
+  const [myRegistrations, setMyRegistrations] = useState([]);
 
   // Load Tutors
   const loadTutors = async (subjectCode = "") => {
@@ -23,7 +27,6 @@ export default function ProgramRegisterPage() {
     setTutorError(null);
     setSelectedTutor(null);
     setSelectedSubject(null);
-    setRegisterMessage(null);
     
     try {
       const data = await fetchAvailableTutors({ subjectId: subjectCode });
@@ -37,8 +40,20 @@ export default function ProgramRegisterPage() {
     }
   };
 
+  // Load Registrations
+  const loadRegistrations = async () => {
+    try {
+      // Fetch ALL to check for duplicates properly (ignoring CANCELLED)
+      const data = await fetchMyRegistrations({});
+      setMyRegistrations(Array.isArray(data) ? data : data.data || []);
+    } catch (err) {
+      console.error("Failed to load registrations", err);
+    }
+  };
+
   useEffect(() => {
     loadTutors();
+    loadRegistrations();
   }, []);
 
   const handleSearch = () => {
@@ -55,36 +70,51 @@ export default function ProgramRegisterPage() {
   const handleSelectTutor = (tutor) => {
     setSelectedTutor(tutor);
     setSelectedSubject(null);
-    setRegisterMessage(null);
   };
 
   // Handle Subject Selection
   const handleSelectSubject = (subjectId) => {
     setSelectedSubject(subjectId);
-    setRegisterMessage(null);
   };
 
   // Handle Registration
   const handleRegister = async () => {
     if (!selectedTutor || !selectedSubject) return;
     
+    // Client-side duplicate check
+    const isDuplicate = myRegistrations.some(reg => {
+      const regTutorId = reg.tutorId?._id || reg.tutorId;
+      const currentTutorId = selectedTutor._id;
+      // Only block if status is ACTIVE or PENDING
+      const isActiveOrPending = reg.status === 'ACTIVE' || reg.status === 'PENDING';
+      return regTutorId === currentTutorId && reg.subjectId === selectedSubject && isActiveOrPending;
+    });
+
+    if (isDuplicate) {
+      addToast("Bạn đã đăng ký môn này với tutor này rồi.", "warning");
+      return;
+    }
+
     setIsRegistering(true);
-    setRegisterMessage(null);
     try {
       // Call API to register with tutor
       await registerWithTutor(selectedTutor._id, selectedSubject);
       
-      // Success - Auto Accept
-      setRegisterMessage({ type: 'success', text: 'Đăng ký thành công! Bạn đã có thể đặt lịch với tutor này.' });
+      // Success
+      addToast("Đăng ký thành công!", "success");
       
-      // Optional: Clear selection or keep it to show success
+      // Refresh registrations
+      loadRegistrations();
+
+      // Trigger notification refresh in Header
+      window.dispatchEvent(new Event('refreshNotifications'));
+      
     } catch (err) {
       console.error("Lỗi khi đăng ký:", err);
-      // Check for specific error (e.g., already registered)
       if (err.response && err.response.status === 409) {
-        setRegisterMessage({ type: 'warning', text: 'Bạn đã đăng ký môn này với tutor rồi.' });
+        addToast("Bạn đã đăng ký môn này với tutor rồi.", "warning");
       } else {
-        setRegisterMessage({ type: 'error', text: 'Đăng ký thất bại. Vui lòng thử lại.' });
+        addToast("Đăng ký thất bại. Vui lòng thử lại.", "error");
       }
     } finally {
       setIsRegistering(false);
@@ -222,17 +252,6 @@ export default function ProgramRegisterPage() {
                     </>
                   )}
                 </button>
-
-                {registerMessage && (
-                  <div className={`mt-4 p-3 rounded text-sm flex items-start gap-2 ${
-                    registerMessage.type === 'success' ? 'bg-green-50 text-green-700' : 
-                    registerMessage.type === 'warning' ? 'bg-yellow-50 text-yellow-700' :
-                    'bg-red-50 text-red-700'
-                  }`}>
-                    {registerMessage.type === 'success' ? <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" /> : <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />}
-                    <span>{registerMessage.text}</span>
-                  </div>
-                )}
             </div>
           )}
         </div>

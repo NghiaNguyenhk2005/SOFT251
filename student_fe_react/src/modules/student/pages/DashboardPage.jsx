@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Calendar, Clock, MapPin, Link2, X, Trash2, AlertTriangle } from "lucide-react";
 import { fetchMySessions, cancelSessionBooking } from "../../../api/studentApi";
+import { useToast } from "../components/ToastProvider";
 
 // Cấu hình lưới giờ: 0h -> 23h (cả ngày)
 const START_HOUR = 0;
@@ -93,6 +94,7 @@ function getDayNumberFromDateString(dateStr) {
 }
 
 export default function DashboardPage() {
+  const { addToast } = useToast();
   const [sessions, setSessions] = useState([]);
   const [selectedSession, setSelectedSession] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -195,9 +197,10 @@ export default function DashboardPage() {
       setSessions(prev => prev.filter(s => s.id !== selectedSession.id));
       setSelectedSession(null);
       setShowCancelConfirm(false);
+      addToast("Hủy lịch thành công.", "success");
     } catch (err) {
       console.error("Lỗi khi hủy lịch:", err);
-      alert("Không thể hủy lịch. Vui lòng thử lại.");
+      addToast("Không thể hủy lịch. Vui lòng thử lại.", "error");
     } finally {
       setIsCancelling(false);
     }

@@ -143,7 +143,30 @@ export const fetchCommunities = async () => {
   try {
     // Mock data
     return [
-      { id: 1, name: "CLB Tin học", description: "Chia sẻ kiến thức lập trình", memberCount: 120, facebookUrl: "#", imageUrl: "https://via.placeholder.com/150" }
+      { 
+        id: 1, 
+        name: "K23 – HCMUT Community", 
+        description: "Cộng đồng sinh viên K23 Đại học Bách Khoa - ĐHQG TP.HCM", 
+        memberCount: "Group", 
+        facebookUrl: "https://www.facebook.com/groups/hcmut.k23/?locale=vi_VN", 
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/d/de/HCMUT_official_logo.png" 
+      },
+      { 
+        id: 2, 
+        name: "Sinh viên Đại học Bách Khoa – HCMUT", 
+        description: "Group chính thức dành cho sinh viên Bách Khoa trao đổi học tập và đời sống.", 
+        memberCount: "Group", 
+        facebookUrl: "https://www.facebook.com/groups/2725023304306622?locale=vi_VN", 
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/d/de/HCMUT_official_logo.png" 
+      },
+      { 
+        id: 3, 
+        name: "Trường Đại học Bách khoa - ĐH Quốc gia TP.HCM", 
+        description: "Trang thông tin chính thức của trường Đại học Bách Khoa.", 
+        memberCount: "Page", 
+        facebookUrl: "https://www.facebook.com/truongdhbachkhoa", 
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/d/de/HCMUT_official_logo.png" 
+      }
     ];
   } catch (error) {
     throw error;
@@ -155,8 +178,27 @@ export const fetchEvents = async () => {
   try {
     // Mock data
     return [
-      { id: 1, title: "Seminar AI", date: "2023-11-20", description: "Intro to AI", location: "Hall A" },
-      { id: 2, title: "Career Talk", date: "2023-12-01", description: "Job opportunities", location: "Hall B" }
+      { 
+        id: 1, 
+        title: "Seminar: Trí tuệ nhân tạo trong Y tế", 
+        date: "2025-12-28", 
+        description: "Hội thảo chuyên đề về ứng dụng AI trong chẩn đoán và điều trị y khoa. Diễn giả: TS. Nguyễn Văn An - Chuyên gia AI từ Google.", 
+        location: "Hội trường H6 - Đại học Bách Khoa" 
+      },
+      { 
+        id: 2, 
+        title: "Career Talk: Định hướng nghề nghiệp IT", 
+        date: "2026-01-15", 
+        description: "Gặp gỡ các nhà tuyển dụng từ FPT, VNG, Viettel. Cơ hội phỏng vấn thử và nhận offer thực tập ngay tại sự kiện.", 
+        location: "Hội trường H1 - Đại học Bách Khoa" 
+      },
+      { 
+        id: 3, 
+        title: "Workshop: Kỹ năng mềm cho sinh viên", 
+        date: "2026-02-10", 
+        description: "Rèn luyện kỹ năng giao tiếp, thuyết trình và làm việc nhóm. Workshop tương tác với các hoạt động thực tế.", 
+        location: "Hội trường B4 - Đại học Bách Khoa" 
+      }
     ];
   } catch (error) {
     throw error;
@@ -164,35 +206,32 @@ export const fetchEvents = async () => {
 };
 
 // --- Notifications ---
-export const fetchNotifications = async () => {
+export const fetchNotifications = async (params = {}) => {
   try {
-    // Mock data for notifications
-    return [
-      { 
-        id: 1, 
-        title: "Thay đổi lịch học", 
-        message: "Lịch học môn CNPM tuần này đã được dời sang thứ 6.", 
-        time: "2 giờ trước",
-        isRead: false 
-      },
-      { 
-        id: 2, 
-        title: "Nhắc nhở đánh giá", 
-        message: "Bạn chưa hoàn thành đánh giá cho buổi học trước.", 
-        time: "1 ngày trước",
-        isRead: false 
-      },
-      { 
-        id: 3, 
-        title: "Thông báo hệ thống", 
-        message: "Hệ thống sẽ bảo trì vào cuối tuần này.", 
-        time: "2 ngày trước",
-        isRead: true 
-      }
-    ];
+    const response = await apiClient.get('/notifications', { params });
+    return response.data;
   } catch (error) {
     console.error("Error fetching notifications:", error);
-    return [];
+    return { data: [] };
+  }
+};
+
+export const markNotificationAsRead = async (id) => {
+  try {
+    const response = await apiClient.put(`/notifications/${id}/read`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUnreadNotificationCount = async () => {
+  try {
+    const response = await apiClient.get('/notifications/unread-count');
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching unread count:", error);
+    return { data: { unreadCount: 0 } };
   }
 };
 

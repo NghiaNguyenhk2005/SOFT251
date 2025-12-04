@@ -45,11 +45,11 @@ export default function CommunityPage() {
             className="bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow duration-150 flex flex-col overflow-hidden"
           >
             {/* Ảnh cover lớn */}
-            <div className="h-40 md:h-44 w-full overflow-hidden">
+            <div className="h-40 md:h-44 w-full overflow-hidden bg-white flex items-center justify-center p-4 border-b border-slate-100">
               <img
                 src={community.imageUrl}
                 alt={community.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
 

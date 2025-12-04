@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Calendar, Clock, MapPin, User, BookOpen, CheckCircle, Trash2 } from "lucide-react";
 import { fetchMyRegistrations, fetchTutorSessions, bookSession, cancelRegistration } from "../../../api/studentApi";
+import { useToast } from "../components/ToastProvider";
 
 export default function ConsultationRequestPage() {
+  const { addToast } = useToast();
   const [registrations, setRegistrations] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState(null);
   const [sessions, setSessions] = useState([]);
@@ -13,10 +15,15 @@ export default function ConsultationRequestPage() {
   // 1. Load danh sách đăng ký (Tutor + Môn)
   useEffect(() => {
     setIsLoadingRegs(true);
-    fetchMyRegistrations({ status: 'ACTIVE' })
+    // Fetch ALL registrations to debug status issues
+    fetchMyRegistrations({})
       .then((data) => {
         const list = Array.isArray(data) ? data : data.data || [];
-        setRegistrations(list);
+        // Show ACTIVE and PENDING. 
+        // If user has CANCELLED, they should re-register in ProgramRegisterPage, so we don't show them here to avoid clutter,
+        // OR we show them with a "Cancelled" badge? 
+        // Let's show ACTIVE and PENDING for now.
+        setRegistrations(list.filter(r => r.status === 'ACTIVE' || r.status === 'PENDING'));
       })
       .catch((err) => {
         console.error("Lỗi tải danh sách đăng ký:", err);
@@ -57,12 +64,12 @@ export default function ConsultationRequestPage() {
     setBookingSessionId(session._id || session.id);
     try {
       await bookSession(session._id || session.id);
-      alert("Đặt lịch thành công!");
+      addToast("Đăng ký lịch thành công.", "success");
       // Refresh list to remove booked session or update status
       setSessions(prev => prev.filter(s => (s._id || s.id) !== (session._id || session.id)));
     } catch (error) {
       console.error("Lỗi đặt lịch:", error);
-      alert("Đặt lịch thất bại. Có thể lịch đã bị trùng hoặc đầy.");
+      addToast("Đặt lịch thất bại. Có thể lịch đã bị trùng hoặc đầy.", "error");
     } finally {
       setBookingSessionId(null);
     }
@@ -74,7 +81,7 @@ export default function ConsultationRequestPage() {
 
     try {
       await cancelRegistration(regId);
-      alert("Hủy đăng ký thành công!");
+      addToast("Đã hủy đăng ký.", "success");
       // Remove from list
       setRegistrations(prev => prev.filter(r => r._id !== regId));
       if (selectedRegistration?._id === regId) {
@@ -82,7 +89,7 @@ export default function ConsultationRequestPage() {
       }
     } catch (error) {
       console.error("Lỗi hủy đăng ký:", error);
-      alert("Hủy đăng ký thất bại.");
+      addToast("Hủy đăng ký thất bại.", "error");
     }
   };
 
@@ -125,8 +132,13 @@ export default function ConsultationRequestPage() {
                         : "bg-white border-slate-200 hover:border-blue-300"
                     }`}
                   >
-                    <div className="font-medium text-slate-900">
+                    <div className="font-medium text-slate-900 flex items-center gap-2">
                       {reg.subjectId}
+                      {reg.status === 'PENDING' && (
+                        <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-[10px] rounded-full">
+                          Chờ duyệt
+                        </span>
+                      )}
                     </div>
                     <div className="text-sm text-slate-600 mt-1 flex items-center justify-between">
                       <div className="flex items-center gap-2">
