@@ -11,7 +11,7 @@ const USE_MOCK_DATA = false;
  * @returns {Promise<Object>}
  */
 export async function evaluateStudent(data) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     console.log('📦 Using MOCK - evaluate student');
@@ -62,7 +62,7 @@ export async function evaluateStudent(data) {
  * @returns {Promise<Object>}
  */
 export async function getSessionEvaluations(sessionId) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     console.log('📦 Using MOCK - session evaluations');

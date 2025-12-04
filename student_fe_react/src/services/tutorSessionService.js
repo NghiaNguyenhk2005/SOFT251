@@ -11,7 +11,7 @@ const USE_MOCK_DATA = false;
  * @returns {Promise<Array>} - List of sessions
  */
 export async function getTutorSessions(params = {}) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   // Use mock data if enabled or no token
   if (USE_MOCK_DATA || !token) {
@@ -85,7 +85,7 @@ export async function getTutorSessions(params = {}) {
  * @returns {Promise<Object>} - Session statistics
  */
 export async function getSessionStats() {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   if (!token) {
     return {
       total: 0,
@@ -125,7 +125,7 @@ export async function getSessionStats() {
  * @returns {Promise<Object>}
  */
 export async function cancelSession(sessionId, reason) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     console.log('📦 Using MOCK - cancel session');
@@ -152,7 +152,7 @@ export async function cancelSession(sessionId, reason) {
  * @returns {Promise<Array>}
  */
 export async function getUpcomingSessions(params = {}) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     console.log('📦 Using MOCK - upcoming sessions');

@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, useSearchParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-import MainLayout from "./modules/student/layouts/MainLayout.jsx";
+import StudentLayout from "./modules/student/layouts/StudentLayout.jsx";
 import LoginPage from "./modules/auth/pages/LoginPage.jsx";
 
 import DashboardPage from "./modules/student/pages/DashboardPage.jsx";
@@ -19,6 +19,8 @@ import TutorDashboardPage from "./modules/tutor/pages/TutorDashboardPage.jsx";
 import TutorSessionsPage from "./modules/tutor/pages/TutorSessionsPage.jsx";
 import TutorRatingsPage from "./modules/tutor/pages/TutorRatingsPage.jsx";
 import TutorFeedbacksPage from "./modules/tutor/pages/TutorFeedbacksPage.jsx";
+import TutorProfilePage from "./modules/tutor/pages/TutorProfilePage.jsx";
+import StudentEvaluationPage from "./modules/tutor/pages/StudentEvaluationPage.jsx";
 
 // PDT imports
 import PDTLayout from "./modules/pdt/layouts/PDTLayout.jsx";
@@ -33,16 +35,23 @@ function AuthCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = searchParams.get("token");
-    if (token) {
-      localStorage.setItem("bkarch_jwt", token);
-      navigate("/student/dashboard");
-    } else {
-      navigate("/login");
-    }
+    const handleCallback = async () => {
+      const token = searchParams.get("token");
+      const { handleAuthCallback } = await import('./utils/auth');
+      await handleAuthCallback(token, navigate);
+    };
+
+    handleCallback();
   }, [searchParams, navigate]);
 
-  return <div className="min-h-screen flex items-center justify-center">Processing login...</div>;
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-slate-600">Đang xử lý đăng nhập...</p>
+      </div>
+    </div>
+  );
 }
 
 function App() {
@@ -58,7 +67,7 @@ function App() {
       <Route path="/" element={<Navigate to="/student/register" replace />} />
 
       {/* Student routes */}
-      <Route path="/student" element={<MainLayout />}>
+      <Route path="/student" element={<StudentLayout />}>
         <Route index element={<Navigate to="register" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="register" element={<ProgramRegisterPage />} />
@@ -75,8 +84,10 @@ function App() {
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<TutorDashboardPage />} />
         <Route path="sessions" element={<TutorSessionsPage />} />
+        <Route path="evaluations" element={<StudentEvaluationPage />} />
         <Route path="ratings" element={<TutorRatingsPage />} />
         <Route path="feedbacks" element={<TutorFeedbacksPage />} />
+        <Route path="profile" element={<TutorProfilePage />} />
       </Route>
 
       {/* PDT routes */}

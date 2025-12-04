@@ -11,7 +11,7 @@ const USE_MOCK_DATA = false;
  */
 export async function getTutorFeedbacks() {
   // Check if user is authenticated
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   // Use mock data if enabled or no token
   if (USE_MOCK_DATA || !token) {
@@ -34,22 +34,31 @@ export async function getTutorFeedbacks() {
   }
 
   try {
+    // Use the tutors endpoint (UC-22)
     const response = await api.get('/tutors/me/feedbacks');
-    const feedbacks = response.data || [];
+    const feedbacks = response?.data?.data || response?.data || [];
+    
+    console.log('✅ Fetched tutor feedbacks:', feedbacks.length);
     
     // Transform backend format to frontend format
     return feedbacks.map(feedback => ({
       id: feedback._id,
-      studentName: feedback.studentId?.fullName || 'Ẩn danh',
-      studentId: feedback.studentId?.hcmutId || 'N/A',
+      studentName: feedback.studentId?.fullName || feedback.studentId?.name || (feedback.isAnonymous ? 'Ẩn danh' : 'N/A'),
+      studentId: feedback.studentId?.studentId || feedback.studentId?.mssv || 'N/A',
       sessionTitle: feedback.sessionId?.title || 'N/A',
       rating: feedback.rating || 0,
       comment: feedback.comment || '',
       date: new Date(feedback.createdAt).toLocaleDateString('vi-VN'),
       timestamp: feedback.createdAt,
+      isAnonymous: feedback.isAnonymous || false
     }));
   } catch (error) {
-    console.error('Error fetching tutor feedbacks:', error);
+    console.error('❌ Error fetching tutor feedbacks:', error);
+    console.error('Error details:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data
+    });
     return [];
   }
 }
@@ -89,7 +98,7 @@ export async function getTutorFeedbackStats(feedbacks = null) {
   }
 
   // Otherwise fetch feedbacks first
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   if (!token && !USE_MOCK_DATA) {
     return {
       averageRating: 0,

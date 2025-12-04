@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { handleAuthCallback } from "../../../utils/auth";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // Check if token is in URL (callback from backend)
     const token = searchParams.get("token");
     if (token) {
-      localStorage.setItem("bkarch_jwt", token);
-      navigate("/student/dashboard");
+      handleAuthCallback(token, navigate);
     }
   }, [searchParams, navigate]);
 

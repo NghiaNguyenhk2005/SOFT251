@@ -11,7 +11,7 @@ const USE_MOCK_DATA = false;
  */
 export async function fetchTutorNotifications() {
   // Check if user is authenticated before making API calls
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   // Use mock data if enabled or no token
   if (USE_MOCK_DATA || !token) {
@@ -135,7 +135,7 @@ export async function fetchTutorNotifications() {
  * @returns {Promise<number>}
  */
 export async function getUnreadNotificationsCount() {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     // Count unread from mock data
@@ -159,7 +159,7 @@ export async function getUnreadNotificationsCount() {
  * @returns {Promise<Object>}
  */
 export async function markNotificationAsRead(notificationId) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     console.log('📦 Using MOCK - mark notification as read:', notificationId);
@@ -188,7 +188,7 @@ export async function markNotificationAsRead(notificationId) {
  * @returns {Promise<Object>}
  */
 export async function markAllNotificationsAsRead() {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     console.log('📦 Using MOCK - mark all as read');

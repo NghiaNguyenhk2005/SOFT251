@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Calendar, Star, Users, MessageCircle } from "lucide-react";
+import { Calendar, Star, Users, MessageCircle, User, ClipboardCheck } from "lucide-react";
 
 const menuItems = [
   {
@@ -14,13 +14,23 @@ const menuItems = [
   },
   {
     label: "Đánh giá sinh viên",
+    to: "/tutor/evaluations",
+    icon: ClipboardCheck,
+  },
+  {
+    label: "Đánh giá của tôi",
     to: "/tutor/ratings",
     icon: Star,
   },
   {
-    label: "Đánh giá của tôi",
+    label: "Phản hồi",
     to: "/tutor/feedbacks",
     icon: MessageCircle,
+  },
+  {
+    label: "Thông tin cá nhân",
+    to: "/tutor/profile",
+    icon: User,
   },
 ];
 

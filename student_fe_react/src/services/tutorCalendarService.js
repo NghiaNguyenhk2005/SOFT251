@@ -12,13 +12,88 @@ export const MOCK_SESSION_TYPES = ['ONLINE', 'OFFLINE'];
 export const MOCK_LOCATIONS = ['Online', 'Phòng B4-201', 'Phòng H1-101', 'Thư viện'];
 
 /**
+ * Delete/Cancel availability slot
+ * @param {string} availabilityId - Availability ID
+ * @param {string} reason - Cancellation reason (optional)
+ */
+export async function deleteAvailability(availabilityId, reason) {
+  console.log('📡 [deleteAvailability] Calling API:', {
+    url: `/schedules/availability/${availabilityId}`,
+    reason: reason || '(no reason)',
+    hasToken: !!localStorage.getItem('bkarch_jwt')
+  });
+  
+  try {
+    const response = await api.delete(`/schedules/availability/${availabilityId}`, {
+      data: reason ? { reason } : {}
+    });
+    
+    console.log('✅ [deleteAvailability] API Response:', response);
+    return response.data || response;
+  } catch (error) {
+    console.error('❌ [deleteAvailability] API Error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      status: error.status,
+      data: error.data
+    });
+    throw error;
+  }
+}
+
+/**
+ * Update availability time
+ * @param {string} availabilityId - Availability ID
+ * @param {Object} updates - { startTime, endTime, ... }
+ */
+export async function updateAvailability(availabilityId, updates) {
+  try {
+    const response = await api.put(`/schedules/availability/${availabilityId}`, updates);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating availability:', error);
+    throw error;
+  }
+}
+
+/**
+ * Cancel session
+ * @param {string} sessionId - Session ID
+ * @param {string} reason - Cancellation reason (optional)
+ */
+export async function cancelSession(sessionId, reason) {
+  console.log('📡 [cancelSession] Calling API:', {
+    url: `/sessions/${sessionId}`,
+    reason: reason || '(no reason)',
+    hasToken: !!localStorage.getItem('bkarch_jwt')
+  });
+  
+  try {
+    const response = await api.delete(`/sessions/${sessionId}`, {
+      data: reason ? { reason } : {}
+    });
+    
+    console.log('✅ [cancelSession] API Response:', response);
+    return response.data || response;
+  } catch (error) {
+    console.error('❌ [cancelSession] API Error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      status: error.status,
+      data: error.data
+    });
+    throw error;
+  }
+}
+
+/**
  * Helper function to format backend session/availability data to calendar event format
  */
 function formatSessionToCalendarEvent(session) {
   const startTime = new Date(session.startTime);
   const endTime = new Date(session.endTime);
   
-  // Format date: "Mon, Jan 11, 2050"
+  // Format date: "Mon, Dec 5, 2025"
   const date = startTime.toLocaleDateString('en-US', { 
     weekday: 'short', 
     month: 'short', 
@@ -26,12 +101,12 @@ function formatSessionToCalendarEvent(session) {
     year: 'numeric' 
   });
   
-  // Format time range: "09:00 - 10:30"
-  const formatTime = (d) => d.toLocaleTimeString('en-US', { 
-    hour: '2-digit', 
-    minute: '2-digit', 
-    hour12: false 
-  });
+  // Format time manually to ensure HH:mm format
+  const formatTime = (d) => {
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
   const timeRange = `${formatTime(startTime)} - ${formatTime(endTime)}`;
   
   return {
@@ -43,22 +118,38 @@ function formatSessionToCalendarEvent(session) {
     timeRange,
     location: session.location,
     meetLink: session.meetLink || '',
-    status: session.status.toLowerCase(),
+    status: session.status?.toLowerCase() || 'scheduled',
   };
 }
 
 function formatAvailabilityToCalendarEvent(availability) {
-  // Assuming availability has dayOfWeek, startTime, endTime
-  // For now, we'll use a placeholder date based on dayOfWeek
-  const dayMap = { 0: 'Sun', 1: 'Mon', 2: 'Tue', 3: 'Wed', 4: 'Thu', 5: 'Fri', 6: 'Sat' };
-  const day = dayMap[availability.dayOfWeek] || 'Mon';
+  // Get current week's date for the specified dayOfWeek
+  const today = new Date();
+  const currentDay = today.getDay(); // 0-6
+  const targetDay = availability.dayOfWeek; // 0-6
+  
+  // Calculate difference in days
+  let diff = targetDay - currentDay;
+  if (diff < 0) diff += 7; // If target day is earlier in the week, go to next week
+  
+  // Create date for this week's occurrence of the dayOfWeek
+  const targetDate = new Date(today);
+  targetDate.setDate(today.getDate() + diff);
+  
+  // Format date: "Mon, Dec 11, 2025"
+  const date = targetDate.toLocaleDateString('en-US', { 
+    weekday: 'short', 
+    month: 'short', 
+    day: 'numeric', 
+    year: 'numeric' 
+  });
   
   return {
     id: availability._id,
     type: 'availability',
-    date: `${day}, Jan 11, 2050`, // Placeholder - you may need to calculate actual dates
+    date,
     timeRange: `${availability.startTime} - ${availability.endTime}`,
-    location: availability.location || 'Online / Offline',
+    location: 'Linh hoạt',
     status: 'available',
   };
 }
@@ -68,7 +159,7 @@ function formatAvailabilityToCalendarEvent(availability) {
  */
 export async function fetchTutorCalendarEvents() {
   // Check if user is authenticated before making API calls
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   // Use mock data if enabled or no token
   if (USE_MOCK_DATA || !token) {
@@ -79,21 +170,30 @@ export async function fetchTutorCalendarEvents() {
   }
 
   try {
-    // Fetch both sessions and availability
+    // Fetch both sessions and availability (only active ones)
     const [sessionsResponse, availabilityResponse] = await Promise.all([
-      api.get('/tutors/me/sessions?limit=100'),
-      api.get('/tutors/me') // Get profile which may include availability
+      api.get('/sessions/upcoming?limit=100'),
+      api.get('/schedules/availability/me?isActive=true')
     ]);
 
-    const sessions = sessionsResponse.data || [];
-    const events = sessions.map(formatSessionToCalendarEvent);
+    const sessions = sessionsResponse?.data?.data || sessionsResponse?.data || [];
+    const availabilities = availabilityResponse?.data?.data || availabilityResponse?.data || [];
 
-    // Note: Availability endpoint might need to be added to backend
-    // For now, returning only sessions
-    return events;
+    // Format sessions
+    const sessionEvents = Array.isArray(sessions) ? sessions.map(formatSessionToCalendarEvent) : [];
+    
+    // Format availability slots - FILTER ONLY ACTIVE ONES
+    const activeAvailabilities = Array.isArray(availabilities) 
+      ? availabilities.filter(a => a.isActive !== false)  // Only show active slots
+      : [];
+    const availabilityEvents = activeAvailabilities.map(formatAvailabilityToCalendarEvent);
+
+    // Combine both
+    return [...sessionEvents, ...availabilityEvents];
   } catch (error) {
     console.error('Error fetching calendar events:', error);
-    throw error;
+    // Return empty array on error to prevent breaking the UI
+    return [];
   }
 }
 
@@ -104,7 +204,7 @@ export async function fetchTutorCalendarEvents() {
  * @returns {Promise<Object>} - Created session
  */
 export async function createTutorSession(sessionData) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     console.log('📦 Using MOCK - create session');
@@ -166,7 +266,7 @@ export async function createTutorSession(sessionData) {
  * @returns {Promise<Object>} - Created availability
  */
 export async function createTutorAvailability(availabilityData) {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('bkarch_jwt');
   
   if (USE_MOCK_DATA || !token) {
     console.log('📦 Using MOCK - create availability');
@@ -187,15 +287,26 @@ export async function createTutorAvailability(availabilityData) {
   
   try {
     const date = new Date(availabilityData.date);
-    const dayOfWeek = date.getDay(); // 0-6
+    const dayOfWeek = date.getDay(); // 0-6 (0=Sunday, 6=Saturday)
+
+    // BR-001: Backend requires hourly format (HH:00)
+    // Extract hour from time and format as HH:00
+    const formatToHourly = (time) => {
+      const hour = time.split(':')[0];
+      return `${hour.padStart(2, '0')}:00`;
+    };
 
     const payload = {
       dayOfWeek,
-      startTime: availabilityData.startTime || '09:00',
-      endTime: availabilityData.endTime || '17:00',
-      location: availabilityData.location,
+      startTime: formatToHourly(availabilityData.startTime || '09:00'),
+      endTime: formatToHourly(availabilityData.endTime || '17:00'),
       isActive: true,
     };
+
+    // Validate hourly format
+    if (payload.startTime === payload.endTime) {
+      throw new Error('Thời gian bắt đầu và kết thúc phải khác nhau (tối thiểu 1 giờ)');
+    }
 
     // POST /api/v1/schedules/availability
     const response = await api.post('/schedules/availability', payload);

@@ -10,6 +10,16 @@ export const fetchUserProfile = async () => {
   }
 };
 
+// Get current user info with role
+export const fetchCurrentUser = async () => {
+  try {
+    const response = await apiClient.get('/auth/me');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // --- Registration (Tutor & Subject) ---
 
 // Register with a tutor for a subject: POST /registrations

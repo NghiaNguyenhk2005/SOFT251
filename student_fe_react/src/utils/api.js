@@ -13,7 +13,7 @@ class APIError extends Error {
 
 // Helper function to get auth token from localStorage
 const getAuthToken = () => {
-  return localStorage.getItem('authToken') || '';
+  return localStorage.getItem('bkarch_jwt') || '';
 };
 
 // Generic fetch wrapper
@@ -80,7 +80,15 @@ export const api = {
   post: (endpoint, body, options) => fetchAPI(endpoint, { ...options, method: 'POST', body }),
   put: (endpoint, body, options) => fetchAPI(endpoint, { ...options, method: 'PUT', body }),
   patch: (endpoint, body, options) => fetchAPI(endpoint, { ...options, method: 'PATCH', body }),
-  delete: (endpoint, options) => fetchAPI(endpoint, { ...options, method: 'DELETE' }),
+  delete: (endpoint, options) => {
+    // Support body in DELETE requests
+    const { data, ...restOptions } = options || {};
+    return fetchAPI(endpoint, { 
+      ...restOptions, 
+      method: 'DELETE', 
+      body: data 
+    });
+  },
 };
 
 export { APIError, API_BASE_URL };

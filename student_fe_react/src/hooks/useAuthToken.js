@@ -20,7 +20,7 @@ export function useAuthToken(onTokenReceived) {
       console.log('✅ Token received from URL, saving to localStorage...');
       
       // Save token to localStorage
-      localStorage.setItem('authToken', token);
+      localStorage.setItem('bkarch_jwt', token);
       
       // Remove token from URL for security
       searchParams.delete('token');
