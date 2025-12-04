@@ -91,6 +91,13 @@ export default function TutorDashboardPage() {
   const scrollContainerRef = useRef(null);
 
   const refreshEvents = () => {
+    // Only fetch events if we have an auth token
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      console.warn('No auth token found. Skipping calendar events fetch.');
+      return;
+    }
+
     fetchTutorCalendarEvents()
       .then(setEvents)
       .catch((err) => console.error("Lỗi khi tải lịch:", err));
@@ -101,6 +108,10 @@ export default function TutorDashboardPage() {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = (DEFAULT_SCROLL_HOUR - START_HOUR) * SLOT_HEIGHT;
     }
+    
+    // Auto refresh every 5 minutes
+    const interval = setInterval(refreshEvents, 5 * 60 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const eventsByDay = useMemo(() => {
@@ -199,9 +210,10 @@ export default function TutorDashboardPage() {
       </div>
       
       {/* Modals */}
-      {selectedEvent && <EventDetailModal event={selectedEvent} onClose={closeModal} />}
+      {selectedEvent && <EventDetailModal event={selectedEvent} onClose={closeModal} onEdit={handleEditAvailability} onDelete={handleDeleteAvailability} />}
       {isModalOpen === 'session' && <AddSessionModal onClose={closeModal} onSave={refreshEvents} />}
       {isModalOpen === 'availability' && <AddAvailabilityModal onClose={closeModal} onSave={refreshEvents} />}
+      {isModalOpen === 'edit-availability' && <EditAvailabilityModal event={editingAvailability} onClose={closeModal} onSave={refreshEvents} />}
     </div>
   );
 }
@@ -219,15 +231,32 @@ const Modal = ({ children, title, onClose }) => (
   </div>
 );
 
-const EventDetailModal = ({ event, onClose }) => (
+const EventDetailModal = ({ event, onClose, onEdit, onDelete }) => (
   <Modal title="Chi tiết" onClose={onClose}>
     <div className="p-4 md:p-5 space-y-3 text-sm">
-      <p><span className="font-semibold">Loại:</span> {event.type}</p>
-      <p><span className="font-semibold">Môn học:</span> {event.subjectName || 'N/A'}</p>
+      <p><span className="font-semibold">Loại:</span> {event.type === 'availability' ? 'Lịch rảnh' : event.type === 'session' ? 'Buổi học' : 'Yêu cầu'}</p>
+      {event.subjectName && <p><span className="font-semibold">Môn học:</span> {event.subjectName}</p>}
       <p><span className="font-semibold">Thời gian:</span> {event.date}, {event.timeRange}</p>
       <p><span className="font-semibold">Địa điểm:</span> {event.location}</p>
+      {event.studentCount > 0 && <p><span className="font-semibold">Số SV:</span> {event.studentCount}</p>}
       {event.meetLink && <p><span className="font-semibold">Link:</span> <a href={event.meetLink} className="text-blue-600 hover:underline">{event.meetLink}</a></p>}
       <div className="pt-2 flex justify-end gap-2">
+        {event.type === 'availability' && (
+          <>
+            <button 
+              onClick={() => { onClose(); onEdit(event); }} 
+              className="px-3 py-1.5 text-xs bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Chỉnh sửa
+            </button>
+            <button 
+              onClick={() => onDelete(event)} 
+              className="px-3 py-1.5 text-xs bg-red-500 text-white rounded-md hover:bg-red-600"
+            >
+              Xóa
+            </button>
+          </>
+        )}
         {event.status === 'pending_request' && (
             <>
                 <button className="px-3 py-1.5 text-xs bg-red-500 text-white rounded-md hover:bg-red-600">Từ chối</button>
@@ -253,14 +282,21 @@ const AddSessionModal = ({ onClose, onSave }) => {
         e.preventDefault();
         const sessionData = {
             subjectName: MOCK_COURSES.find(c => c.id === courseId)?.name,
-            date: new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }),
-            timeRange: `${startTime} - ${endTime}`,
+            subjectId: courseId,
+            date,
+            startTime,
+            endTime,
             location,
             studentCount,
         };
-        await createTutorSession(sessionData);
-        onSave();
-        onClose();
+        try {
+            await createTutorSession(sessionData);
+            onSave();
+            onClose();
+        } catch (error) {
+            console.error('Failed to create session:', error);
+            alert('Lỗi khi tạo buổi học. Vui lòng thử lại.');
+        }
     };
 
     return (
@@ -312,13 +348,19 @@ const AddAvailabilityModal = ({ onClose, onSave }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const availabilityData = {
-            date: new Date(date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }),
-            timeRange: `${startTime} - ${endTime}`,
+            date,
+            startTime,
+            endTime,
             location,
         };
-        await createTutorAvailability(availabilityData);
-        onSave();
-        onClose();
+        try {
+            await createTutorAvailability(availabilityData);
+            onSave();
+            onClose();
+        } catch (error) {
+            console.error('Failed to create availability:', error);
+            alert('Lỗi khi tạo lịch rảnh. Vui lòng thử lại.');
+        }
     };
 
     return (
@@ -353,4 +395,98 @@ const AddAvailabilityModal = ({ onClose, onSave }) => {
             </form>
         </Modal>
     );
+
+const EditAvailabilityModal = ({ event, onClose, onSave }) => {
+    // Parse time range "09:00 - 11:00" to get start and end times
+    const parseTime = (timeRange) => {
+        if (!timeRange) return ['09:00', '17:00'];
+        const parts = timeRange.split('-').map(t => t.trim());
+        return [parts[0] || '09:00', parts[1] || '17:00'];
+    };
+
+    const [startTime, endTime] = parseTime(event?.timeRange);
+    const [newStartTime, setNewStartTime] = useState(startTime);
+    const [newEndTime, setNewEndTime] = useState(endTime);
+    const [location, setLocation] = useState(event?.location || 'Online');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const { api } = await import('../../../utils/api.js');
+            await api.put(`/schedules/availability/${event.id}`, {
+                startTime: newStartTime,
+                endTime: newEndTime,
+                location
+            });
+            alert('Đã cập nhật lịch rảnh thành công!');
+            onSave();
+            onClose();
+        } catch (error) {
+            console.error('Failed to update availability:', error);
+            alert('Lỗi khi cập nhật lịch rảnh. Vui lòng thử lại.');
+        }
+    };
+
+    return (
+        <Modal title="Chỉnh sửa lịch rảnh" onClose={onClose}>
+            <form onSubmit={handleSubmit} className="p-4 space-y-4 text-sm">
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">Từ</label>
+                        <input 
+                            type="time" 
+                            value={newStartTime} 
+                            onChange={e => setNewStartTime(e.target.value)} 
+                            className="w-full border border-slate-300 rounded-md px-2 py-1.5" 
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">Đến</label>
+                        <input 
+                            type="time" 
+                            value={newEndTime} 
+                            onChange={e => setNewEndTime(e.target.value)} 
+                            className="w-full border border-slate-300 rounded-md px-2 py-1.5" 
+                            required
+                        />
+                    </div>
+                </div>
+                <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Địa điểm</label>
+                    <select 
+                        value={location} 
+                        onChange={e => setLocation(e.target.value)} 
+                        className="w-full border border-slate-300 rounded-md px-2 py-1.5 bg-white"
+                    >
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                        <option value="Online / Offline">Linh hoạt</option>
+                    </select>
+                </div>
+                <div className="bg-blue-50 border border-blue-200 rounded-md p-3">
+                    <p className="text-xs text-blue-800">
+                        💡 <strong>Thông tin:</strong> {event?.date} - Bạn đang chỉnh sửa thời gian và địa điểm của lịch rảnh này.
+                    </p>
+                </div>
+                <div className="pt-2 flex justify-end gap-2">
+                    <button 
+                        type="button" 
+                        onClick={onClose} 
+                        className="px-3 py-1.5 text-xs bg-slate-100 border border-slate-200 rounded-md hover:bg-slate-200"
+                    >
+                        Hủy
+                    </button>
+                    <button 
+                        type="submit" 
+                        className="px-4 py-1.5 text-xs bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                    >
+                        Cập nhật
+                    </button>
+                </div>
+            </form>
+        </Modal>
+    );
+};
 };
