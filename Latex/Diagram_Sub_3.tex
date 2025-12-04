@@ -1,10 +1,11 @@
-\section{Lược đồ triển khai, hiện thực và các lớp hiện thực (Deployment, Implementation and Class Diagram)}
+\section{Các lược đồ cấu trúc (Structure Diagram)}
 
-\subsection{Lược đồ triển khai}
-
+\subsection{Lược đồ triển khai (Deployment Diagram)}
+\begin{center}
 \includegraphics[width = \textwidth]{image/SUB3/deploy.drawio.png}
+\end{center}
 
-\subsection{Lược đồ hiện thực}
+\subsection{Lược đồ hiện thực (Implementation Diagram)}
 \subsubsection{Lược đồ hiện thực các component}
 \includegraphics[width = \textwidth]{image/SUB3/Implementation_Component.png}
 Mô tả các component: \\
@@ -30,7 +31,7 @@ Mô tả các package: \\
 \end{itemize}
 
 \subsection{Lược đồ các lớp hiện thực}
-\includegraphics[width = \textwidth]{image/SUB3/Class Diagram.png}
+\includegraphics[width = \textwidth]{image/SUB3/Class Diagram.jpg}
 Mô tả các lớp hiện thực:
 \subsubsection*{\textbf{Lớp: User (Abstract)}}
 \begin{itemize}
@@ -85,8 +86,6 @@ Mô tả các lớp hiện thực:
     Xem danh sách tất cả các buổi tư vấn và lịch hẹn mà Tutor quản lý. Bao gồm các buổi đã mở, yêu cầu đặt lịch đang chờ xử lý và các buổi sắp diễn ra.
   \item \textbf{manageSession(String sessionId) : void} \\
     Quản lý buổi học bao gồm cập nhật thông tin, thêm/xóa sinh viên, thay đổi trạng thái session. Tutor có toàn quyền kiểm soát các buổi học do mình tạo.
-  \item \textbf{evaluateStudentProgress(String studentId, Map<String,Any> progress) : ProgressReport} \\
-    Đánh giá tiến bộ học tập của sinh viên theo từng môn học.
   \item \textbf{viewFeedback() : List<Feedback>} \\
     Xem tất cả phản hồi từ sinh viên về các buổi học. Giúp Tutor nắm bắt ý kiến đánh giá và cải thiện chất lượng giảng dạy.
   \item \textbf{prepareSessionReport(String sessionId) : SessionReport} \\
@@ -190,7 +189,7 @@ Mô tả các lớp hiện thực:
     Truy cập file tài liệu từ thư viện. Phương thức này xử lý việc download hoặc xem online tài liệu từ hệ thống thư viện.
 \end{itemize}
 
-\subsubsection*{\textbf{Lớp: Feedback}}
+\subsubsection*{\textbf{Lớp: TutorFeedback}}
 \begin{itemize}
   \renewcommand{\labelitemi}{-}
   \item \textbf{submit() : void} \\
@@ -199,7 +198,7 @@ Mô tả các lớp hiện thực:
     Cập nhật phản hồi đã gửi. Cho phép sinh viên chỉnh sửa nội dung phản hồi trong thời gian cho phép.
 \end{itemize}
 
-\subsubsection*{\textbf{Lớp: Rating}}
+\subsubsection*{\textbf{Lớp: StudentFeedback}}
 \begin{itemize}
   \renewcommand{\labelitemi}{-}
   \item \textbf{submit() : void} \\

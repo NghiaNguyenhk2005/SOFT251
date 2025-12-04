@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-// Student imports
-import MainLayout from "./modules/student/layouts/MainLayout.jsx";
+// Student imports...
+import StudentLayout from "./modules/student/layouts/StudentLayout.jsx";
 import DashboardPage from "./modules/student/pages/DashboardPage.jsx";
 import ProgramRegisterPage from "./modules/student/pages/ProgramRegisterPage.jsx";
 import LibraryPage from "./modules/student/pages/LibraryPage.jsx";
@@ -18,15 +18,21 @@ import TutorSessionsPage from "./modules/tutor/pages/TutorSessionsPage.jsx";
 import TutorRatingsPage from "./modules/tutor/pages/TutorRatingsPage.jsx";
 import TutorFeedbacksPage from "./modules/tutor/pages/TutorFeedbacksPage.jsx";
 
+// PDT imports
+import PDTLayout from "./modules/pdt/layouts/PDTLayout.jsx";
+import PDTHomepage from "./modules/pdt/pages/PDTHomepage.jsx";
+import PDTAnalytics from "./modules/pdt/pages/PDTAnalytics.jsx";
+import PDTRedistribution from "./modules/pdt/pages/PDTRedistribution.jsx";
+import PDTFeedback from "./modules/pdt/pages/PDTFeedback.jsx";
+
 function App() {
   return (
     <Routes>
-      {/* Redirect từ gốc về student */}
+      {/* Redirect root to student */}
       <Route path="/" element={<Navigate to="/student/register" replace />} />
 
-      {/* Layout sinh viên */}
-      <Route path="/student" element={<MainLayout />}>
-        {/* khi vào /student thì nhảy về /student/register */}
+      {/* Student routes */}
+      <Route path="/student" element={<StudentLayout />}>
         <Route index element={<Navigate to="register" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="register" element={<ProgramRegisterPage />} />
@@ -50,6 +56,15 @@ function App() {
         <Route path="feedbacks" element={<TutorFeedbacksPage />} />
       </Route>
 
+      {/* PDT routes */}
+      <Route path="/pdt" element={<PDTLayout />}>
+        <Route index element={<Navigate to="/pdt/homepage" replace />} />
+        <Route path="homepage" element={<PDTHomepage />} />
+        <Route path="analytics" element={<PDTAnalytics />} />
+        <Route path="redistribution" element={<PDTRedistribution />} />
+        <Route path="feedback" element={<PDTFeedback />} />
+      </Route>
+
       {/* 404 */}
       <Route
         path="*"
@@ -71,4 +86,3 @@ function App() {
 }
 
 export default App;
-
