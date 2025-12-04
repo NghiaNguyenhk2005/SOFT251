@@ -11,13 +11,12 @@ import HistoryPage from "./modules/student/pages/HistoryPage.jsx";
 import ConsultationRequestPage from "./modules/student/pages/ConsultationRequestPage.jsx";
 import MyConsultationsPage from "./modules/student/pages/MyConsultationsPage.jsx";
 
-// Tutor imports
+// Tutor imports - Only backend-supported pages
 import TutorMainLayout from "./modules/tutor/layouts/TutorMainLayout.jsx";
 import TutorDashboardPage from "./modules/tutor/pages/TutorDashboardPage.jsx";
-import TutorCoursesPage from "./modules/tutor/pages/TutorCoursesPage.jsx";
-import TutorCourseDetailPage from "./modules/tutor/pages/TutorCourseDetailPage.jsx";
-import TutorLibraryPage from "./modules/tutor/pages/TutorLibraryPage.jsx";
-import TutorNotificationsPage from "./modules/tutor/pages/TutorNotificationsPage.jsx";
+import TutorSessionsPage from "./modules/tutor/pages/TutorSessionsPage.jsx";
+import TutorRatingsPage from "./modules/tutor/pages/TutorRatingsPage.jsx";
+import TutorFeedbacksPage from "./modules/tutor/pages/TutorFeedbacksPage.jsx";
 
 function App() {
   return (
@@ -42,14 +41,13 @@ function App() {
         <Route path="consultations" element={<MyConsultationsPage />} />
       </Route>
 
-      {/* Layout Tutor */}
+      {/* Layout Tutor - Only backend-supported routes */}
       <Route path="/tutor" element={<TutorMainLayout />}>
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<TutorDashboardPage />} />
-        <Route path="courses" element={<TutorCoursesPage />} />
-        <Route path="courses/:courseId" element={<TutorCourseDetailPage />} />
-        <Route path="library" element={<TutorLibraryPage />} />
-        <Route path="notifications" element={<TutorNotificationsPage />} />
+        <Route path="sessions" element={<TutorSessionsPage />} />
+        <Route path="ratings" element={<TutorRatingsPage />} />
+        <Route path="feedbacks" element={<TutorFeedbacksPage />} />
       </Route>
 
       {/* 404 */}
