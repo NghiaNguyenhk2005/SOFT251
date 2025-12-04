@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.21)  28 NOV 2025 05:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.9.21)  30 NOV 2025 13:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**d:/CNPM/ICS/SOFT251/main.tex
-(d:/CNPM/ICS/SOFT251/main.tex
+**d:/CNPM/S251/SOFT251/Latex/main.tex
+(d:/CNPM/S251/SOFT251/Latex/main.tex
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
 (C:\Users\nghia\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -1153,7 +1153,7 @@ Package hyperref Info: Link coloring ON on input line 111.
 \@outlinefile=\write5
 \openout5 = `main.out'.
 
-<image/hcmut.png, id=246, 438.9198pt x 418.6842pt>
+<image/hcmut.png, id=254, 438.9198pt x 418.6842pt>
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
 Package pdftex.def Info: image/hcmut.png  used on input line 123.
@@ -1195,13 +1195,13 @@ l.45 ...vity and Sequence Diagram)}{44}{section.6}
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 192.
+Package pdftex.def Info: image/hcmut.png  used on input line 191.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [2]
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 269.
+Package pdftex.def Info: image/hcmut.png  used on input line 268.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [3] (Introduction.tex
 
@@ -1278,7 +1278,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 14.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [12]) (UCD_Scenario.tex
-<image/SYS_Final.drawio.png, id=415, 1202.4925pt x 1456.44125pt>
+<image/SYS_Final.drawio.png, id=424, 1202.4925pt x 1456.44125pt>
 File: image/SYS_Final.drawio.png Graphic file (type png)
 <use image/SYS_Final.drawio.png>
 Package pdftex.def Info: image/SYS_Final.drawio.png  used on input line 3.
@@ -1290,7 +1290,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 5.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [13]
-<image/Student.drawio.png, id=421, 1202.4925pt x 1014.79124pt>
+<image/Student.drawio.png, id=430, 1202.4925pt x 1014.79124pt>
 File: image/Student.drawio.png Graphic file (type png)
 <use image/Student.drawio.png>
 Package pdftex.def Info: image/Student.drawio.png  used on input line 6.
@@ -1338,7 +1338,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 313.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [20]
-<image/TutorUCDiagram.drawio.png, id=468, 1205.50375pt x 1065.9825pt>
+<image/TutorUCDiagram.drawio.png, id=477, 1205.50375pt x 1065.9825pt>
 File: image/TutorUCDiagram.drawio.png Graphic file (type png)
 <use image/TutorUCDiagram.drawio.png>
 Package pdftex.def Info: image/TutorUCDiagram.drawio.png  used on input line 350.
@@ -1413,7 +1413,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 668.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [29]
-<image/Khoa.drawio.png, id=526, 717.68124pt x 412.54124pt>
+<image/Khoa.drawio.png, id=535, 717.68124pt x 412.54124pt>
 File: image/Khoa.drawio.png Graphic file (type png)
 <use image/Khoa.drawio.png>
 Package pdftex.def Info: image/Khoa.drawio.png  used on input line 670.
@@ -1431,7 +1431,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 709.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [31 <./image/Khoa.drawio.png>]
-<image/PĐT.drawio.png, id=540, 804.00375pt x 533.995pt>
+<image/PĐT.drawio.png, id=549, 804.00375pt x 533.995pt>
 File: image/PĐT.drawio.png Graphic file (type png)
 <use image/PĐT.drawio.png>
 Package pdftex.def Info: image/PĐT.drawio.png  used on input line 711.
@@ -1448,7 +1448,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 751.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
  [33]
-<image/pctsv-usecase.png, id=555, 3240.105pt x 1899.095pt>
+<image/pctsv-usecase.png, id=564, 3240.105pt x 1899.095pt>
 File: image/pctsv-usecase.png Graphic file (type png)
 <use image/pctsv-usecase.png>
 Package pdftex.def Info: image/pctsv-usecase.png  used on input line 774.
@@ -1464,7 +1464,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 855.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [35]
-<image/Admin.drawio.png, id=570, 860.21375pt x 875.27pt>
+<image/Admin.drawio.png, id=579, 860.21375pt x 875.27pt>
 File: image/Admin.drawio.png Graphic file (type png)
 <use image/Admin.drawio.png>
 Package pdftex.def Info: image/Admin.drawio.png  used on input line 888.
@@ -1496,7 +1496,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 1057.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
  [40]
-<image/ĐPV1.drawio.png, id=607, 716.6775pt x 412.54124pt>
+<image/ĐPV1.drawio.png, id=616, 716.6775pt x 412.54124pt>
 File: image/ĐPV1.drawio.png Graphic file (type png)
 <use image/ĐPV1.drawio.png>
 Package pdftex.def Info: image/ĐPV1.drawio.png  used on input line 1060.
@@ -1514,7 +1514,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 1.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [42]
-<image/SUB2/ACT/Act1.drawio.png, id=621, 1766.6pt x 2711.12875pt>
+<image/SUB2/ACT/Act1.drawio.png, id=630, 1766.6pt x 2711.12875pt>
 File: image/SUB2/ACT/Act1.drawio.png Graphic file (type png)
 <use image/SUB2/ACT/Act1.drawio.png>
 Package pdftex.def Info: image/SUB2/ACT/Act1.drawio.png  used on input line 5.
@@ -1532,7 +1532,7 @@ File: image/hcmut.png Graphic file (type png)
 Package pdftex.def Info: image/hcmut.png  used on input line 6.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [44 <./image/SUB2/ACT/Act1.drawio.png>]
-<image/SUB2/ACT/Act2.drawio.png, id=634, 1691.31876pt x 2450.15375pt>
+<image/SUB2/ACT/Act2.drawio.png, id=643, 1691.31876pt x 2450.15375pt>
 File: image/SUB2/ACT/Act2.drawio.png Graphic file (type png)
 <use image/SUB2/ACT/Act2.drawio.png>
 Package pdftex.def Info: image/SUB2/ACT/Act2.drawio.png  used on input line 7.
@@ -1546,7 +1546,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 8.
 [45
 
  <./image/SUB2/ACT/Act2.drawio.png>]
-<image/SUB2/SEQ/TaoLich_seq.png, id=641, 1445.4pt x 2253.41875pt>
+<image/SUB2/SEQ/TaoLich_seq.png, id=650, 1445.4pt x 2253.41875pt>
 File: image/SUB2/SEQ/TaoLich_seq.png Graphic file (type png)
 <use image/SUB2/SEQ/TaoLich_seq.png>
 Package pdftex.def Info: image/SUB2/SEQ/TaoLich_seq.png  used on input line 12.
@@ -1560,7 +1560,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 13.
 [46
 
  <./image/SUB2/SEQ/TaoLich_seq.png>]
-<image/SUB2/SEQ/DatLich_seq.png, id=648, 1445.4pt x 2253.41875pt>
+<image/SUB2/SEQ/DatLich_seq.png, id=657, 1445.4pt x 2253.41875pt>
 File: image/SUB2/SEQ/DatLich_seq.png Graphic file (type png)
 <use image/SUB2/SEQ/DatLich_seq.png>
 Package pdftex.def Info: image/SUB2/SEQ/DatLich_seq.png  used on input line 14.
@@ -1574,7 +1574,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 15.
 [47
 
  <./image/SUB2/SEQ/DatLich_seq.png>]
-<image/SUB2/SEQ/Seq_Regis.drawio.png, id=655, 1326.9575pt x 1486.55376pt>
+<image/SUB2/SEQ/Seq_Regis.drawio.png, id=664, 1326.9575pt x 1486.55376pt>
 File: image/SUB2/SEQ/Seq_Regis.drawio.png Graphic file (type png)
 <use image/SUB2/SEQ/Seq_Regis.drawio.png>
 Package pdftex.def Info: image/SUB2/SEQ/Seq_Regis.drawio.png  used on input line 16.
@@ -1588,7 +1588,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 17.
 [48
 
  <./image/SUB2/SEQ/Seq_Regis.drawio.png>]
-<image/SUB2/SEQ/QuanLyLich_seq.png, id=663, 1445.4pt x 2253.41875pt>
+<image/SUB2/SEQ/QuanLyLich_seq.png, id=672, 1445.4pt x 2253.41875pt>
 File: image/SUB2/SEQ/QuanLyLich_seq.png Graphic file (type png)
 <use image/SUB2/SEQ/QuanLyLich_seq.png>
 Package pdftex.def Info: image/SUB2/SEQ/QuanLyLich_seq.png  used on input line 18.
@@ -1602,7 +1602,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 19.
 [49
 
  <./image/SUB2/SEQ/QuanLyLich_seq.png>]
-<image/SUB2/SEQ/Seq_Noti.drawio.png, id=670, 1151.30125pt x 673.51625pt>
+<image/SUB2/SEQ/Seq_Noti.drawio.png, id=679, 1151.30125pt x 673.51625pt>
 File: image/SUB2/SEQ/Seq_Noti.drawio.png Graphic file (type png)
 <use image/SUB2/SEQ/Seq_Noti.drawio.png>
 Package pdftex.def Info: image/SUB2/SEQ/Seq_Noti.drawio.png  used on input line 20.
@@ -1616,7 +1616,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 21.
 [50
 
  <./image/SUB2/SEQ/Seq_Noti.drawio.png>]
-<image/SUB2/SEQ/PhanHoi_seq.png, id=677, 1445.4pt x 2253.41875pt>
+<image/SUB2/SEQ/PhanHoi_seq.png, id=686, 1445.4pt x 2253.41875pt>
 File: image/SUB2/SEQ/PhanHoi_seq.png Graphic file (type png)
 <use image/SUB2/SEQ/PhanHoi_seq.png>
 Package pdftex.def Info: image/SUB2/SEQ/PhanHoi_seq.png  used on input line 22.
@@ -1630,7 +1630,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 23.
 [51
 
  <./image/SUB2/SEQ/PhanHoi_seq.png>]
-<image/SUB2/SEQ/DanhGiaSV_seq.png, id=684, 1445.4pt x 2253.41875pt>
+<image/SUB2/SEQ/DanhGiaSV_seq.png, id=693, 1445.4pt x 2253.41875pt>
 File: image/SUB2/SEQ/DanhGiaSV_seq.png Graphic file (type png)
 <use image/SUB2/SEQ/DanhGiaSV_seq.png>
 Package pdftex.def Info: image/SUB2/SEQ/DanhGiaSV_seq.png  used on input line 24.
@@ -1644,7 +1644,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 25.
 [52
 
  <./image/SUB2/SEQ/DanhGiaSV_seq.png>]
-<image/SUB2/SEQ/XemDanhGia_seq.png, id=691, 1445.4pt x 2253.41875pt>
+<image/SUB2/SEQ/XemDanhGia_seq.png, id=700, 1445.4pt x 2253.41875pt>
 File: image/SUB2/SEQ/XemDanhGia_seq.png Graphic file (type png)
 <use image/SUB2/SEQ/XemDanhGia_seq.png>
 Package pdftex.def Info: image/SUB2/SEQ/XemDanhGia_seq.png  used on input line 26.
@@ -1658,7 +1658,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 27.
 [53
 
  <./image/SUB2/SEQ/XemDanhGia_seq.png>]
-<image/SUB2/SEQ/Seq_Role.drawio.png, id=698, 1217.54875pt x 1300.86pt>
+<image/SUB2/SEQ/Seq_Role.drawio.png, id=707, 1217.54875pt x 1300.86pt>
 File: image/SUB2/SEQ/Seq_Role.drawio.png Graphic file (type png)
 <use image/SUB2/SEQ/Seq_Role.drawio.png>
 Package pdftex.def Info: image/SUB2/SEQ/Seq_Role.drawio.png  used on input line 28.
@@ -1672,32 +1672,32 @@ Package pdftex.def Info: image/hcmut.png  used on input line 29.
 [54
 
  <./image/SUB2/SEQ/Seq_Role.drawio.png>]
-<image/SUB2/UI/UI-Sv/SV-1.png, id=706, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-1.png, id=715, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-1.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-1.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-1.png  used on input line 40.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Sv/SV-2.png, id=707, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-2.png, id=716, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-2.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-2.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-2.png  used on input line 44.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Sv/SV-3.png, id=708, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-3.png, id=717, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-3.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-3.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-3.png  used on input line 51.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Sv/SV-4.png, id=709, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-4.png, id=718, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-4.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-4.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-4.png  used on input line 55.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Sv/SV-5.png, id=710, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-5.png, id=719, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-5.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-5.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-5.png  used on input line 62.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Sv/SV-6.png, id=711, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-6.png, id=720, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-6.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-6.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-6.png  used on input line 66.
@@ -1711,17 +1711,17 @@ Package pdftex.def Info: image/hcmut.png  used on input line 69.
 [55
 
  <./image/SUB2/UI/UI-Sv/SV-1.png> <./image/SUB2/UI/UI-Sv/SV-2.png> <./image/SUB2/UI/UI-Sv/SV-3.png> <./image/SUB2/UI/UI-Sv/SV-4.png> <./image/SUB2/UI/UI-Sv/SV-5.png> <./image/SUB2/UI/UI-Sv/SV-6.png>]
-<image/SUB2/UI/UI-Sv/SV-7.png, id=724, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-7.png, id=733, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-7.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-7.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-7.png  used on input line 76.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Sv/SV-8.png, id=725, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-8.png, id=734, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-8.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-8.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-8.png  used on input line 80.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Sv/SV-9.png, id=726, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Sv/SV-9.png, id=735, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Sv/SV-9.png Graphic file (type png)
 <use image/SUB2/UI/UI-Sv/SV-9.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Sv/SV-9.png  used on input line 87.
@@ -1735,32 +1735,32 @@ Package pdftex.def Info: image/hcmut.png  used on input line 90.
 [56
 
  <./image/SUB2/UI/UI-Sv/SV-7.png> <./image/SUB2/UI/UI-Sv/SV-8.png> <./image/SUB2/UI/UI-Sv/SV-9.png>]
-<image/SUB2/UI/UI-Tutor/Lịch/Calendar.png, id=736, 1445.4pt x 1139.25626pt>
+<image/SUB2/UI/UI-Tutor/Lịch/Calendar.png, id=745, 1445.4pt x 1139.25626pt>
 File: image/SUB2/UI/UI-Tutor/Lịch/Calendar.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Lịch/Calendar.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Lịch/Calendar.png  used on input line 98.
 (pdftex.def)             Requested size: 188.21288pt x 148.33449pt.
-<image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm buổi học.png, id=737, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm buổi học.png, id=746, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm buổi học.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm buổi học.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm buổi học.png  used on input line 102.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm lịch rảnh.png, id=738, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm lịch rảnh.png, id=747, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm lịch rảnh.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm lịch rảnh.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm lịch rảnh.png  used on input line 109.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard.png, id=739, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard.png, id=748, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard.png  used on input line 113.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out.png, id=740, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out.png, id=749, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out.png  used on input line 120.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out - Notification.png, id=741, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out - Notification.png, id=750, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out - Notification.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out - Notification.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out - Notification.png  used on input line 124.
@@ -1774,32 +1774,32 @@ Package pdftex.def Info: image/hcmut.png  used on input line 127.
 [57
 
  <./image/SUB2/UI/UI-Tutor/Lịch/Calendar.png> <./image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm buổi học.png> <./image/SUB2/UI/UI-Tutor/Lịch/Calendar - Thêm lịch rảnh.png> <./image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard.png> <./image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out.png> <./image/SUB2/UI/UI-Tutor/Thanh đièu hướng/Dashboard - Navigator out - Notification.png>]
-<image/SUB2/UI/UI-Tutor/Thư viện/Library.png, id=754, 1445.4pt x 1894.07625pt>
+<image/SUB2/UI/UI-Tutor/Thư viện/Library.png, id=763, 1445.4pt x 1894.07625pt>
 File: image/SUB2/UI/UI-Tutor/Thư viện/Library.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Thư viện/Library.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Thư viện/Library.png  used on input line 134.
 (pdftex.def)             Requested size: 188.21288pt x 246.61427pt.
-<image/SUB2/UI/UI-Tutor/Trang môn học/Môn học.png, id=755, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Trang môn học/Môn học.png, id=764, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Trang môn học/Môn học.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Trang môn học/Môn học.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Trang môn học/Môn học.png  used on input line 138.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học.png, id=756, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học.png, id=765, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học.png  used on input line 145.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Trang chi tiết môn học - Yêu cầu buổi học.png, id=757, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Trang chi tiết môn học - Yêu cầu buổi học.png, id=766, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Trang chi tiết môn học - Yêu cầu buổi học.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Trang chi tiết môn học - Yêu cầu buổi học.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Trang chi tiết môn học - Yêu cầu buổi học.png  used on input line 149.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Thay đổi thời gian.png, id=758, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Thay đổi thời gian.png, id=767, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Thay đổi thời gian.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Thay đổi thời gian.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Thay đổi thời gian.png  used on input line 156.
 (pdftex.def)             Requested size: 188.21288pt x 133.82777pt.
-<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Huỷ.png, id=759, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Huỷ.png, id=768, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Huỷ.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Huỷ.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Huỷ.png  used on input line 160.
@@ -1813,7 +1813,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 163.
 [58
 
  <./image/SUB2/UI/UI-Tutor/Thư viện/Library.png> <./image/SUB2/UI/UI-Tutor/Trang môn học/Môn học.png> <./image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học.png> <./image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Trang chi tiết môn học - Yêu cầu buổi học.png> <./image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Thay đổi thời gian.png> <./image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Buổi học/Trang chi tiết môn học - Buổi học - Huỷ.png>]
-<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Đồng ý - Từ chối/Trang chi tiết môn học - Yêu cầu buổi học - Đồng ý.png, id=772, 1445.4pt x 1027.84pt>
+<image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Đồng ý - Từ chối/Trang chi tiết môn học - Yêu cầu buổi học - Đồng ý.png, id=781, 1445.4pt x 1027.84pt>
 File: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Đồng ý - Từ chối/Trang chi tiết môn học - Yêu cầu buổi học - Đồng ý.png Graphic file (type png)
 <use image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Đồng ý - Từ chối/Trang chi tiết môn học - Yêu cầu buổi học - Đồng ý.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Đồng ý - Từ chối/Trang chi tiết môn học - Yêu cầu buổi học - Đồng ý.png  used on input line 168.
@@ -1827,17 +1827,17 @@ Package pdftex.def Info: image/hcmut.png  used on input line 170.
 [59
 
  <./image/SUB2/UI/UI-Tutor/Trang môn học/Chi tiết môn học/Yêu cầu buổi học/Đồng ý - Từ chối/Trang chi tiết môn học - Yêu cầu buổi học - Đồng ý.png>]
-<image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-1.png, id=780, 1238.37656pt x 902.6222pt>
+<image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-1.png, id=789, 1238.37656pt x 902.6222pt>
 File: image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-1.png Graphic file (type png)
 <use image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-1.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-1.png  used on input line 177.
 (pdftex.def)             Requested size: 188.21288pt x 137.17796pt.
-<image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-2.png, id=781, 1225.57875pt x 887.56593pt>
+<image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-2.png, id=790, 1225.57875pt x 887.56593pt>
 File: image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-2.png Graphic file (type png)
 <use image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-2.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-2.png  used on input line 181.
 (pdftex.def)             Requested size: 188.21288pt x 136.29823pt.
-<image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-3.png, id=782, 826.58812pt x 1018.55531pt>
+<image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-3.png, id=791, 826.58812pt x 1018.55531pt>
 File: image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-3.png Graphic file (type png)
 <use image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-3.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-3.png  used on input line 188.
@@ -1851,32 +1851,32 @@ Package pdftex.def Info: image/hcmut.png  used on input line 191.
 [60
 
  <./image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-1.png> <./image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-2.png> <./image/SUB2/UI/UI-Phòng đào tạo/PhongDaoTao-3.png>]
-<image/SUB2/UI/UI-PCTSV/UI-PCT-01.png, id=793, 2890.8pt x 2055.68pt>
+<image/SUB2/UI/UI-PCTSV/UI-PCT-01.png, id=802, 2890.8pt x 2055.68pt>
 File: image/SUB2/UI/UI-PCTSV/UI-PCT-01.png Graphic file (type png)
 <use image/SUB2/UI/UI-PCTSV/UI-PCT-01.png>
 Package pdftex.def Info: image/SUB2/UI/UI-PCTSV/UI-PCT-01.png  used on input line 198.
 (pdftex.def)             Requested size: 188.21288pt x 133.81209pt.
-<image/SUB2/UI/UI-PCTSV/UI-PCT-02.png, id=794, 2890.8pt x 2055.68pt>
+<image/SUB2/UI/UI-PCTSV/UI-PCT-02.png, id=803, 2890.8pt x 2055.68pt>
 File: image/SUB2/UI/UI-PCTSV/UI-PCT-02.png Graphic file (type png)
 <use image/SUB2/UI/UI-PCTSV/UI-PCT-02.png>
 Package pdftex.def Info: image/SUB2/UI/UI-PCTSV/UI-PCT-02.png  used on input line 202.
 (pdftex.def)             Requested size: 188.21288pt x 133.81209pt.
-<image/SUB2/UI/UI-PCTSV/UI-PCT-03.png, id=795, 2890.8pt x 2559.5625pt>
+<image/SUB2/UI/UI-PCTSV/UI-PCT-03.png, id=804, 2890.8pt x 2559.5625pt>
 File: image/SUB2/UI/UI-PCTSV/UI-PCT-03.png Graphic file (type png)
 <use image/SUB2/UI/UI-PCTSV/UI-PCT-03.png>
 Package pdftex.def Info: image/SUB2/UI/UI-PCTSV/UI-PCT-03.png  used on input line 209.
 (pdftex.def)             Requested size: 188.21288pt x 166.61174pt.
-<image/SUB2/UI/UI-PCTSV/UI-PCT-04.png, id=796, 2890.8pt x 2585.66pt>
+<image/SUB2/UI/UI-PCTSV/UI-PCT-04.png, id=805, 2890.8pt x 2585.66pt>
 File: image/SUB2/UI/UI-PCTSV/UI-PCT-04.png Graphic file (type png)
 <use image/SUB2/UI/UI-PCTSV/UI-PCT-04.png>
 Package pdftex.def Info: image/SUB2/UI/UI-PCTSV/UI-PCT-04.png  used on input line 213.
 (pdftex.def)             Requested size: 188.21288pt x 168.31052pt.
-<image/SUB2/UI/UI-PCTSV/UI-PCT-05.png, id=797, 2890.8pt x 2545.51pt>
+<image/SUB2/UI/UI-PCTSV/UI-PCT-05.png, id=806, 2890.8pt x 2545.51pt>
 File: image/SUB2/UI/UI-PCTSV/UI-PCT-05.png Graphic file (type png)
 <use image/SUB2/UI/UI-PCTSV/UI-PCT-05.png>
 Package pdftex.def Info: image/SUB2/UI/UI-PCTSV/UI-PCT-05.png  used on input line 220.
 (pdftex.def)             Requested size: 188.21288pt x 165.697pt.
-<image/SUB2/UI/UI-PCTSV/UI-PCT-06.png, id=798, 2890.8pt x 2585.66pt>
+<image/SUB2/UI/UI-PCTSV/UI-PCT-06.png, id=807, 2890.8pt x 2585.66pt>
 File: image/SUB2/UI/UI-PCTSV/UI-PCT-06.png Graphic file (type png)
 <use image/SUB2/UI/UI-PCTSV/UI-PCT-06.png>
 Package pdftex.def Info: image/SUB2/UI/UI-PCTSV/UI-PCT-06.png  used on input line 224.
@@ -1890,17 +1890,17 @@ Package pdftex.def Info: image/hcmut.png  used on input line 227.
 [61
 
  <./image/SUB2/UI/UI-PCTSV/UI-PCT-01.png> <./image/SUB2/UI/UI-PCTSV/UI-PCT-02.png> <./image/SUB2/UI/UI-PCTSV/UI-PCT-03.png> <./image/SUB2/UI/UI-PCTSV/UI-PCT-04.png> <./image/SUB2/UI/UI-PCTSV/UI-PCT-05.png> <./image/SUB2/UI/UI-PCTSV/UI-PCT-06.png>]
-<image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-1.png, id=810, 1194.71344pt x 1221.06187pt>
+<image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-1.png, id=819, 1194.71344pt x 1221.06187pt>
 File: image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-1.png Graphic file (type png)
 <use image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-1.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-1.png  used on input line 234.
 (pdftex.def)             Requested size: 188.21288pt x 192.35553pt.
-<image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-2.png, id=811, 1232.35406pt x 888.31876pt>
+<image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-2.png, id=820, 1232.35406pt x 888.31876pt>
 File: image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-2.png Graphic file (type png)
 <use image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-2.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-2.png  used on input line 238.
 (pdftex.def)             Requested size: 188.21288pt x 135.66833pt.
-<image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-3.png, id=812, 1230.84843pt x 892.08281pt>
+<image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-3.png, id=821, 1230.84843pt x 892.08281pt>
 File: image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-3.png Graphic file (type png)
 <use image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-3.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-3.png  used on input line 245.
@@ -1914,32 +1914,32 @@ Package pdftex.def Info: image/hcmut.png  used on input line 248.
 [62
 
  <./image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-1.png> <./image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-2.png> <./image/SUB2/UI/UI-Khoa-Bộ Môn/KhoaBoMon-3.png>]
-<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-1.png, id=822, 1233.10687pt x 880.79062pt>
+<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-1.png, id=831, 1233.10687pt x 880.79062pt>
 File: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-1.png Graphic file (type png)
 <use image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-1.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-1.png  used on input line 256.
 (pdftex.def)             Requested size: 188.21288pt x 134.43797pt.
-<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-2.png, id=823, 1223.32031pt x 898.85812pt>
+<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-2.png, id=832, 1223.32031pt x 898.85812pt>
 File: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-2.png Graphic file (type png)
 <use image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-2.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-2.png  used on input line 260.
 (pdftex.def)             Requested size: 188.21288pt x 138.29291pt.
-<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-3.png, id=824, 1221.81468pt x 895.84688pt>
+<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-3.png, id=833, 1221.81468pt x 895.84688pt>
 File: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-3.png Graphic file (type png)
 <use image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-3.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-3.png  used on input line 267.
 (pdftex.def)             Requested size: 188.21288pt x 137.99365pt.
-<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-4.png, id=825, 1223.32031pt x 899.61093pt>
+<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-4.png, id=834, 1223.32031pt x 899.61093pt>
 File: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-4.png Graphic file (type png)
 <use image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-4.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-4.png  used on input line 271.
 (pdftex.def)             Requested size: 188.21288pt x 138.40872pt.
-<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-5.png, id=826, 1248.91594pt x 901.86937pt>
+<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-5.png, id=835, 1248.91594pt x 901.86937pt>
 File: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-5.png Graphic file (type png)
 <use image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-5.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-5.png  used on input line 278.
 (pdftex.def)             Requested size: 188.21288pt x 135.9076pt.
-<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-6.png, id=827, 1213.53375pt x 898.10532pt>
+<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-6.png, id=836, 1213.53375pt x 898.10532pt>
 File: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-6.png Graphic file (type png)
 <use image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-6.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-6.png  used on input line 282.
@@ -1953,7 +1953,7 @@ Package pdftex.def Info: image/hcmut.png  used on input line 285.
 [63
 
  <./image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-1.png> <./image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-2.png> <./image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-3.png> <./image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-4.png> <./image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-5.png> <./image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-6.png>]
-<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-7.png, id=840, 986.9372pt x 726.46407pt>
+<image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-7.png, id=849, 986.9372pt x 726.46407pt>
 File: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-7.png Graphic file (type png)
 <use image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-7.png>
 Package pdftex.def Info: image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-7.png  used on input line 290.
@@ -1967,21 +1967,21 @@ Package pdftex.def Info: image/hcmut.png  used on input line 292.
 [64
 
  <./image/SUB2/UI/UI-Điều phối viên/DieuPhoiVien-7.png>]) (Diagram_Sub_3.tex
-<image/SUB3/deploy.drawio.png, id=848, 2239.36626pt x 1466.47874pt>
+<image/SUB3/deploy.drawio.png, id=857, 2240.37pt x 1467.4825pt>
 File: image/SUB3/deploy.drawio.png Graphic file (type png)
 <use image/SUB3/deploy.drawio.png>
 Package pdftex.def Info: image/SUB3/deploy.drawio.png  used on input line 5.
-(pdftex.def)             Requested size: 418.25368pt x 273.89001pt.
-<image/SUB3/Implementation_Component.png, id=849, 8126.36pt x 6187.115pt>
+(pdftex.def)             Requested size: 418.25368pt x 273.96552pt.
+<image/SUB3/Implementation_Component.png, id=858, 8126.36pt x 6187.115pt>
 File: image/SUB3/Implementation_Component.png Graphic file (type png)
 <use image/SUB3/Implementation_Component.png>
-Package pdftex.def Info: image/SUB3/Implementation_Component.png  used on input line 9.
+Package pdftex.def Info: image/SUB3/Implementation_Component.png  used on input line 10.
 (pdftex.def)             Requested size: 418.25368pt x 318.43701pt.
 
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 15.
+Package pdftex.def Info: image/hcmut.png  used on input line 16.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [65
 
@@ -1989,16 +1989,16 @@ Package pdftex.def Info: image/hcmut.png  used on input line 15.
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 15.
+Package pdftex.def Info: image/hcmut.png  used on input line 16.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [66 <./image/SUB3/Implementation_Component.png>]
-<image/SUB3/Implementation_Package.png, id=863, 1659.19875pt x 1084.05pt>
+<image/SUB3/Implementation_Package.png, id=872, 1659.19875pt x 1084.05pt>
 File: image/SUB3/Implementation_Package.png Graphic file (type png)
 <use image/SUB3/Implementation_Package.png>
-Package pdftex.def Info: image/SUB3/Implementation_Package.png  used on input line 16.
+Package pdftex.def Info: image/SUB3/Implementation_Package.png  used on input line 17.
 (pdftex.def)             Requested size: 418.25368pt x 273.26144pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 16--18
+Underfull \hbox (badness 10000) in paragraph at lines 17--19
 
  []
 
@@ -2006,57 +2006,63 @@ Underfull \hbox (badness 10000) in paragraph at lines 16--18
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 25.
+Package pdftex.def Info: image/hcmut.png  used on input line 26.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [67 <./image/SUB3/Implementation_Package.png>]
-<image/SUB3/Class Diagram.png, id=870, 2122.93124pt x 1221.81468pt>
-File: image/SUB3/Class Diagram.png Graphic file (type png)
-<use image/SUB3/Class Diagram.png>
-Package pdftex.def Info: image/SUB3/Class Diagram.png  used on input line 33.
-(pdftex.def)             Requested size: 418.25368pt x 240.7045pt.
+<image/SUB3/Class Diagram.jpg, id=879, 2569.6pt x 1478.52374pt>
+File: image/SUB3/Class Diagram.jpg Graphic file (type jpg)
+<use image/SUB3/Class Diagram.jpg>
+Package pdftex.def Info: image/SUB3/Class Diagram.jpg  used on input line 34.
+(pdftex.def)             Requested size: 418.25368pt x 240.65207pt.
 
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 40.
+Package pdftex.def Info: image/hcmut.png  used on input line 41.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[68 <./image/SUB3/Class Diagram.png>]
+[68 <./image/SUB3/Class Diagram.jpg>]
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 69.
+Package pdftex.def Info: image/hcmut.png  used on input line 70.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [69]
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 105.
+Package pdftex.def Info: image/hcmut.png  used on input line 106.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [70]
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 145.
+Package pdftex.def Info: image/hcmut.png  used on input line 150.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [71]
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 189.
+Package pdftex.def Info: image/hcmut.png  used on input line 190.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
 [72]
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 236.
+Package pdftex.def Info: image/hcmut.png  used on input line 239.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[73])
+[73]) (Demo.tex) (AI.tex
 
 File: image/hcmut.png Graphic file (type png)
 <use image/hcmut.png>
-Package pdftex.def Info: image/hcmut.png  used on input line 279.
+Package pdftex.def Info: image/hcmut.png  used on input line 25.
 (pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
-[74] 
+[74])
+
+File: image/hcmut.png Graphic file (type png)
+<use image/hcmut.png>
+Package pdftex.def Info: image/hcmut.png  used on input line 280.
+(pdftex.def)             Requested size: 22.75764pt x 22.75618pt.
+[75] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (main.aux)
  ***********
@@ -2064,20 +2070,20 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: C313E9372C58C7FCC751682CC14F90F0;12624.
+(rerunfilecheck)             Checksum: 7CC86F03F08ECA5F9746855A12597F81;12971.
  ) 
 Here is how much of TeX's memory you used:
- 31660 strings out of 468133
- 628862 string characters out of 5430712
- 1178092 words of memory out of 5000000
- 59469 multiletter control sequences out of 15000+600000
+ 31686 strings out of 468133
+ 629280 string characters out of 5430712
+ 1178093 words of memory out of 5000000
+ 59477 multiletter control sequences out of 15000+600000
  641184 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,25n,91p,1417b,693s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,25n,91p,1424b,693s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\nghia\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/urwvn/ucrb8v.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/urwvn/ucrr8v.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnbx12.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr10.pfb><C:/Users/nghia/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnti10.pfb>
-Output written on main.pdf (75 pages, 5504461 bytes).
+Output written on main.pdf (76 pages, 5680731 bytes).
 PDF statistics:
- 1016 PDF objects out of 1200 (max. 8388607)
- 230 named destinations out of 1000 (max. 500000)
- 818 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1042 PDF objects out of 1200 (max. 8388607)
+ 242 named destinations out of 1000 (max. 500000)
+ 834 words of extra memory for PDF output out of 10000 (max. 10000000)
 
