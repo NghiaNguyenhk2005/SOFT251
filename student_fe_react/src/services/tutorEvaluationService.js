@@ -2,7 +2,7 @@
 import { api } from '../utils/api.js';
 
 // Enable/disable mock data
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 /**
  * Tutor evaluates a student (UC-27)

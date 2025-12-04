@@ -3,7 +3,7 @@ import { api } from '../utils/api.js';
 import { MOCK_COURSES, MOCK_CALENDAR_EVENTS } from './mockData.js';
 
 // Enable/disable mock data
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 // Export courses for form dropdowns
 export { MOCK_COURSES };

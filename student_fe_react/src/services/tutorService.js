@@ -3,7 +3,7 @@ import { api } from '../utils/api.js';
 import { MOCK_TUTOR_PROFILE } from './mockData.js';
 
 // Enable/disable mock data
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 /**
  * Search tutors by criteria

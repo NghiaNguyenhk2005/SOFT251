@@ -3,7 +3,7 @@ import { api } from '../utils/api.js';
 import { MOCK_FEEDBACKS } from './mockData.js';
 
 // Enable/disable mock data
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 /**
  * Get feedbacks received by tutor (UC-22)
