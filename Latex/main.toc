@@ -58,3 +58,5 @@
 \contentsline {subsubsection}{\numberline {8.2.1}Lược đồ hiện thực các component}{66}{subsubsection.8.2.1}%
 \contentsline {subsubsection}{\numberline {8.2.2}Lược đồ hiện thực các Package}{67}{subsubsection.8.2.2}%
 \contentsline {subsection}{\numberline {8.3}Lược đồ các lớp hiện thực}{68}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Demo và mã nguồn dự án}{74}{section.9}%
+\contentsline {section}{\numberline {10}Khai báo sử dụng AI trong dự án}{74}{section.10}%
