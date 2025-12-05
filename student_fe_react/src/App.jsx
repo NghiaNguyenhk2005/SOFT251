@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // Import trang Login mới tạo
-import Login from "./Login/Login.jsx";
+import Login from "./login/login.jsx";
 
 // Student imports...
 import StudentLayout from "./modules/student/layouts/StudentLayout.jsx";

@@ -89,7 +89,7 @@ export default function TutorHeader({ onToggleSidebar }) {
         </div>
 
         {/* Profile Dropdown */}
-        <div className="relative">
+        <div className="relative overflow-visible">
           <button
             onClick={toggleProfileDropdown}
             className="flex items-center gap-2 text-sm md:text-base text-white font-medium px-3 py-1.5 rounded-md hover:bg-sky-400/70 transition-colors"
@@ -97,12 +97,13 @@ export default function TutorHeader({ onToggleSidebar }) {
             <span>{tutorName}</span>
             <ChevronDown className="w-4 h-4" />
           </button>
-          
+
           <ProfileDropdown
             isOpen={isProfileOpen}
             onClose={() => setIsProfileOpen(false)}
           />
         </div>
+                    
       </div>
     </header>
   );
