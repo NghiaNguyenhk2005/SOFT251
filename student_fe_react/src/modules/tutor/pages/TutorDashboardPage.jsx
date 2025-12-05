@@ -828,7 +828,7 @@ const AddSessionModal = ({ onClose, onSave, prefillData, tutorSubjects = [] }) =
         
         // Validate required fields
         if (!courseId) {
-            alert('Vui lòng chọn môn học');
+            alert('Vui lòng nhập môn học');
             return;
         }
         
@@ -901,13 +901,13 @@ const AddSessionModal = ({ onClose, onSave, prefillData, tutorSubjects = [] }) =
                 {/* Form fields */}
                 <div>
                     <label className="block text-xs font-medium text-slate-600 mb-1">Môn học</label>
-                    <select value={courseId} onChange={e => setCourseId(e.target.value)} className="w-full border border-slate-300 rounded-md px-2 py-1.5 bg-white">
-                        <option value="">-- Chọn môn --</option>
-                        {availableCourses.map(subjectId => <option key={subjectId} value={subjectId}>{subjectId}</option>)}
-                    </select>
-                    {availableCourses.length === 0 && (
-                        <p className="text-xs text-red-500 mt-1">Chưa có môn học nào được gán</p>
-                    )}
+                    <input 
+                        type="text" 
+                        value={courseId} 
+                        onChange={e => setCourseId(e.target.value)} 
+                        placeholder="Nhập tên môn học"
+                        className="w-full border border-slate-300 rounded-md px-2 py-1.5"
+                    />
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                     <div>
