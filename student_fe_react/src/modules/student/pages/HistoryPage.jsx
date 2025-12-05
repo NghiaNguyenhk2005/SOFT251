@@ -68,6 +68,7 @@ export default function HistoryPage() {
       // Payload matches backend expectation: { sessionId, rating, content }
       const payload = {
         sessionId: selectedSession.id,
+        tutorId: selectedSession.tutorId,
         rating: rating,
         content: comment
       };

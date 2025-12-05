@@ -281,6 +281,13 @@ class SessionController {
       await tutor.save();
     }
 
+    // Determine initial status based on time
+    const now = new Date();
+    let initialStatus = 'SCHEDULED';
+    if (end < now) {
+      initialStatus = 'COMPLETED';
+    }
+
     // Create session
     const session = await TutorSession.create({
       tutorId: tutor._id,
@@ -294,7 +301,7 @@ class SessionController {
       location,
       maxParticipants: maxStudents || 10,
       participants: [],
-      status: 'SCHEDULED',
+      status: initialStatus,
       hasReport: false
     });
 
@@ -323,7 +330,7 @@ class SessionController {
     
     let filter = {
       startTime: { $gte: startDate, $lte: endDate },
-      status: { $in: ['SCHEDULED', 'IN_PROGRESS'] }
+      status: { $in: ['SCHEDULED', 'IN_PROGRESS', 'COMPLETED'] }
     };
 
     // Filter based on role
@@ -348,7 +355,14 @@ class SessionController {
           select: 'fullName email'
         }
       })
-      .populate('participants.studentId', 'userId')
+      .populate({
+        path: 'participants.studentId',
+        select: 'userId mssv',
+        populate: {
+          path: 'userId',
+          select: 'fullName email'
+        }
+      })
       .sort({ startTime: 1 })
       .lean();
 
@@ -431,6 +445,50 @@ class SessionController {
     res.status(200).json({
       success: true,
       message: 'Session cancelled successfully',
+      data: {
+        sessionId: session._id,
+        status: session.status
+      }
+    });
+  });
+
+  /**
+   * PATCH /api/v1/sessions/:id/complete
+   * Tutor marks session as completed
+   */
+  completeSession = asyncHandler(async (req, res) => {
+    const userId = req.userId;
+    const { id } = req.params;
+    const { ForbiddenError } = await import('../middleware/errorMiddleware.js');
+
+    // Find tutor profile
+    const Tutor = (await import('../models/Tutor.model.js')).default;
+    const tutor = await Tutor.findOne({ userId });
+    
+    if (!tutor) {
+      throw new NotFoundError('Tutor profile not found');
+    }
+
+    // Find session
+    const TutorSession = (await import('../models/TutorSession.model.js')).default;
+    const session = await TutorSession.findById(id);
+    
+    if (!session) {
+      throw new NotFoundError('Session not found');
+    }
+
+    // Validate ownership
+    if (session.tutorId.toString() !== tutor._id.toString()) {
+      throw new ForbiddenError('You can only complete your own sessions');
+    }
+
+    // Update status
+    session.status = 'COMPLETED';
+    await session.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Session marked as completed',
       data: {
         sessionId: session._id,
         status: session.status

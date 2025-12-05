@@ -207,7 +207,8 @@ async function getStudentSessions(studentId, options = {}) {
 
   // Build filter
   const filter = {
-    'participants.studentId': student._id
+    'participants.studentId': student._id,
+    status: { $ne: 'CANCELLED' } // Exclude cancelled sessions
   };
 
   if (options.status) {

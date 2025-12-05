@@ -79,23 +79,32 @@ const getDayNumberFromDateString = (dateStr) => {
 };
 
 // --- Event Components ---
-const SessionEvent = ({ event, onClick, style }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    style={style}
-    className="absolute left-1 right-1 rounded border-l-4 border-l-4 border-l-blue-400 bg-blue-50/70 hover:bg-blue-100/80 transition-colors text-left px-2 py-1.5 overflow-hidden"
-  >
-    <div className="text-xs font-semibold text-blue-600 line-clamp-2">{event.subjectName}</div>
-    <div className="text-[11px] text-slate-500 line-clamp-1 flex items-center gap-1.5 mt-0.5">
-      <Users className="w-3 h-3 flex-shrink-0" /> {event.studentCount}/{event.maxStudents || 10}
-    </div>
-    <div className="mt-1 text-[10px] text-slate-400 flex items-center gap-1">
-      <Clock className="w-3 h-3" />
-      <span>{event.timeRange}</span>
-    </div>
-  </button>
-);
+const SessionEvent = ({ event, onClick, style }) => {
+  const isCompleted = event.status === 'completed';
+  const borderColor = isCompleted ? 'border-l-slate-400' : 'border-l-blue-400';
+  const bgColor = isCompleted ? 'bg-slate-100/70 hover:bg-slate-200/80' : 'bg-blue-50/70 hover:bg-blue-100/80';
+  const textColor = isCompleted ? 'text-slate-600' : 'text-blue-600';
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={style}
+      className={`absolute left-1 right-1 rounded border-l-4 ${borderColor} ${bgColor} transition-colors text-left px-2 py-1.5 overflow-hidden`}
+    >
+      <div className={`text-xs font-semibold ${textColor} line-clamp-2`}>
+        {isCompleted ? '✅ ' : ''}{event.subjectName}
+      </div>
+      <div className="text-[11px] text-slate-500 line-clamp-1 flex items-center gap-1.5 mt-0.5">
+        <Users className="w-3 h-3 flex-shrink-0" /> {event.studentCount}/{event.maxStudents || 10}
+      </div>
+      <div className="mt-1 text-[10px] text-slate-400 flex items-center gap-1">
+        <Clock className="w-3 h-3" />
+        <span>{event.timeRange}</span>
+      </div>
+    </button>
+  );
+};
 
 const AvailabilityEvent = ({ event, onClick, style, onResizeStart, isResizing }) => {
   const handleResizeTop = (e) => {
@@ -475,9 +484,7 @@ export default function TutorDashboardPage() {
             <button onClick={() => setIsModalOpen('availability')} className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-300 text-sm font-medium rounded-md hover:bg-slate-50">
                 <Plus className="w-4 h-4" /> Thêm lịch rảnh
             </button>
-            <button onClick={() => setIsModalOpen('session')} className="flex items-center gap-2 px-3 py-2 bg-sky-500 text-white text-sm font-medium rounded-md hover:bg-sky-600">
-                <Plus className="w-4 h-4" /> Thêm buổi học
-            </button>
+
         </div>
       </div>
 
@@ -891,13 +898,6 @@ const AddSessionModal = ({ onClose, onSave, prefillData, tutorSubjects = [] }) =
     return (
         <Modal title={modalTitle} onClose={onClose}>
             <form onSubmit={handleSubmit} className="p-4 space-y-4 text-sm">
-                {prefillData?.availabilityId && (
-                    <div className="bg-green-50 border border-green-200 rounded-md px-3 py-2">
-                        <p className="text-xs text-green-800">
-                            ✅ <strong>Chuyển đổi:</strong> Lịch rảnh sẽ được thay thế bằng buổi học này sau khi lưu
-                        </p>
-                    </div>
-                )}
                 {/* Form fields */}
                 <div>
                     <label className="block text-xs font-medium text-slate-600 mb-1">Môn học</label>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Calendar, Clock, MapPin, Users, Video, X, Filter, Trash2 } from "lucide-react";
-import { getTutorSessions, getSessionStats, cancelSession } from "../../../services/tutorSessionService";
+import { Calendar, Clock, MapPin, Users, Video, X, Filter, Trash2, CheckCircle } from "lucide-react";
+import { getTutorSessions, getSessionStats, cancelSession, completeSession } from "../../../services/tutorSessionService";
 
 const STATUS_COLORS = {
   SCHEDULED: "bg-blue-100 text-blue-700",
@@ -77,6 +77,23 @@ export default function TutorSessionsPage() {
     } catch (error) {
       console.error('Error cancelling session:', error);
       alert('Lỗi khi hủy buổi học. Vui lòng thử lại.');
+    }
+  };
+
+  const handleCompleteSession = async (sessionId) => {
+    if (!confirm('Xác nhận hoàn thành buổi học này?')) {
+      return;
+    }
+
+    try {
+      await completeSession(sessionId);
+      // Reload data to reflect changes
+      loadData();
+      // Close modal if open
+      setSelectedSession(null);
+    } catch (error) {
+      console.error('Error completing session:', error);
+      alert('Lỗi khi hoàn thành buổi học. Vui lòng thử lại.');
     }
   };
 
@@ -198,6 +215,7 @@ export default function TutorSessionsPage() {
           session={selectedSession}
           onClose={() => setSelectedSession(null)}
           onCancel={handleCancelSession}
+          onComplete={handleCompleteSession}
         />
       )}
     </div>
@@ -205,8 +223,9 @@ export default function TutorSessionsPage() {
 }
 
 // Session Detail Modal
-function SessionDetailModal({ session, onClose, onCancel }) {
+function SessionDetailModal({ session, onClose, onCancel, onComplete }) {
   const canCancel = session.status === 'SCHEDULED';
+  const canComplete = session.status === 'SCHEDULED' || session.status === 'IN_PROGRESS';
   const durationHours = session.duration ? Math.floor(session.duration / 60) : 0;
   const durationMins = session.duration ? session.duration % 60 : 0;
 
@@ -361,6 +380,15 @@ function SessionDetailModal({ session, onClose, onCancel }) {
         {/* Footer */}
         <div className="px-6 py-4 border-t border-slate-200 flex justify-between items-center bg-slate-50">
           <div className="flex gap-2">
+            {canComplete && (
+              <button
+                onClick={() => onComplete(session.id)}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md transition-colors"
+              >
+                <CheckCircle className="w-4 h-4" />
+                Hoàn thành
+              </button>
+            )}
             {!session.hasReport && session.status === 'COMPLETED' && (
               <button
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-500 hover:bg-green-600 rounded-md transition-colors"

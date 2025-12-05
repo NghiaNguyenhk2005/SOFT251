@@ -172,3 +172,19 @@ export async function getUpcomingSessions(params = {}) {
     return [];
   }
 }
+
+/**
+ * Mark session as completed
+ * Endpoint: PATCH /api/v1/sessions/:id/complete
+ * @param {string} sessionId - Session ID
+ * @returns {Promise<Object>}
+ */
+export async function completeSession(sessionId) {
+  try {
+    const response = await api.patch(`/sessions/${sessionId}/complete`);
+    return response.data;
+  } catch (error) {
+    console.error('Error completing session:', error);
+    throw error;
+  }
+}

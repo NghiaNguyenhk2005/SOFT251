@@ -102,6 +102,21 @@ import { roleMiddleware } from '../middleware/roleMiddleware.js';
 // )
 
 // ============================================================
+// ROUTE: PATCH /api/v1/sessions/:id/complete
+// ============================================================
+// PURPOSE: Tutor marks session as completed
+// ACCESS: Protected - TUTOR or ADMIN only
+// CONTROLLER: sessionController.completeSession
+// 
+// PSEUDOCODE:
+// router.patch(
+//   '/:id/complete',
+//   authMiddleware,
+//   roleMiddleware(['TUTOR', 'ADMIN']),
+//   sessionController.completeSession
+// )
+
+// ============================================================
 // ROUTES IMPLEMENTATION
 // ============================================================
 
@@ -247,6 +262,35 @@ router.delete(
   authMiddleware,
   roleMiddleware(['TUTOR', 'ADMIN']),
   sessionController.cancelSession
+);
+
+/**
+ * @swagger
+ * /sessions/{id}/complete:
+ *   patch:
+ *     summary: Mark session as completed
+ *     tags: [Sessions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Session marked as completed
+ *       403:
+ *         description: Forbidden (not owner)
+ *       404:
+ *         description: Session not found
+ */
+router.patch(
+  '/:id/complete',
+  authMiddleware,
+  roleMiddleware(['TUTOR', 'ADMIN']),
+  sessionController.completeSession
 );
 
 export default router;

@@ -9,9 +9,10 @@ export async function getCompletedSessions() {
     // Get sessions from past 90 days that are completed
     const now = new Date();
     const past90Days = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+    const future30Days = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
     
     const response = await api.get(
-      `/sessions/upcoming?startDate=${past90Days.toISOString()}&endDate=${now.toISOString()}`
+      `/sessions/upcoming?startDate=${past90Days.toISOString()}&endDate=${future30Days.toISOString()}`
     );
     
     const allSessions = response?.data?.data || response?.data || [];
@@ -20,9 +21,20 @@ export async function getCompletedSessions() {
     const completedSessions = allSessions.filter(
       session => session.status === 'COMPLETED'
     );
+
+    // Transform sessions to match UI expectations (flatten participant data)
+    const transformedSessions = completedSessions.map(session => ({
+      ...session,
+      participants: session.participants?.map(p => ({
+        ...p,
+        id: p.studentId?._id, // Student ObjectId
+        fullName: p.studentId?.userId?.fullName || 'Unknown',
+        studentId: p.studentId?.mssv || 'N/A', // MSSV
+      })) || []
+    }));
     
-    console.log('✅ Fetched completed sessions:', completedSessions.length);
-    return completedSessions;
+    console.log('✅ Fetched completed sessions:', transformedSessions.length);
+    return transformedSessions;
   } catch (error) {
     console.error('❌ Error fetching completed sessions:', error);
     throw error;
