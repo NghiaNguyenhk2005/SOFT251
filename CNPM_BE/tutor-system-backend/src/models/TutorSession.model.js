@@ -44,6 +44,12 @@ const TutorSessionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },  
+    maxParticipants: {
+        type: Number,
+        required: true,
+        min: 1,
+        default: 10
+    },
     participants: [{
         studentId: {
             type: mongoose.Schema.Types.ObjectId,

@@ -228,7 +228,8 @@ class SessionController {
       startTime,
       endTime,
       sessionType,
-      location
+      location,
+      maxStudents
     } = req.body;
 
     // BR-001: Validate hourly times
@@ -291,6 +292,7 @@ class SessionController {
       duration: durationMinutes,
       sessionType,
       location,
+      maxParticipants: maxStudents || 10,
       participants: [],
       status: 'SCHEDULED',
       hasReport: false

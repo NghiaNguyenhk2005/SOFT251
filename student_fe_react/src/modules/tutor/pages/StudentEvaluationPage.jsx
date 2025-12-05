@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Star, Users, Calendar, Clock, BookOpen, Edit, CheckCircle } from 'lucide-react';
+import { Star, Users, Calendar, Clock, BookOpen, Edit, CheckCircle, Search, Filter } from 'lucide-react';
 import { 
   getCompletedSessions, 
   getSessionEvaluations, 
@@ -319,6 +319,10 @@ export default function StudentEvaluationPage() {
   const [loading, setLoading] = useState(true);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
+  
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSubject, setSelectedSubject] = useState('all');
 
   useEffect(() => {
     fetchSessions();
@@ -436,9 +440,34 @@ export default function StudentEvaluationPage() {
     setSelectedSession(null);
   };
 
-  const totalSessions = sessions.length;
-  const totalStudents = sessions.reduce((sum, s) => sum + s.students.length, 0);
-  const evaluatedStudents = sessions.reduce((sum, s) => 
+  // Get unique subjects for filter
+  const uniqueSubjects = [...new Set(sessions.map(s => s.subjectCode))];
+  
+  // Filter sessions based on search and subject
+  const filteredSessions = sessions.map(session => {
+    // Filter students by search query (name or student ID)
+    const filteredStudents = session.students.filter(student => {
+      const matchesSearch = searchQuery === '' || 
+        student.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        student.studentId.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesSearch;
+    });
+    
+    return {
+      ...session,
+      students: filteredStudents
+    };
+  }).filter(session => {
+    // Filter by subject
+    const matchesSubject = selectedSubject === 'all' || session.subjectCode === selectedSubject;
+    // Only show sessions that have students after filtering
+    const hasStudents = session.students.length > 0;
+    return matchesSubject && hasStudents;
+  });
+
+  const totalSessions = filteredSessions.length;
+  const totalStudents = filteredSessions.reduce((sum, s) => sum + s.students.length, 0);
+  const evaluatedStudents = filteredSessions.reduce((sum, s) => 
     sum + s.students.filter(st => st.hasEvaluation).length, 0
   );
 
@@ -495,7 +524,7 @@ export default function StudentEvaluationPage() {
                 {evaluatedStudents}/{totalStudents}
               </p>
               <p className="text-xs text-green-600 mt-1">
-                {((evaluatedStudents / totalStudents) * 100).toFixed(0)}% hoàn thành
+                {totalStudents > 0 ? ((evaluatedStudents / totalStudents) * 100).toFixed(0) : 0}% hoàn thành
               </p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
@@ -505,15 +534,62 @@ export default function StudentEvaluationPage() {
         </div>
       </div>
 
+      {/* Filters */}
+      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-4 mb-6">
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Search by student name or ID */}
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Tìm theo tên hoặc MSSV sinh viên..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Filter by subject */}
+          <div className="md:w-64">
+            <div className="relative">
+              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <select
+                value={selectedSubject}
+                onChange={(e) => setSelectedSubject(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white"
+              >
+                <option value="all">Tất cả môn học</option>
+                {uniqueSubjects.map(subject => (
+                  <option key={subject} value={subject}>{subject}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        {/* Results count */}
+        {(searchQuery || selectedSubject !== 'all') && (
+          <div className="mt-3 text-sm text-slate-600">
+            Tìm thấy <span className="font-semibold">{totalStudents}</span> sinh viên trong <span className="font-semibold">{totalSessions}</span> buổi học
+          </div>
+        )}
+      </div>
+
       {/* Sessions list */}
       <div className="space-y-6">
-        {sessions.length === 0 ? (
+        {filteredSessions.length === 0 ? (
           <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-12 text-center">
             <BookOpen className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <p className="text-slate-600">Chưa có buổi học nào để đánh giá</p>
+            <p className="text-slate-600">
+              {sessions.length === 0 
+                ? 'Chưa có buổi học nào để đánh giá' 
+                : 'Không tìm thấy kết quả phù hợp'}
+            </p>
           </div>
         ) : (
-          sessions.map(session => (
+          filteredSessions.map(session => (
             <SessionTable
               key={session.id}
               session={session}

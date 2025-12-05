@@ -109,17 +109,22 @@ function formatSessionToCalendarEvent(session) {
   };
   const timeRange = `${formatTime(startTime)} - ${formatTime(endTime)}`;
   
-  return {
+  const formatted = {
     id: session._id,
     type: 'session',
     subjectName: session.title,
     studentCount: session.participants?.length || 0,
+    maxStudents: session.maxParticipants || 10,
     date,
     timeRange,
     location: session.location,
-    meetLink: session.meetLink || '',
+    meetLink: session.sessionType === 'ONLINE' ? session.location : '',
     status: session.status?.toLowerCase() || 'scheduled',
   };
+  
+  console.log(`🔄 Formatted session "${session.title}": startTime=${session.startTime}, date=${date}, status=${formatted.status}`);
+  
+  return formatted;
 }
 
 function formatAvailabilityToCalendarEvent(availability) {
@@ -179,6 +184,8 @@ export async function fetchTutorCalendarEvents() {
     const sessions = sessionsResponse?.data?.data || sessionsResponse?.data || [];
     const availabilities = availabilityResponse?.data?.data || availabilityResponse?.data || [];
 
+    console.log('📊 Fetched sessions:', sessions.length, 'availabilities:', availabilities.length);
+
     // Format sessions
     const sessionEvents = Array.isArray(sessions) ? sessions.map(formatSessionToCalendarEvent) : [];
     
@@ -187,6 +194,8 @@ export async function fetchTutorCalendarEvents() {
       ? availabilities.filter(a => a.isActive !== false)  // Only show active slots
       : [];
     const availabilityEvents = activeAvailabilities.map(formatAvailabilityToCalendarEvent);
+
+    console.log('✅ Formatted:', sessionEvents.length, 'sessions,', availabilityEvents.length, 'availabilities');
 
     // Combine both
     return [...sessionEvents, ...availabilityEvents];
@@ -224,37 +233,50 @@ export async function createTutorSession(sessionData) {
     });
   }
   
+  // Parse dates - accept both old format (date + startTime) and new format (ISO strings)
+  let start, end;
+  if (sessionData.startTime && sessionData.startTime.includes('T')) {
+    // New format: ISO strings
+    start = new Date(sessionData.startTime);
+    end = new Date(sessionData.endTime);
+  } else {
+    // Old format: date + time strings
+    start = new Date(`${sessionData.date}T${sessionData.startTime}`);
+    end = new Date(`${sessionData.date}T${sessionData.endTime}`);
+  }
+  
+  const duration = Math.round((end - start) / 60000);
+
+  // Transform frontend format to backend format
+  const payload = {
+    title: sessionData.subjectName,
+    subjectId: sessionData.subjectId || 'UNKNOWN',
+    description: sessionData.description || '',
+    startTime: start.toISOString(),
+    endTime: end.toISOString(),
+    sessionType: sessionData.location === 'Online' ? 'ONLINE' : 'OFFLINE',
+    location: sessionData.location === 'Online' ? 'Online' : sessionData.location,
+    maxStudents: sessionData.maxStudents || 10,
+  };
+
+  // BR-003: ONLINE needs meetingLink
+  if (payload.sessionType === 'ONLINE' && sessionData.meetLink) {
+    payload.meetingLink = sessionData.meetLink;
+  }
+
+  // Validate BR-002: Duration >= 60 minutes
+  if (duration < 60) {
+    throw new Error('Duration must be at least 60 minutes (BR-002)');
+  }
+
   try {
-    // Calculate duration in minutes
-    const start = new Date(`${sessionData.date}T${sessionData.startTime}`);
-    const end = new Date(`${sessionData.date}T${sessionData.endTime}`);
-    const duration = Math.round((end - start) / 60000);
-
-    // Transform frontend format to backend format
-    const payload = {
-      title: sessionData.subjectName,
-      subjectId: sessionData.subjectId || 'UNKNOWN',
-      description: sessionData.description || '',
-      startTime: start.toISOString(),
-      endTime: end.toISOString(),
-      sessionType: sessionData.location === 'Online' ? 'ONLINE' : 'OFFLINE',
-      location: sessionData.location === 'Online' ? 'Online' : sessionData.location,
-    };
-
-    // BR-003: ONLINE needs meetingLink
-    if (payload.sessionType === 'ONLINE' && sessionData.meetLink) {
-      payload.meetingLink = sessionData.meetLink;
-    }
-
-    // Validate BR-002: Duration >= 60 minutes
-    if (duration < 60) {
-      throw new Error('Duration must be at least 60 minutes (BR-002)');
-    }
-
+    console.log('📤 Sending session payload to backend:', payload);
     const response = await api.post('/sessions', payload);
+    console.log('✅ Session created:', response);
     return response.data;
   } catch (error) {
-    console.error('Error creating session:', error);
+    console.error('❌ Error creating session:', error);
+    console.error('Payload was:', payload);
     throw error;
   }
 }

@@ -21,6 +21,12 @@ const TutorSchema = new mongoose.Schema(
       default: ''
     },
     
+    phoneNumber: {
+      type: String,
+      trim: true,
+      default: null
+    },
+    
     maxStudents: {
       type: Number,
       default: 200

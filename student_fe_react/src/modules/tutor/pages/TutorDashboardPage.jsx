@@ -11,6 +11,7 @@ import {
   MOCK_SESSION_TYPES,
   MOCK_LOCATIONS
 } from "../../../services/tutorCalendarService";
+import { api } from "../../../utils/api.js";
 
 // --- Calendar Configuration ---
 const START_HOUR = 7;
@@ -83,11 +84,11 @@ const SessionEvent = ({ event, onClick, style }) => (
     type="button"
     onClick={onClick}
     style={style}
-    className="absolute left-1 right-1 rounded border-l-4 border-l-blue-400 bg-blue-50/70 hover:bg-blue-100/80 transition-colors text-left px-2 py-1.5 overflow-hidden"
+    className="absolute left-1 right-1 rounded border-l-4 border-l-4 border-l-blue-400 bg-blue-50/70 hover:bg-blue-100/80 transition-colors text-left px-2 py-1.5 overflow-hidden"
   >
     <div className="text-xs font-semibold text-blue-600 line-clamp-2">{event.subjectName}</div>
     <div className="text-[11px] text-slate-500 line-clamp-1 flex items-center gap-1.5 mt-0.5">
-      <Users className="w-3 h-3 flex-shrink-0" /> {event.studentCount} SV
+      <Users className="w-3 h-3 flex-shrink-0" /> {event.studentCount}/{event.maxStudents || 10}
     </div>
     <div className="mt-1 text-[10px] text-slate-400 flex items-center gap-1">
       <Clock className="w-3 h-3" />
@@ -166,6 +167,7 @@ export default function TutorDashboardPage() {
   const [editingAvailability, setEditingAvailability] = useState(null);
   const [quickCreateData, setQuickCreateData] = useState(null);
   const [resizingEvent, setResizingEvent] = useState(null); // { event, edge: 'top'|'bottom', originalY, originalTime }
+  const [tutorSubjects, setTutorSubjects] = useState([]);
   const scrollContainerRef = useRef(null);
 
   const refreshEvents = () => {
@@ -177,12 +179,29 @@ export default function TutorDashboardPage() {
     }
 
     fetchTutorCalendarEvents()
-      .then(setEvents)
+      .then(events => {
+        console.log('📅 Calendar received events:', events);
+        setEvents(events);
+      })
       .catch((err) => console.error("Lỗi khi tải lịch:", err));
   };
 
   useEffect(() => {
     refreshEvents();
+    
+    // Fetch tutor profile to get subjects
+    const fetchTutorProfile = async () => {
+      try {
+        const response = await api.get('/tutors/me');
+        if (response.success && response.data) {
+          setTutorSubjects(response.data.subjectIds || []);
+        }
+      } catch (err) {
+        console.error('Failed to fetch tutor profile:', err);
+      }
+    };
+    fetchTutorProfile();
+    
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = (DEFAULT_SCROLL_HOUR - START_HOUR) * SLOT_HEIGHT;
     }
@@ -194,12 +213,26 @@ export default function TutorDashboardPage() {
 
   const eventsByDay = useMemo(() => {
     const map = DAYS.reduce((acc, day) => ({ ...acc, [day]: [] }), {});
+    
+    console.log('🔍 Processing events. Total events:', events.length);
+    
     events.forEach((event) => {
       const dayKey = getDayKeyFromDateString(event.date);
+      console.log(`🗓️ Event "${event.subjectName || event.type}": date="${event.date}", dayKey="${dayKey}", type="${event.type}", status="${event.status}"`);
+      
       if (map[dayKey]) {
         map[dayKey].push(event);
+        console.log(`  ✅ Added to ${dayKey}`);
+      } else {
+        console.log(`  ⚠️ dayKey "${dayKey}" not found in map`);
       }
     });
+    
+    console.log('📊 EventsByDay summary:');
+    DAYS.forEach(day => {
+      console.log(`  ${day}: ${map[day].length} events`);
+    });
+    
     return map;
   }, [events]);
 
@@ -211,6 +244,7 @@ export default function TutorDashboardPage() {
   const weekRangeString = useMemo(() => {
     const { monday, sunday } = getCurrentWeekRange();
     const options = { month: 'short', day: 'numeric', year: 'numeric' };
+    console.log('📅 Current week:', monday.toISOString(), 'to', sunday.toISOString());
     return `${monday.toLocaleDateString('en-US', options)} - ${sunday.toLocaleDateString('en-US', options)}`;
   }, []);
 
@@ -423,7 +457,7 @@ export default function TutorDashboardPage() {
   }, [resizingEvent, events]);
 
   return (
-    <div className={`h-[calc(100vh-100px)] flex flex-col ${resizingEvent ? 'select-none' : ''}`}>
+    <div className={`min-h-screen flex flex-col ${resizingEvent ? 'select-none' : ''}`}>
       {/* Resize overlay */}
       {resizingEvent && (
         <div className="fixed inset-0 z-40 cursor-ns-resize" />
@@ -448,9 +482,9 @@ export default function TutorDashboardPage() {
       </div>
 
       {/* Calendar */}
-      <div className="border border-slate-300 bg-white flex-1 flex flex-col overflow-hidden">
+      <div className="border border-slate-300 bg-white mb-6">
         {/* Header bar with week range */}
-        <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-slate-300 flex-shrink-0">
+        <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-slate-300">
           <div className="flex items-center gap-2">
             <Calendar className="w-5 h-5 text-slate-900" />
             <span className="text-sm md:text-base font-semibold text-slate-900">
@@ -463,7 +497,7 @@ export default function TutorDashboardPage() {
         </div>
 
         {/* Day headers */}
-        <div className="flex border-b border-slate-300 flex-shrink-0" style={{ scrollbarGutter: 'stable', overflowY: 'scroll' }}>
+        <div className="flex border-b border-slate-300">
           <div className="w-16 md:w-20 flex-shrink-0 border-r border-slate-300 bg-slate-50" />
           <div className="flex-1 flex">
             {DAYS.map((day, idx) => (
@@ -478,7 +512,7 @@ export default function TutorDashboardPage() {
         </div>
 
         {/* Calendar body */}
-        <div ref={scrollContainerRef} className="flex-1 overflow-x-auto" style={{ minHeight: 0, scrollbarGutter: 'stable', overflowY: 'scroll' }}>
+        <div ref={scrollContainerRef} className="overflow-x-auto">
           <div className="min-w-[900px] flex">
             <div className="w-16 md:w-20 flex-shrink-0 border-r border-slate-300 bg-slate-50">
               {HOURS.map((hour) => (
@@ -541,7 +575,7 @@ export default function TutorDashboardPage() {
       
       {/* Modals */}
       {selectedEvent && <EventDetailModal event={selectedEvent} onClose={closeModal} onEdit={handleEditAvailability} onDelete={handleDeleteAvailability} />}
-      {isModalOpen === 'session' && <AddSessionModal onClose={closeModal} onSave={refreshEvents} prefillData={quickCreateData} />}
+      {isModalOpen === 'session' && <AddSessionModal onClose={closeModal} onSave={refreshEvents} prefillData={quickCreateData} tutorSubjects={tutorSubjects} />}
       {isModalOpen === 'availability' && <AddAvailabilityModal onClose={closeModal} onSave={refreshEvents} prefillData={quickCreateData} />}
       {isModalOpen === 'edit-availability' && <EditAvailabilityModal event={editingAvailability} onClose={closeModal} onSave={refreshEvents} />}
     </div>
@@ -769,26 +803,57 @@ const EventDetailModal = ({ event, onClose, onEdit, onDelete }) => {
   );
 };
 
-const AddSessionModal = ({ onClose, onSave, prefillData }) => {
+const AddSessionModal = ({ onClose, onSave, prefillData, tutorSubjects = [] }) => {
     const [courseId, setCourseId] = useState('');
-    const [date, setDate] = useState(prefillData?.date || '2050-01-15');
+    const [date, setDate] = useState(prefillData?.date || new Date().toISOString().split('T')[0]);
     const [startTime, setStartTime] = useState(prefillData?.startTime || '09:00');
     const [endTime, setEndTime] = useState(prefillData?.endTime || '11:00');
     const [location, setLocation] = useState('Online');
+    const [meetLink, setMeetLink] = useState('');
     const [sessionType, setSessionType] = useState('Nhóm');
     const [studentCount, setStudentCount] = useState(25);
+    
+    // Generate hour options (7:00 - 21:00)
+    const timeOptions = Array.from({ length: 15 }, (_, i) => {
+        const hour = (7 + i).toString().padStart(2, '0');
+        return `${hour}:00`;
+    });
+    
+    // Use tutor's subjects directly (from tutor profile)
+    // tutorSubjects is array of subject objects: [{ _id, name, code }, ...]
+    const availableCourses = tutorSubjects;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate required fields
+        if (!courseId) {
+            alert('Vui lòng chọn môn học');
+            return;
+        }
+        
+        // Combine date with time
+        const startDateTime = new Date(`${date}T${startTime}`);
+        const endDateTime = new Date(`${date}T${endTime}`);
+        
+        // Validate meeting link for online sessions
+        if (location === 'Online' && !meetLink.trim()) {
+            alert('⚠️ Vui lòng nhập link meeting cho buổi học Online');
+            return;
+        }
+        
         const sessionData = {
-            subjectName: MOCK_COURSES.find(c => c.id === courseId)?.name,
+            subjectName: courseId, // subjectId is the name (e.g., "CNPM_101")
             subjectId: courseId,
-            date,
-            startTime,
-            endTime,
-            location,
-            studentCount,
+            startTime: startDateTime.toISOString(),
+            endTime: endDateTime.toISOString(),
+            location: location === 'Online' ? meetLink : location,
+            meetLink: location === 'Online' ? meetLink : undefined,
+            maxStudents: parseInt(studentCount) || 1,
         };
+        
+        console.log('📤 Creating session with data:', sessionData);
+        
         try {
             // Create session first
             await createTutorSession(sessionData);
@@ -809,7 +874,13 @@ const AddSessionModal = ({ onClose, onSave, prefillData }) => {
             onClose();
         } catch (error) {
             console.error('Failed to create session:', error);
-            alert('Lỗi khi tạo buổi học. Vui lòng thử lại.');
+            console.error('Error details:', error.response || error);
+            if (error.message?.includes('conflicts')) {
+                alert('Thời gian này đã có buổi học hoặc lịch rảnh khác. Vui lòng chọn thời gian khác.');
+            } else {
+                const errorMsg = error.data?.message || error.message || 'Vui lòng thử lại';
+                alert(`Lỗi khi tạo buổi học: ${errorMsg}`);
+            }
         }
     };
 
@@ -832,8 +903,11 @@ const AddSessionModal = ({ onClose, onSave, prefillData }) => {
                     <label className="block text-xs font-medium text-slate-600 mb-1">Môn học</label>
                     <select value={courseId} onChange={e => setCourseId(e.target.value)} className="w-full border border-slate-300 rounded-md px-2 py-1.5 bg-white">
                         <option value="">-- Chọn môn --</option>
-                        {MOCK_COURSES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                        {availableCourses.map(subjectId => <option key={subjectId} value={subjectId}>{subjectId}</option>)}
                     </select>
+                    {availableCourses.length === 0 && (
+                        <p className="text-xs text-red-500 mt-1">Chưa có môn học nào được gán</p>
+                    )}
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                     <div>
@@ -842,11 +916,15 @@ const AddSessionModal = ({ onClose, onSave, prefillData }) => {
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-slate-600 mb-1">Bắt đầu</label>
-                        <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} className="w-full border border-slate-300 rounded-md px-2 py-1.5" />
+                        <select value={startTime} onChange={e => setStartTime(e.target.value)} className="w-full border border-slate-300 rounded-md px-2 py-1.5 bg-white">
+                            {timeOptions.map(time => <option key={time} value={time}>{time}</option>)}
+                        </select>
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-slate-600 mb-1">Kết thúc</label>
-                        <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} className="w-full border border-slate-300 rounded-md px-2 py-1.5" />
+                        <select value={endTime} onChange={e => setEndTime(e.target.value)} className="w-full border border-slate-300 rounded-md px-2 py-1.5 bg-white">
+                            {timeOptions.map(time => <option key={time} value={time}>{time}</option>)}
+                        </select>
                     </div>
                 </div>
                 <div>
@@ -855,6 +933,24 @@ const AddSessionModal = ({ onClose, onSave, prefillData }) => {
                         {MOCK_LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
                     </select>
                 </div>
+                
+                {location === 'Online' && (
+                    <div>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">
+                            Link Meeting <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="url"
+                            value={meetLink}
+                            onChange={e => setMeetLink(e.target.value)}
+                            placeholder="https://meet.google.com/xxx-xxxx-xxx"
+                            className="w-full border border-slate-300 rounded-md px-2 py-1.5"
+                            required
+                        />
+                        <p className="text-xs text-slate-500 mt-1">Nhập link Google Meet, Zoom, hoặc nền tảng khác</p>
+                    </div>
+                )}
+                
                 <div className="pt-2 flex justify-end gap-2">
                     <button type="button" onClick={onClose} className="px-3 py-1.5 text-xs bg-slate-100 border border-slate-200 rounded-md hover:bg-slate-200">Hủy</button>
                     <button type="submit" className="px-4 py-1.5 text-xs bg-sky-500 text-white rounded-md hover:bg-sky-600">Lưu</button>
@@ -865,7 +961,7 @@ const AddSessionModal = ({ onClose, onSave, prefillData }) => {
 };
 
 const AddAvailabilityModal = ({ onClose, onSave, prefillData }) => {
-    const [date, setDate] = useState(prefillData?.date || '2050-01-13');
+    const [date, setDate] = useState(prefillData?.date || new Date().toISOString().split('T')[0]);
     const [startTime, setStartTime] = useState(prefillData?.startTime || '14:00');
     const [endTime, setEndTime] = useState(prefillData?.endTime || '17:00');
     const [location, setLocation] = useState('Online');
@@ -974,6 +1070,7 @@ const AddAvailabilityModal = ({ onClose, onSave, prefillData }) => {
             </form>
         </Modal>
     );
+};
 
 const EditAvailabilityModal = ({ event, onClose, onSave }) => {
     // Parse time range "09:00 - 11:00" to get start and end times
@@ -1067,5 +1164,4 @@ const EditAvailabilityModal = ({ event, onClose, onSave }) => {
             </form>
         </Modal>
     );
-};
 };

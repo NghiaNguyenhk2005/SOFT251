@@ -17,9 +17,7 @@ import ProfilePage from "./modules/student/pages/ProfilePage.jsx";
 import TutorMainLayout from "./modules/tutor/layouts/TutorMainLayout.jsx";
 import TutorDashboardPage from "./modules/tutor/pages/TutorDashboardPage.jsx";
 import TutorSessionsPage from "./modules/tutor/pages/TutorSessionsPage.jsx";
-import TutorRatingsPage from "./modules/tutor/pages/TutorRatingsPage.jsx";
 import TutorFeedbacksPage from "./modules/tutor/pages/TutorFeedbacksPage.jsx";
-import TutorProfilePage from "./modules/tutor/pages/TutorProfilePage.jsx";
 import StudentEvaluationPage from "./modules/tutor/pages/StudentEvaluationPage.jsx";
 
 // PDT imports
@@ -85,9 +83,7 @@ function App() {
         <Route path="dashboard" element={<TutorDashboardPage />} />
         <Route path="sessions" element={<TutorSessionsPage />} />
         <Route path="evaluations" element={<StudentEvaluationPage />} />
-        <Route path="ratings" element={<TutorRatingsPage />} />
         <Route path="feedbacks" element={<TutorFeedbacksPage />} />
-        <Route path="profile" element={<TutorProfilePage />} />
       </Route>
 
       {/* PDT routes */}

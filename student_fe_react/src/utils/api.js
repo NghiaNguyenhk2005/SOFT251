@@ -52,6 +52,11 @@ async function fetchAPI(endpoint, options = {}) {
     }
 
     if (!response.ok) {
+      console.error('API Error Response:', {
+        status: response.status,
+        statusText: response.statusText,
+        data: data
+      });
       throw new APIError(
         data.message || `HTTP ${response.status}: ${response.statusText}`,
         response.status,
