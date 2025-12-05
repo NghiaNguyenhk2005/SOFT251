@@ -56,35 +56,35 @@ const EvaluationModal = ({ student, session, onClose, onSave }) => {
               <button
                 type="button"
                 onClick={() => setAttendance('present')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors border ${
                   attendance === 'present'
-                    ? 'bg-green-500 text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                ✓ Có mặt
+                Có mặt
               </button>
               <button
                 type="button"
                 onClick={() => setAttendance('late')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors border ${
                   attendance === 'late'
-                    ? 'bg-yellow-500 text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                ⏰ Đi muộn
+                Đi muộn
               </button>
               <button
                 type="button"
                 onClick={() => setAttendance('absent')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors border ${
                   attendance === 'absent'
-                    ? 'bg-red-500 text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'bg-blue-50 border-blue-500 text-blue-700'
+                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                ✗ Vắng mặt
+                Vắng mặt
               </button>
             </div>
           </div>
@@ -100,13 +100,13 @@ const EvaluationModal = ({ student, session, onClose, onSave }) => {
                   key={level}
                   type="button"
                   onClick={() => setParticipation(level)}
-                  className={`w-12 h-12 rounded-full text-lg font-bold transition-all ${
-                    participation >= level
-                      ? 'bg-yellow-400 text-yellow-900 scale-110'
-                      : 'bg-slate-200 text-slate-400'
+                  className={`w-10 h-10 rounded-md text-sm font-medium transition-all border ${
+                    participation === level
+                      ? 'bg-blue-500 border-blue-500 text-white'
+                      : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
                   }`}
                 >
-                  <Star className={`w-6 h-6 mx-auto ${participation >= level ? 'fill-current' : ''}`} />
+                  {level}
                 </button>
               ))}
             </div>
@@ -360,13 +360,13 @@ export default function StudentEvaluationPage() {
           const students = (session.participants || []).map(participant => {
             // Find evaluation for this student
             const evaluation = evaluations.find(
-              ev => ev.studentId?._id === participant.studentId._id || ev.studentId === participant.studentId._id
+              ev => ev.studentId?._id === participant.studentId?._id || ev.studentId === participant.studentId?._id
             );
             
             return {
-              id: participant.studentId._id,
-              studentId: participant.studentId.studentId || participant.studentId.mssv || 'N/A',
-              fullName: participant.studentId.fullName || participant.studentId.name || 'Unknown',
+              id: participant.studentId?._id,
+              studentId: participant.studentId?.studentId || participant.studentId?.mssv || 'N/A',
+              fullName: participant.studentId?.userId?.fullName || participant.studentId?.fullName || 'Unknown',
               evaluationScore: evaluation?.progressScore || null,
               hasEvaluation: !!evaluation,
               evaluationId: evaluation?._id,

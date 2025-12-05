@@ -21,20 +21,9 @@ export async function getCompletedSessions() {
     const completedSessions = allSessions.filter(
       session => session.status === 'COMPLETED'
     );
-
-    // Transform sessions to match UI expectations (flatten participant data)
-    const transformedSessions = completedSessions.map(session => ({
-      ...session,
-      participants: session.participants?.map(p => ({
-        ...p,
-        id: p.studentId?._id, // Student ObjectId
-        fullName: p.studentId?.userId?.fullName || 'Unknown',
-        studentId: p.studentId?.mssv || 'N/A', // MSSV
-      })) || []
-    }));
     
-    console.log('✅ Fetched completed sessions:', transformedSessions.length);
-    return transformedSessions;
+    console.log('✅ Fetched completed sessions:', completedSessions.length);
+    return completedSessions;
   } catch (error) {
     console.error('❌ Error fetching completed sessions:', error);
     throw error;
@@ -48,7 +37,9 @@ export async function getCompletedSessions() {
 export async function getSessionEvaluations(sessionId) {
   try {
     const response = await api.get(`/evaluations/session/${sessionId}`);
-    return response?.data?.data || response?.data || [];
+    const data = response?.data?.data || response?.data || {};
+    // Return tutorFeedbacks array for the Tutor view
+    return data.tutorFeedbacks || [];
   } catch (error) {
     console.error('❌ Error fetching session evaluations:', error);
     throw error;
