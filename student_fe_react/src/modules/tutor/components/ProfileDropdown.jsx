@@ -92,10 +92,10 @@ export default function ProfileDropdown({ isOpen, onClose }) {
   const stats = realTimeStats || tutorProfile?.stats || {};
 
   return (
-    <div
-      ref={dropdownRef}
-      className="absolute right-0 top-full mt-2 w-96 bg-white rounded-lg shadow-xl border border-slate-200 z-50 max-h-[600px] overflow-y-auto"
-    >
+      <div
+        ref={dropdownRef}
+        className="absolute right-0 top-full mt-2 w-96 bg-white rounded-lg shadow-xl border border-slate-200 z-50 overflow-visible"
+      >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-gradient-to-r from-sky-50 to-blue-50">
         <h3 className="font-semibold text-slate-900">Thông tin cá nhân</h3>

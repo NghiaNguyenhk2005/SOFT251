@@ -10,7 +10,8 @@ const Login = () => {
   // Dữ liệu tài khoản mẫu
   const ACCOUNTS = [
     { username: 'student1', password: '123', role: 'student' },
-    { username: 'pdt1', password: '123', role: 'pdt' }
+    { username: 'tutor1', password: '123', role: 'tutor' },
+    { username: 'pdt1', password: '123', role: 'pdt' },
   ];
 
   const [username, setUsername] = useState('');
@@ -49,6 +50,8 @@ const Login = () => {
             // Chuyển hướng
             if (foundUser.role === 'student') {
                 navigate('/student/dashboard');
+            } else if (foundUser.role === 'tutor') {
+                navigate('/tutor/dashboard');
             } else if (foundUser.role === 'pdt') {
                 navigate('/pdt/homepage');
             } else {
