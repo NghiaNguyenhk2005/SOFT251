@@ -19,9 +19,27 @@ const TutorFeedbackSchema = new mongoose.Schema({
         required: true,
         index: true
     },
+    attendanceStatus: {
+        type: String,
+        enum: ['PRESENT', 'ABSENT', 'LATE'],
+        default: 'PRESENT'
+    },
+    progressScore: {
+        type: Number,
+        min: 0,
+        max: 10
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5
+    },
     content: {
         type: String,
         required: true
+    },
+    comment: { // Alias for content if needed, or separate
+        type: String
     },
     evaluatedAt: {
         type: Date,

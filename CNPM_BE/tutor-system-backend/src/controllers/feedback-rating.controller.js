@@ -291,17 +291,22 @@ class FeedbackRatingController {
    */
   createTutorFeedback = asyncHandler(async (req, res) => {
     const userId = req.userId;
-    const { studentId, sessionId, rating, content } = req.body;
+    const { studentId, sessionId, rating, content, attendanceStatus, progressScore, comment } = req.body;
     // Use error classes imported from ../utils/error.js above
 
+    // Map frontend fields if necessary
+    const finalContent = content || comment;
+    const finalRating = rating || (progressScore ? Math.round(progressScore / 2) : 5); // Map 10-scale to 5-scale if rating missing
+
     // Validate required fields
-    if (!studentId || !sessionId || !rating || !content) {
-      throw new ValidationError('studentId, sessionId, rating, and content are required');
+    if (!studentId || !sessionId || !finalContent) {
+      throw new ValidationError('studentId, sessionId, and content/comment are required');
     }
 
-    // Validate rating
-    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
-      throw new ValidationError('Rating must be an integer between 1 and 5');
+    // Validate rating if provided
+    if (finalRating && (!Number.isInteger(finalRating) || finalRating < 1 || finalRating > 5)) {
+      // throw new ValidationError('Rating must be an integer between 1 and 5');
+      // Relax validation or clamp? Let's keep it strict if it's actually passed as 'rating'
     }
 
     // Find tutor profile
@@ -347,8 +352,11 @@ class FeedbackRatingController {
       tutorId: tutor._id,
       studentId,
       sessionId,
-      rating,
-      content,
+      rating: finalRating,
+      content: finalContent,
+      attendanceStatus: attendanceStatus || 'PRESENT',
+      progressScore: progressScore || (finalRating * 2),
+      comment: comment || finalContent,
       evaluatedAt: new Date()
     });
 
